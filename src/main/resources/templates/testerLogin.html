@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script src="./layui/layui.js"></script>
+    <style type="text/css">
+        .container {
+            width: 400px;
+            height: 280px;
+            min-height: 280px;
+            max-height: 320px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            padding: 20px;
+            z-index: 130;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
+            font-size: 16px;
+        }
+
+        .close {
+            background-color: white;
+            border: none;
+            font-size: 18px;
+            margin-left: 390px;
+            margin-top: -10px;
+        }
+
+        .layui-input {
+            border-radius: 5px;
+            width: 300px;
+            height: 40px;
+            font-size: 15px;
+        }
+
+        .layui-form-item {
+            margin-left: -20px;
+        }
+
+        #logoid {
+            margin-top: -16px;
+            padding-left: 100px;
+            padding-bottom: 15px;
+        }
+
+        .layui-btn {
+            margin-left: -50px;
+            border-radius: 5px;
+            width: 350px;
+            height: 40px;
+            font-size: 15px;
+        }
+
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+<img src="./image/TesterLoginBackground.png"/>
+<form class="layui-form" action="" id="login" method="post">
+    <div class="container">
+        <button class="close" title="关闭">X</button>
+        <div class="layui-form-mid layui-word-aux">
+            <img id="logoid" src="./image/TesterLoinWenzi.png" height="50"  >
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="testerName" required lay-verify="required" placeholder="请输入用户名"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-input-block">
+                <input type="text" name="phonenum" required lay-verify="required" placeholder="请输入手机号"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="loginFilter">login</button>
+            </div>
+        </div>
+
+    </div>
+</form>
+<script type="text/javascript" src="/static/layui/layui.js"></script>
+
+
+</body>
+
+<script>
+    layui.use(['form', 'layer', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+            , $ = layui.jquery;
+
+
+        //监听提交
+        form.on('submit(loginFilter)', function (data) {
+            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            // 提交表单数据
+            $.ajax({
+                url: "/tester/insert",
+                type: "POST",
+                dataType: "JSON",
+                data: data.field,
+                // ret 返回值，code 就是returnbean里的code
+                // data:JSON.stringify({"testerName":$("#testerName").val(),"phonenum":$("#phonenum").val()}),
+                success: function (ret) {
+                    if (ret.code == 0) {
+                        // 操作成功，也是returnbean里的msg
+                        window.location.href = '/toExam';
+                        //layer.msg(ret.msg(JSON.stringify(data.field)));
+                    } else {
+                        alert("该手机号已经测试过啦，重复测试会影响准确性。");
+                    }
+                }
+            });
+            return false;
+
+        });
+
+    })
+
+</script>
+
+</html>

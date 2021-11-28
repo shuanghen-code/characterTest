@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.entity.Result;
 import com.example.entity.ReturnBean;
+import com.example.entity.Tester;
 import com.example.service.ResultService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -91,11 +93,26 @@ public class ResultController extends BaseController {
      */
 //    @RequestMapping(value = "score", method = RequestMethod.POST)
     @PostMapping("addResults")
-    public ReturnBean addResults(@RequestParam List<Map<Integer, String>> results){
+    public ReturnBean addResults(@RequestBody Map<Integer, String> map, HttpSession session){
+        Tester tester = (Tester) session.getAttribute("tester");
+        System.out.println(tester.toString());
 
         // 设置resultList
+        List<Result> resultList = new ArrayList<>();
+        for (Integer key:map.keySet()) {
+            Result result = new Result();
+            result.setTesterId(tester.getTesterId());
+            result.setQuestionId(key);
+            result.setResult(map.get(key));
 
+            resultList.add(result);
+        }
+        for (Result result : resultList) {
+            System.out.println(result.toString());
+        }
+//        System.out.println(resultList);
         // 调用saveBatch方法批量插入
+//        this.resultService.saveBatch(resultList);
 
         Result result = new Result();
         return super.success(null);

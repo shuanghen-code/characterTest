@@ -2,6 +2,8 @@ package com.example.entity;
 
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
@@ -16,6 +18,7 @@ import java.io.Serializable;
 @TableName("tbl_character_question")
 public class Question extends Model<Question> {
     //问题编号
+    @TableId(value = "question_id" ,type = IdType.AUTO)
     private Integer questionId;
     
     private String question;

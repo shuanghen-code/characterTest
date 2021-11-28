@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.entity.Question;
+import com.example.entity.ReturnBean;
 import com.example.service.QuestionService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +21,10 @@ import java.util.List;
  * @author makejava
  * @since 2021-11-26 17:26:30
  */
+
 @RestController
 @RequestMapping("question")
-public class QuestionController extends ApiController {
+public class QuestionController extends BaseController {
     /**
      * 服务对象
      */
@@ -31,14 +33,18 @@ public class QuestionController extends ApiController {
 
     /**
      * 分页查询所有数据
-     *
-     * @param page 分页对象
-     * @param question 查询实体
      * @return 所有数据
      */
-    @GetMapping
+    /*@GetMapping
     public R selectAll(Page<Question> page, Question question) {
         return success(this.questionService.page(page, new QueryWrapper<>(question)));
+    }*/
+
+    @GetMapping("queryAllQuestion")
+    public ReturnBean queryAllQuestion() {
+        //重新构建分页对象
+        List<Question> question = questionService.list();
+        return super.success(question);
     }
 
     /**
@@ -48,7 +54,7 @@ public class QuestionController extends ApiController {
      * @return 单条数据
      */
     @GetMapping("{id}")
-    public R selectOne(@PathVariable Serializable id) {
+    public ReturnBean selectOne(@PathVariable Serializable id) {
         return success(this.questionService.getById(id));
     }
 
@@ -59,7 +65,7 @@ public class QuestionController extends ApiController {
      * @return 新增结果
      */
     @PostMapping
-    public R insert(@RequestBody Question question) {
+    public ReturnBean insert(@RequestBody Question question) {
         return success(this.questionService.save(question));
     }
 
@@ -70,7 +76,7 @@ public class QuestionController extends ApiController {
      * @return 修改结果
      */
     @PutMapping
-    public R update(@RequestBody Question question) {
+    public ReturnBean update(@RequestBody Question question) {
         return success(this.questionService.updateById(question));
     }
 
@@ -81,7 +87,7 @@ public class QuestionController extends ApiController {
      * @return 删除结果
      */
     @DeleteMapping
-    public R delete(@RequestParam("idList") List<Long> idList) {
+    public ReturnBean delete(@RequestParam("idList") List<Long> idList) {
         return success(this.questionService.removeByIds(idList));
     }
 }

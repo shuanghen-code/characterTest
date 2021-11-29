@@ -12,7 +12,7 @@
 <!--新增问题表单-->
 <div class="layui-row" id="addQuestion" style="display:none;">
     <div class="layui-col-md10">
-        <form class="layui-form layui-from-pane" id="saveNewQuestion"  style="margin-top:20px">
+        <form class="layui-form layui-from-pane" id="saveNewQuestion" style="margin-top:20px">
             <div class="layui-form-item">
                 <label class="layui-form-label">问题描述</label>
                 <div class="layui-input-block">
@@ -48,7 +48,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">选项D</label>
                 <div class="layui-input-block">
-                    <input type="text" name="optionD"required lay-verify="required" autocomplete="off"
+                    <input type="text" name="optionD" required lay-verify="required" autocomplete="off"
                            class="layui-input">
                 </div>
             </div>
@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <div class="layui-form-item" style="margin-top:40px" >
+            <div class="layui-form-item" style="margin-top:40px">
                 <div class="layui-input-block">
                     <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="saveQuestion">保存</button>
                     <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
@@ -93,7 +93,7 @@
 <div class="layui-row" id="editQuestion" style="display:none;">
     <div class="layui-col-md10">
         <form class="layui-form layui-from-pane" lay-filter="updatefilter" style="margin-top:20px">
-<!--            id设置，隐藏起来，但不能去掉，后台根据这个修改当前问题-->
+            <!--            id设置，隐藏起来，但不能去掉，后台根据这个修改当前问题-->
             <input type="hidden" name="questionId">
 
             <div class="layui-form-item">
@@ -182,7 +182,8 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe608;</i>新增</button>
-        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="remove"><i class="layui-icon">&#xe640;</i>删除</button>
+        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="remove"><i class="layui-icon">&#xe640;</i>删除
+        </button>
     </div>
 </script>
 
@@ -190,20 +191,20 @@
 
 <script src="/layui/layui.all.js"></script>
 <script>
-        // 使用模块
-        layui.use(['element', 'layer', 'laydate', 'table','form', 'jquery'], function () {
-            element = layui.element;
-            layer = layui.layer;
-            laydate = layui.laydate;
-            table = layui.table;
-            form = layui.form;
-            $ = layui.jquery;
+    // 使用模块
+    layui.use(['element', 'layer', 'laydate', 'table', 'form', 'jquery'], function () {
+        element = layui.element;
+        layer = layui.layer;
+        laydate = layui.laydate;
+        table = layui.table;
+        form = layui.form;
+        $ = layui.jquery;
 
 
         //第一个实例
         var myTable = table.render({
             elem: '#demo'
-            , height: 500
+            , height: 523
             , url: '/question/selectAllQuestion' //数据接口
             , page: true //开启分页
             , limit: 10
@@ -218,13 +219,30 @@
                     , {field: 'optionB', title: '选项B', width: 120}
                     , {field: 'optionC', title: '选项C', width: 120}
                     , {field: 'optionD', title: '选项D', width: 120}
-                    , {field: 'type', title: '类型', width: 80}
-                    , {field: 'status', title: '状态', width: 80}
+                    , {
+                    field: 'type', title: '类型', align: "center", width: 100, templet: function (d) {
+                        if (d.type === 1) {
+                            return '<span class="layui-badge layui-bg-green">前十五题</span>'
+                        } else if (d.type === 2) {
+                            return '<span class="layui-badge layui-bg-green">后十五题</span>'
+                        }
+                    }
+                }
+                    , {
+                    field: 'status', title: '状态', width: 80, templet: function (d) {
+                        console.log(d.status)
+                        if (d.status === 0) {
+                            return '<span class="layui-badge layui-bg-green">可用</span>'
+                        } else if (d.status === 1) {
+                            return '<span class="layui-badge layui-bg-gray">不可用</span>'
+                        }
+                    }
+                }
                     , {field: 'createTime', title: '创建时间', width: 80}
                     , {field: 'creator', title: '创建人', width: 80}
                     , {field: 'updateTime', title: '修改时间', width: 80}
                     , {field: 'updater', title: '修改人', width: 80}
-                    , {fixed: 'right', width: 150, align:'center', toolbar: '#hangbarDemo'}  //每行的操作按钮设置
+                    , {fixed: 'right', width: 150, align: 'center', toolbar: '#hangbarDemo'}  //每行的操作按钮设置
                 ]
             ]
         });
@@ -232,7 +250,7 @@
         //头部工具栏事件
         table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id)
-                ,data = checkStatus.data; //获取选中的数据
+                , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 // 新增
                 case 'add':
@@ -246,34 +264,34 @@
                     break;
                 // 删除
                 case 'remove':
-                    if(data.length === 0){
+                    if (data.length === 0) {
                         layer.msg('请选择一行');
                     } else {
                         // layer.msg('删除');
                         layer.confirm('真的要删除所选行嘛', function (index) {
                             console.log(data)
-                            var idList=[];
+                            var idList = [];
                             //把当前行的id放到list列表中，传到后端
-                            for (let i=0; i < data.length; i++) {
+                            for (let i = 0; i < data.length; i++) {
                                 idList[i] = data[i].questionId;
                             }
                             idList.push(data.idList)
                             $.ajax({
-                                url:"/question/delete",
-                                type:"post",
+                                url: "/question/delete",
+                                type: "post",
                                 dataType: "JSON",
-                                data:{idList:idList},
-                                success:function (ret) {
-                                    if (ret.code==0){
+                                data: {idList: idList},
+                                success: function (ret) {
+                                    if (ret.code == 0) {
                                         // 刷新表格数据
                                         myTable.reload({
-                                            page:{
+                                            page: {
                                                 curr: 1 //重新从第1页开始
                                             }
                                         });
-                                        layer.msg(ret.msg, {icon:6});
+                                        layer.msg(ret.msg, {icon: 6});
                                     } else {
-                                        layer.msg(ret.msg, {icon:5});
+                                        layer.msg(ret.msg, {icon: 5});
                                     }
                                 }
                             })
@@ -282,27 +300,28 @@
                         });
                     }
                     break;
-            };
+            }
+            ;
         });
 
         //监听行工具事件
-        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
-                ,layEvent = obj.event; //获得 lay-event 对应的值
-            if(layEvent === 'update'){
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'update') {
                 console.log(data)
                 form.val('updatefilter', {
-                    "questionId":data.questionId
-                    ,"question": data.question
-                    ,"optionA": data.optionA
-                    ,"optionB": data.optionB
-                    ,"optionC": data.optionC
-                    ,"optionD": data.optionD
-                    ,"type": data.type
-                    ,"status": data.status
+                    "questionId": data.questionId
+                    , "question": data.question
+                    , "optionA": data.optionA
+                    , "optionB": data.optionB
+                    , "optionC": data.optionC
+                    , "optionD": data.optionD
+                    , "type": data.type
+                    , "status": data.status
                     // ,"createTime": data.createTime
                     // ,"creator": data.creator
-                    ,"updater": data.updater
+                    , "updater": data.updater
                 });
                 layer.open({
                     type: 1,
@@ -311,29 +330,29 @@
                     area: ['500px', '400px'],
                     content: $("#editQuestion")  //弹窗中的内容
                 });
-            } else if(layEvent === 'delete'){
+            } else if (layEvent === 'delete') {
                 // layer.msg("删除操作")
                 layer.confirm('真的要删除当前行嘛', function (index) {
                     // console.log(data)
-                    var idList=[];
+                    var idList = [];
                     //把当前行的id放到list列表中，传到后端
                     idList.push(data.questionId)
                     $.ajax({
-                        url:"/question/delete",
-                        type:"post",
+                        url: "/question/delete",
+                        type: "post",
                         dataType: "JSON",
-                        data:{idList:idList},
-                        success:function (ret) {
-                            if (ret.code==0){
+                        data: {idList: idList},
+                        success: function (ret) {
+                            if (ret.code == 0) {
                                 // 刷新表格数据
                                 myTable.reload({
-                                    page:{
+                                    page: {
                                         curr: 1 //重新从第1页开始
                                     }
                                 });
-                                layer.msg(ret.msg, {icon:6});
+                                layer.msg(ret.msg, {icon: 6});
                             } else {
-                                layer.msg(ret.msg, {icon:5});
+                                layer.msg(ret.msg, {icon: 5});
                             }
                         }
                     })
@@ -349,14 +368,14 @@
             //当前容器的全部表单字段，名值对形式：{name: value}
             // 提交表单数据
             $.ajax({
-                url:"/question/insert",
+                url: "/question/insert",
                 type: "POST",
-                dataType:"JSON",
+                dataType: "JSON",
                 // data:data.field,
-                contentType:"application/json;charset=UTF-8",
-                data:JSON.stringify(data.field),
-                success:function (ret) {
-                    if(ret.code==0){
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(data.field),
+                success: function (ret) {
+                    if (ret.code == 0) {
                         //关闭对话框
                         layer.closeAll();
                         //刷新表格数据
@@ -366,9 +385,9 @@
                                 //重新从第 1 页开始
                             }
                         });
-                        layer.msg(ret.data.question+ret.msg,{icon: 6});
-                    }else {
-                        layer.msg(ret.msg,{icon: 5});
+                        layer.msg(ret.data.question + ret.msg, {icon: 6});
+                    } else {
+                        layer.msg(ret.msg, {icon: 5});
                     }
                 }
             })
@@ -381,14 +400,14 @@
             //当前容器的全部表单字段，名值对形式：{name: value}
             // 提交表单数据
             $.ajax({
-                url:"/question/update",
+                url: "/question/update",
                 type: "POST",
-                dataType:"JSON",
+                dataType: "JSON",
                 // data:data.field,
-                contentType:"application/json;charset=UTF-8",
-                data:JSON.stringify(data.field),
-                success:function (ret) {
-                    if(ret.code==0){
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(data.field),
+                success: function (ret) {
+                    if (ret.code == 0) {
                         //关闭对话框
                         layer.closeAll();
                         //刷新表格数据
@@ -398,17 +417,17 @@
                                 //重新从第 1 页开始
                             }
                         });
-                        layer.msg(ret.data.question+ret.msg,{icon: 6});
-                    }else {
-                        layer.msg(ret.msg,{icon: 5});
+                        layer.msg(ret.data.question + ret.msg, {icon: 6});
+                    } else {
+                        layer.msg(ret.msg, {icon: 5});
                     }
                 }
             })
             return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
 
-        });
+    });
 
-   </script>
+</script>
 
 </html>

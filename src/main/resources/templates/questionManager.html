@@ -190,7 +190,6 @@
 
 <script src="/layui/layui.all.js"></script>
 <script>
-        var element, layer, laydate, table, form, $;
         // 使用模块
         layui.use(['element', 'layer', 'laydate', 'table','form', 'jquery'], function () {
             element = layui.element;
@@ -199,7 +198,7 @@
             table = layui.table;
             form = layui.form;
             $ = layui.jquery;
-        });
+
 
         //第一个实例
         var myTable = table.render({
@@ -406,6 +405,8 @@
                 }
             })
             return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
         });
 
    </script>

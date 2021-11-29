@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/layui/layui.js"></script>
+</head>
+<body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn" lay-event="save">添加</a>
+    <a class="layui-btn layui-btn-danger" lay-event="delete">删除</a>
+    <a class="layui-btn layui-btn-warm" lay-event="update">修改</a>
+
+</script>
+<form class="layui-form" action="" id="saveQuestionForm" style="display: none;margin-right: 40px;margin-top: 20px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">问题描述</label>
+        <div class="layui-input-block">
+            <input type="text" name="question" required lay-verify="required" placeholder="请输入问题描述" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">选项A</label>
+        <div class="layui-input-block">
+            <textarea name="optionA" placeholder="请输入内容" required lay-verify="required"
+                      class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">选项B</label>
+        <div class="layui-input-block">
+            <textarea name="optionB" placeholder="请输入内容" required lay-verify="required"
+                      class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">选项C</label>
+        <div class="layui-input-block">
+            <textarea name="optionC" placeholder="请输入内容" required lay-verify="required"
+                      class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">选项D</label>
+        <div class="layui-input-block">
+            <textarea name="optionD" placeholder="请输入内容" required lay-verify="required"
+                      class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">问题类型</label>
+        <div class="layui-input-block">
+            <select name="type" lay-verify="required">
+                <option value="1">前15题</option>
+                <option value="2">后15题</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="status" value="0" checked lay-skin="switch" lay-text="开启|关闭">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">创建人</label>
+        <div class="layui-input-block">
+            <input type="text" name="creator" required lay-verify="required" placeholder="请输入问题描述" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="saveQuestionFilter">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<table id="demo" lay-filter="test"></table>
+</body>
+<script>
+    layui.use(['table', 'jquery', 'form'], function () {
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        //第一个实例
+        var myTable=table.render({
+            elem: '#demo'
+            ,height: 500
+            ,url: '/question/selectAllQuestion' //数据接口
+            ,page: true //开启分页
+            ,limit:10
+            ,limits:[5,10,15,20,25,30,50,100]
+            ,toolbar: '#barDemo'
+            ,cols: [
+                [ //表头
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'questionId', title: 'ID', width:80, sort: true, fixed: 'left'}
+                    ,{field: 'question', title: '问题', width:120,sort: true}
+                    ,{field: 'optionA', title: '选项A', width:120}
+                    ,{field: 'optionB', title: '选项B', width:120}
+                    ,{field: 'optionC', title: '选项C', width:120}
+                    ,{field: 'optionD', title: '选项D', width:120}
+                    ,{field: 'type', title: '类型', width:80}
+                    ,{field: 'status', title: '状态', width:80}
+                    ,{field: 'createTime', title: '创建时间', width:80}
+                    ,{field: 'creator', title: '创建人', width:80}
+                    ,{field: 'updateTime', title: '修改时间', width:80}
+                    ,{field: 'updater', title: '修改人', width:80}
+                    ,{fixed: 'right', width: 150, align:'center', toolbar: '#rowBarDemo'}
+
+                ]
+            ]
+        });
+
+        //监听头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id)
+                , data = checkStatus.data; //获取选中的数据
+            switch (obj.event) {
+                case 'save':
+                    layer.open({
+                        title: '添加问题',
+                        type: 1,
+                        area: ['500px', '450px'],
+                        content: $("#saveQuestionForm")//这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                    });
+                    break;
+                case 'delete':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.confirm('真的删除选中的行么', function(index){
+                            //obj.del(); //删除对应行（tr）的DOM结构
+                            //删除数据库中的数据
+                            console.log(data)
+                            var idList=[];
+                            //遍历数组data，抽取所有的id
+                            for (let i = 0; i < data.length; i++) {
+                                idList[i]=(data[i].questionId);
+                            }
+                            $.ajax({
+                                url:"/question/delete",
+                                type: "POST",
+                                dataType:"JSON",
+                                data:{idList:idList},
+                                success:function (ret) {
+                                    if(ret.code==0){
+                                        //刷新表格数据
+                                        myTable.reload({
+                                            page: {
+                                                curr: 1 //重新从第 1 页开始
+                                            }
+                                        });
+                                        layer.msg(ret.msg,{icon: 6});
+                                    }else
+                                    {
+                                        layer.msg(ret.msg,{icon: 5});
+                                    }
+                                }
+                            })
+                            layer.close(index);
+                            //向服务端发送删除指令
+                        });
+                    }
+                    break;
+                case 'update':
+                    if (data.length === 0){
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.msg('修改成功')
+                    }
+            };
+        });
+
+
+        form.on('submit(saveQuestionFilter)', function (data) {
+            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            //提交表单数据
+            $.ajax({
+                url: "/question/insert",
+                type: "POST",
+                dataType: "JSON",
+                //data:data.field,
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(data.field),
+                success: function (ret) {
+                    if (ret.code == 0) {
+                        //关闭对话框
+                        layer.closeAll();
+                        //刷新表格数据
+                        myTable.reload({
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        });
+                        layer.msg(ret.data.question + ret.msg, {icon: 6});
+                    } else {
+                        layer.msg(ret.msg, {icon: 5});
+                    }
+
+                }
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            if(layEvent === 'delete'){
+                layer.confirm('真的删除行么', function(index){
+                    //obj.del(); //删除对应行（tr）的DOM结构
+                    //删除数据库中的数据
+                    console.log(data)
+                    var idList=[];
+                    //遍历数组data，抽取所有的id
+                    idList.push(data.questionId);
+                    $.ajax({
+                        url:"/question/delete",
+                        type: "POST",
+                        dataType:"JSON",
+                        data:{idList:idList},
+                        success:function (ret) {
+                            if(ret.code==0){
+                                //刷新表格数据
+                                myTable.reload({
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                });
+                                layer.msg(ret.msg,{icon: 6});
+                            }else
+                            {
+                                layer.msg(ret.msg,{icon: 5});
+                            }
+                        }
+                    })
+                    layer.close(index);
+                    //向服务端发送删除指令
+                });
+            }else if(layEvent === 'update'){
+                layer.msg('修改操作');
+            }
+        });
+
+    });
+</script>
+</html>

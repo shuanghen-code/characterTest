@@ -115,6 +115,13 @@ layui.use(['table', 'form', 'element', 'jquery'], function () {
                     async: false,
                     contentType: 'application/json;charset=UTF-8',
                     success: function (ret) {
+                        if (ret.code == 0) {
+                            // 操作成功，也是returnbean里的msg
+                            window.location.href = '/tofinish';
+                            //layer.msg(ret.msg(JSON.stringify(data.field)));
+                        } else {
+                            window.alert("???未知错误")
+                        }
                     }
                 });
 

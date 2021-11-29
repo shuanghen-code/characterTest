@@ -1,14 +1,11 @@
 package com.example.controller;
 
-
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.api.ApiController;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.entity.Question;
 import com.example.entity.ReturnBean;
 import com.example.service.QuestionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("question")
+@Slf4j
 public class QuestionController extends BaseController {
     /**
      * 服务对象
@@ -45,7 +43,7 @@ public class QuestionController extends BaseController {
     }*/
 
     @GetMapping("selectAllQuestion")
-    public ReturnBean selectAll(Long page, Long limit, Question question) {
+    public ReturnBean<List<Question>> selectAll(Long page, Long limit, Question question) {
         //重新构建分页对象
         Page<Question> pageObj = new Page<>(page, limit);
         Page<Question> questionPage = this.questionService.page(pageObj, new QueryWrapper<>(question));

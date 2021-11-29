@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @author wang hao
  * @date 2021/11/28 10:38
@@ -40,4 +42,10 @@ public class PageController {
         return "questionManager";
     }
 
+    @RequestMapping("tofinish")
+    public String toFinish(HttpSession session) {
+
+        session.removeAttribute("tester");
+        return "finish";
+    }
 }

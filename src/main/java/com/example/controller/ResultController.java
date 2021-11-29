@@ -96,7 +96,6 @@ public class ResultController extends BaseController {
     public ReturnBean addResults(@RequestBody Map<Integer, String> map, HttpSession session){
         Tester tester = (Tester) session.getAttribute("tester");
         System.out.println(tester.toString());
-
         // 设置resultList
         List<Result> resultList = new ArrayList<>();
         for (Integer key:map.keySet()) {
@@ -112,9 +111,9 @@ public class ResultController extends BaseController {
         }
 //        System.out.println(resultList);
         // 调用saveBatch方法批量插入
-//        this.resultService.saveBatch(resultList);
+       this.resultService.saveBatch(resultList);
 
-        Result result = new Result();
+        // Result result = new Result();
         return super.success(null);
     }
 }

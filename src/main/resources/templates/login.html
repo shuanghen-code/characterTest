@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/flexible.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>登录后台</title>
+    <style>
+        @media screen and (max-width: 750px) {
+            html {
+                font-size: 75px !important;
+            }
+        }
+
+        ;
+
+        @media screen and (min-width: 1920px) {
+            html {
+                font-size: 192px !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="warp">
+        <div class="from">
+            <div class="left">
+                <video muted autoplay loop>
+                    <source src="video/video.mp4" type="video/mp4">
+                    </source>
+                </video>
+            </div>
+
+            <div class="right">
+                <div class="right-con">
+                    <h1>User Login</h1>
+                    <h3>NAME</h3>
+                    <div class="glyphicon glyphicon-remove out"></div>
+                    <input class="text" type="text" id="musername">
+                    <!-- <h3>EMAIL</h3>
+                    <input class="text" type="text"> -->
+                    <h3>PASSWORD</h3>
+                    <div class="glyphicon glyphicon-eye-open out"></div>
+                    <input class="text" type="password" id="mpassword">
+                    <div class="checkbox-s">
+                        <input type="checkbox"> 
+                        <p>Remember Me</p>
+                    </div>
+                    <input class="btn-s" type="submit" value="LOGIN">
+                    <span class="error-name" id="error-mes">用户名或密码不能为空</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

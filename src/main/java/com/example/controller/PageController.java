@@ -44,8 +44,12 @@ public class PageController {
 
     @RequestMapping("tofinish")
     public String toFinish(HttpSession session) {
-
         session.removeAttribute("tester");
         return "finish";
+    }
+
+    @RequestMapping("toMlogin")
+    public String toMlogin(){
+        return "login";
     }
 }

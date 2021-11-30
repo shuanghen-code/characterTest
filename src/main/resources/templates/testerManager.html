@@ -9,11 +9,11 @@
 <body>
 <h1>测试人员信息管理</h1>
 
-<!--修改问题表单-->
-<div class="layui-row" id="editQuestion" style="display:none;">
+<!--修改信息表单-->
+<!--<div class="layui-row" id="editQuestion" style="display:none;">
     <div class="layui-col-md10">
         <form class="layui-form layui-from-pane" lay-filter="updatefilter" style="margin-top:20px">
-            <!--            id设置，隐藏起来，但不能去掉，后台根据这个修改当前问题-->
+            &lt;!&ndash;            id设置，隐藏起来，但不能去掉，后台根据这个修改当前问题&ndash;&gt;
             <input type="hidden" name="id">
 
             <div class="layui-form-item">
@@ -84,13 +84,13 @@
             <div class="layui-form-item" style="margin-top:40px" id="check">
                 <div class="layui-input-block">
                     <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="updateQuestion">保存</button>
-                    <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+                    &lt;!&ndash;<button type="reset" class="layui-btn layui-btn-primary">重置</button>&ndash;&gt;
                 </div>
             </div>
         </form>
 
     </div>
-</div>
+</div>-->
 
 <!--模糊搜索-->
 <form class="layui-form" action="" style="margin-top: 10px">
@@ -161,7 +161,7 @@
             ]
         });
 
-        //头部工具栏事件
+        /*//头部工具栏事件
         table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id)
                 ,data = checkStatus.data; //获取选中的数据
@@ -337,7 +337,7 @@
                 }
             })
             return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。
-        });
+        });*/
 
 
         // 模糊查询

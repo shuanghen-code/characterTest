@@ -1,10 +1,12 @@
 package com.example.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.entity.Question;
 import com.example.entity.ReturnBean;
 import com.example.service.QuestionService;
+import com.example.util.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,19 +36,24 @@ public class QuestionController extends BaseController {
      * 分页查询所有数据
      * @return 所有数据
      */
-   /* @GetMapping("selectAllQuestion")
-    public ReturnBean selectAllQuestion(long page, long limit, Question question) {
-        System.out.println("page:"+page+", limit:"+limit);
-        Page<Question> page1 = new Page<>(page, limit);
-        Page<Question> questionPage = this.questionService.page(page1, new QueryWrapper<>(question));
-        return super.success(questionPage.getRecords(), questionPage.getTotal());
-    }*/
 
-    @GetMapping("selectAllQuestion")
+    @RequestMapping("selectAllQuestion")
     public ReturnBean<List<Question>> selectAll(Long page, Long limit, Question question) {
         //重新构建分页对象
+        if(page==null){
+            page= Constants.page;
+            limit=Constants.limit;
+        }
         Page<Question> pageObj = new Page<>(page, limit);
-        Page<Question> questionPage = this.questionService.page(pageObj, new QueryWrapper<>(question));
+        //问题条件查询对象
+        QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
+        if(ObjectUtil.isNotEmpty(question.getQuestion())){
+            questionQueryWrapper.like("question",question.getQuestion());
+        }
+        if(ObjectUtil.isNotEmpty(question.getCreator())){
+            questionQueryWrapper.like("creator",question.getCreator());
+        }
+        Page<Question> questionPage = this.questionService.page(pageObj,questionQueryWrapper );
         return super.success(questionPage.getRecords(),questionPage.getTotal());
     }
 
@@ -99,6 +106,11 @@ public class QuestionController extends BaseController {
     @PostMapping("update")
     public ReturnBean update(@RequestBody Question question) {
         question.setUpdateTime(new Date());
+        System.out.println("question.getStatus(): "+question.getStatus());
+        // 根据后台的状态修改数据库
+        if (question.getStatus()==null || question.getStatus() != 0){
+            question.setStatus(1);
+        }
         boolean update = this.questionService.updateById(question);
         if (update){
             return super.success(question);

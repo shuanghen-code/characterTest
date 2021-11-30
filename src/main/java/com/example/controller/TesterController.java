@@ -1,10 +1,12 @@
 package com.example.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.entity.ReturnBean;
 import com.example.entity.Tester;
 import com.example.service.TesterService;
+import com.example.util.Constants;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,7 +23,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("tester")
-//@XSlf4j
 public class TesterController extends BaseController {
     /**
      * 服务对象
@@ -36,13 +37,25 @@ public class TesterController extends BaseController {
      * @param tester 查询实体
      * @return 所有数据
      */
-    @GetMapping("selectAll")
+    @RequestMapping("selectAll")
     public ReturnBean selectAll(Long page, Long limit, Tester tester) {
-        // log.info("-----selectAllTester，展示所有的测试者-----------");
+        //重新构建分页对象
+        if(page==null){
+            page= Constants.page;
+            limit=Constants.limit;
+        }
         Page<Tester> pageObj = new Page<>(page, limit);
-        Page<Tester> testerPage = this.testerService.page(pageObj, new QueryWrapper<>(tester));
-        return super.success(testerPage.getRecords(), testerPage.getTotal());
+        //条件查询对象
+        QueryWrapper<Tester> testerQueryWrapper = new QueryWrapper<>();
+        if(ObjectUtil.isNotEmpty(tester.getTesterName())){
+            testerQueryWrapper.like("tester_name",tester.getTesterName());
+        }
+        if(ObjectUtil.isNotEmpty(tester.getPhonenum())){
+            testerQueryWrapper.like("phonenum",tester.getPhonenum());
+        }
+        Page<Tester> testerPage = this.testerService.page(pageObj, testerQueryWrapper);
 
+        return super.success(testerPage.getRecords(), testerPage.getTotal());
     }
 
     /**

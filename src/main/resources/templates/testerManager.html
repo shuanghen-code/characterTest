@@ -2,100 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>问题管理页面</title>
+    <title>测试人员信息管理</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
     <script src="/layui/layui.js"></script>
 </head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <body>
-<!--<h1>显示所有的问题</h1>-->
-
-<!--新增问题表单-->
-<div class="layui-row" id="addQuestion" style="display:none;">
-    <div class="layui-col-md10">
-        <form class="layui-form layui-from-pane" id="saveNewQuestion"  style="margin-top:20px">
-            <div class="layui-form-item">
-                <label class="layui-form-label">问题描述</label>
-                <div class="layui-input-block">
-                    <input type="text" name="question" required lay-verify="required" autocomplete="off"
-                           class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">选项A</label>
-                <div class="layui-input-block">
-                    <input type="text" name="optionA" required lay-verify="required" autocomplete="on"
-                           class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">选项B</label>
-                <div class="layui-input-block">
-                    <input type="text" name="optionB" required lay-verify="required" autocomplete="off"
-                           class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">选项C</label>
-                <div class="layui-input-block">
-                    <input type="text" name="optionC" required lay-verify="required" autocomplete="off"
-                           class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">选项D</label>
-                <div class="layui-input-block">
-                    <input type="text" name="optionD"required lay-verify="required" autocomplete="off"
-                           class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">问题类型</label>
-                <div class="layui-input-block">
-                    <select name="type" lay-verify="required">
-                        <option value="1">前15题</option>
-                        <option value="2">后15题</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">状态</label>
-                <div class="layui-input-block">
-                    <input type="checkbox" name="status" value="0" checked lay-skin="switch" lay-text="开启|关闭">
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">创建人</label>
-                <div class="layui-input-block">
-                    <input type="text" name="creator" required lay-verify="required" autocomplete="off"
-                           class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-form-item" style="margin-top:40px" >
-                <div class="layui-input-block">
-                    <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="saveQuestion">保存</button>
-                    <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
-                </div>
-            </div>
-        </form>
-
-    </div>
-</div>
+<h1>测试人员信息管理</h1>
 
 <!--修改问题表单-->
 <div class="layui-row" id="editQuestion" style="display:none;">
     <div class="layui-col-md10">
         <form class="layui-form layui-from-pane" lay-filter="updatefilter" style="margin-top:20px">
-<!--            id设置，隐藏起来，但不能去掉，后台根据这个修改当前问题-->
-            <input type="hidden" name="questionId">
+            <!--            id设置，隐藏起来，但不能去掉，后台根据这个修改当前问题-->
+            <input type="hidden" name="id">
 
             <div class="layui-form-item">
                 <label class="layui-form-label">问题描述</label>
@@ -176,15 +95,15 @@
 <!--模糊搜索-->
 <form class="layui-form" action="" style="margin-top: 10px">
     <div class="layui-inline">
-        <label class="layui-form-label">问题</label>
+        <label class="layui-form-label">姓名</label>
         <div class="layui-input-inline">
-            <input type="text" name="question" placeholder="请输入问题" autocomplete="off" class="layui-input">
+            <input type="text" name="testerName" placeholder="请输入姓名" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-inline">
-        <label class="layui-form-label">创建人</label>
+        <label class="layui-form-label">手机号</label>
         <div class="layui-input-inline">
-            <input type="text" name="creator" placeholder="请输入创建人" autocomplete="off" class="layui-input">
+            <input type="text" name="phonenum" placeholder="请输入手机号" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-inline">
@@ -195,6 +114,7 @@
     </div>
 </form>
 
+
 <table id="demo" lay-filter="test"></table>
 
 <script type="text/html" id="hangbarDemo">
@@ -204,8 +124,8 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>新增</button>
-        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="remove"><i class="layui-icon layui-icon-delete"></i>删除</button>
+        <!--        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe608;</i>新增</button>-->
+        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="remove"><i class="layui-icon">&#xe640;</i>删除</button>
     </div>
 </script>
 
@@ -214,7 +134,7 @@
 <script src="/layui/layui.all.js"></script>
 <script>
     // 使用模块
-    layui.use(['layer', 'table', 'form', 'jquery'], function () {
+    layui.use(['element', 'layer', 'laydate', 'table','form', 'jquery'], function () {
         var layer = layui.layer;
         var table = layui.table;
         var form = layui.form;
@@ -224,7 +144,7 @@
         var myTable = table.render({
             elem: '#demo'
             , height: 500
-            , url: '/question/selectAllQuestion' //数据接口
+            , url: '/tester/selectAll' //数据接口
             , page: true //开启分页
             , limit: 10
             , limits: [5, 10, 15, 20, 30, 50, 100]
@@ -232,37 +152,10 @@
             , cols: [
                 [
                     {type: 'checkbox', fixed: 'left'}  //复选框
-                    , {field: 'questionId', title: 'ID', width: 80, sort: true, fixed: 'left'}  //表头
-                    , {field: 'question', title: '问题', width: 120}
-                    , {field: 'optionA', title: '选项A', width: 120}
-                    , {field: 'optionB', title: '选项B', width: 120}
-                    , {field: 'optionC', title: '选项C', width: 120}
-                    , {field: 'optionD', title: '选项D', width: 120}
-                    , {field: 'type', title: '类型', width: 80,
-                        templet: function(d){
-                            //得到当前行数据，并拼接成自定义模板
-                            if (d.type==1) {
-                                return 'FPA的前15题';
-                            } else {
-                                return 'FPA的后15题';
-                            }
-                        }
-                    }
-                    , {field: 'status', title: '状态', width: 80,
-                        templet: function(d){
-                        //得到当前行数据，并拼接成自定义模板
-                            if (d.status==0) {
-                                return '<a class="layui-btn  layui-btn-xs">可用</a>';
-                            } else {
-                                return "<a class=\"layui-btn  layui-btn-disabled  layui-btn-xs\">失效</a>";
-                            }
-                        }
-                    }
-                    // ,{field:'id', title:'ID', width:100}
-                    , {field: 'createTime', title: '创建时间', width: 80}
-                    , {field: 'creator', title: '创建人', width: 80}
-                    , {field: 'updateTime', title: '修改时间', width: 80}
-                    , {field: 'updater', title: '修改人', width: 80}
+                    , {field: 'testerId', title: 'ID', width: 80, sort: true, fixed: 'left'}  //表头
+                    , {field: 'testerName', title: '测试人员姓名', width: 120}
+                    , {field: 'phonenum', title: '测试人员电话', width: 120}
+                    , {field: 'testTime', title: '测试日期', width: 150}
                     , {fixed: 'right', width: 150, align:'center', toolbar: '#hangbarDemo'}  //每行的操作按钮设置
                 ]
             ]
@@ -294,7 +187,7 @@
                             var idList=[];
                             //把当前行的id放到list列表中，传到后端
                             for (let i=0; i < data.length; i++) {
-                                idList[i] = data[i].questionId;
+                                idList[i] = data[i].id;
                             }
                             idList.push(data.idList)
                             $.ajax({
@@ -331,14 +224,14 @@
             if(layEvent === 'update'){
                 console.log(data)
                 form.val('updatefilter', {
-                    "questionId":data.questionId
+                    "id":data.id
                     ,"question": data.question
                     ,"optionA": data.optionA
                     ,"optionB": data.optionB
                     ,"optionC": data.optionC
                     ,"optionD": data.optionD
                     ,"type": data.type
-                    ,"status": data.status==0?true:false
+                    ,"status": data.status
                     // ,"createTime": data.createTime
                     // ,"creator": data.creator
                     ,"updater": data.updater
@@ -356,7 +249,7 @@
                     // console.log(data)
                     var idList=[];
                     //把当前行的id放到list列表中，传到后端
-                    idList.push(data.questionId)
+                    idList.push(data.id)
                     $.ajax({
                         url:"/question/delete",
                         type:"post",
@@ -446,13 +339,14 @@
             return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
 
+
         // 模糊查询
         form.on('submit(selectFormfilter)', function (data) {
             console.log(data.field)
             //当前容器的全部表单字段，名值对形式：{name: value}
             // 提交表单数据
             $.ajax({
-                url:"/question/selectAllQuestion",
+                url:"/tester/selectAll",
                 type: "POST",
                 dataType:"JSON",
                 data:data.field,
@@ -463,15 +357,14 @@
                         //刷新表格数据
                         myTable.reload({
                             where: { //设定异步数据接口的额外参数，任意设
-                                question: data.field.question
-                                ,creator: data.field.creator
+                                testerName: data.field.testerName
+                                ,phonenum: data.field.phonenum
                             },
                             page: {
                                 curr: 1
                                 //重新从第 1 页开始
                             }
                         });
-                        // layer.msg(ret.data.question+ret.msg,{icon: 6});
                     }else {
                         layer.msg(ret.msg,{icon: 5});
                     }
@@ -493,9 +386,7 @@
                 }
             });
         });
-
     });
-
-   </script>
+</script>
 
 </html>

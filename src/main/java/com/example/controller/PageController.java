@@ -52,4 +52,9 @@ public class PageController {
     public String toMlogin(){
         return "login";
     }
+
+    @RequestMapping("toTester")
+    public String toTester(){
+        return "testerManager";
+    }
 }

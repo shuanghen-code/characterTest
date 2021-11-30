@@ -125,9 +125,15 @@ public class TesterController extends BaseController {
      * @param tester 实体对象
      * @return 修改结果
      */
-    @PutMapping
+    @PostMapping("update")
     public ReturnBean update(@RequestBody Tester tester) {
-        return success(this.testerService.updateById(tester));
+
+        boolean update = this.testerService.updateById(tester);
+        if (update){
+            return super.success(tester);
+        } else {
+            return super.fail(tester);
+        }
     }
 
     /**
@@ -136,9 +142,14 @@ public class TesterController extends BaseController {
      * @param idList 主键结合
      * @return 删除结果
      */
-    @DeleteMapping
-    public ReturnBean delete(@RequestParam("idList") List<Long> idList) {
-        return success(this.testerService.removeByIds(idList));
+    @RequestMapping("delete")
+    public ReturnBean delete(@RequestParam(value = "idList[]", required = false) List<Long> idList) {
+        boolean delete = this.testerService.removeByIds(idList);
+        if (delete){
+            return super.success(null);
+        } else {
+            return super.fail(null);
+        }
     }
 }
 

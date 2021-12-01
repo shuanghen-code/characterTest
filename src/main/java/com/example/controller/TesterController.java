@@ -102,15 +102,16 @@ public class TesterController extends BaseController {
         QueryWrapper<Tester> wrapper = new QueryWrapper<>();
         wrapper.eq("phonenum",tester.getPhonenum());
         List<Tester> list = this.testerService.list(wrapper);
-        System.out.println(tester);
+
         if(list.size()>0){
             return super.fail(tester);
         }else {
             tester.setTestTime(new Date());
             boolean save = this.testerService.save(tester);
             if(save){
-                Tester tester1 = this.testerService.query().eq("phonenum", tester.getPhonenum()).one();
-                session.setAttribute("tester", tester1);
+                System.out.println(tester.toString());
+//                Tester tester1 = this.testerService.query().eq("phonenum", tester.getPhonenum()).one();
+                session.setAttribute("tester", tester);
                 return super.success(tester);
             }else {
                 return super.fail(tester);
@@ -127,7 +128,6 @@ public class TesterController extends BaseController {
      */
     @PostMapping("update")
     public ReturnBean update(@RequestBody Tester tester) {
-
         boolean update = this.testerService.updateById(tester);
         if (update){
             return super.success(tester);

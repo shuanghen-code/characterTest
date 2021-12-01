@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +18,7 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 @TableName("tbl_character_tester")
+@Data
 public class Tester extends Model<Tester> {
     //主键，自增
     @TableId(value = "tester_id" ,type = IdType.AUTO)
@@ -27,47 +30,6 @@ public class Tester extends Model<Tester> {
     //测试时间
     private Date testTime;
 
-    @Override
-    public String toString() {
-        return "Tester{" +
-                "testerId=" + testerId +
-                ", phonenum='" + phonenum + '\'' +
-                ", testerName='" + testerName + '\'' +
-                ", testTime=" + testTime +
-                '}';
-    }
-
-    public Integer getTesterId() {
-        return testerId;
-    }
-
-    public void setTesterId(Integer testerId) {
-        this.testerId = testerId;
-    }
-
-    public String getPhonenum() {
-        return phonenum;
-    }
-
-    public void setPhonenum(String phonenum) {
-        this.phonenum = phonenum;
-    }
-
-    public String getTesterName() {
-        return testerName;
-    }
-
-    public void setTesterName(String testerName) {
-        this.testerName = testerName;
-    }
-
-    public Date getTestTime() {
-        return testTime;
-    }
-
-    public void setTestTime(Date testTime) {
-        this.testTime = testTime;
-    }
 
     /**
      * 获取主键值

@@ -13,7 +13,7 @@
 <div class="layui-row" id="editTester" style="display:none;">
     <div class="layui-col-md10">
         <form class="layui-form layui-from-pane" lay-filter="updatefilter" style="margin-top:20px">
-            <!--            id设置，隐藏起来，但不能去掉，后台根据这个修改当前问题-->
+            <!--id设置，隐藏起来，但不能去掉，后台根据这个修改当前问题-->
             <input type="hidden" name="id">
 
             <div class="layui-form-item">
@@ -94,7 +94,7 @@
         var myTable = table.render({
             elem: '#demo'
             , height: 500
-            , url: '/tester/selectAll' //数据接口
+            , url: '/tester/selectAllColor' //数据接口
             , page: true //开启分页
             , limit: 10
             , limits: [5, 10, 15, 20, 30, 50, 100]
@@ -106,7 +106,11 @@
                     , {field: 'testerName', title: '测试人员姓名', width: 120}
                     , {field: 'phonenum', title: '测试人员电话', width: 120}
                     , {field: 'testTime', title: '测试日期', width: 150}
-                    , {fixed: 'right', width: 150, align:'center', toolbar: '#hangbarDemo'}  //每行的操作按钮设置
+                    , {field: 'redCount', title: '红色性格', width: 100}
+                    , {field: 'blueCount', title: '蓝色性格', width: 100}
+                    , {field: 'yellowCount', title: '黄色性格', width: 100}
+                    , {field: 'greenCount', title: '绿色性格', width: 100}
+                    , {fixed: 'right', width: 100, align:'center', toolbar: '#hangbarDemo'}  //每行的操作按钮设置
                 ]
             ]
         });

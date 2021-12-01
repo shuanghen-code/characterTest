@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.TesterDao">
+
+
+    <select id="selectAllColor" resultType="com.example.entity.TesterVo">
+        select tct.*, color_result.red_count, color_result.blue_count, color_result.yellow_count, color_result.green_count
+        from (select temp_count.tester_id,
+        sum(
+        case
+        when ((type = 1 and result = 'A') or (type = 2 and result = 'D'))
+        then result_count
+        end
+        ) as red_count,
+        sum(
+        case
+        when ((type = 1 and result = 'B') or (type = 2 and result = 'C'))
+        then result_count
+        end
+        ) as blue_count,
+        sum(
+        case
+        when ((type = 1 and result = 'C') or (type = 2 and result = 'B'))
+        then result_count
+        end
+        ) as yellow_count,
+        sum(
+        case
+        when ((type = 1 and result = 'D') or (type = 2 and result = 'A'))
+        then result_count
+        end
+        ) as green_count
+        from (select ttr.tester_id, ttr.result, count(ttr.id) result_count, tcq.type
+        from tbl_character_result ttr
+        left join tbl_character_question tcq on ttr.question_id = tcq.question_id
+        group by tcq.type, ttr.tester_id, ttr.result) temp_count
+        group by temp_count.tester_id) color_result
+        left join tbl_character_tester tct on tct.tester_id = color_result.tester_id
+        <where>
+            <if test="tester.testerName!=null and tester.testerName!=''">
+                and tester_name like concat(concat('%',#{tester.testerName}),'%')
+            </if>
+            <if test="tester.phonenum!=null and tester.phonenum!=''">
+                and phonenum like concat(concat('%',#{tester.phonenum}),'%')
+            </if>
+        </where>
+        order by tester_id desc
+        limit ${(page-1)*limit },#{limit}
+    </select>
+
+    <select id="getCount" resultType="java.lang.Long">
+        select count(*)
+        from (select temp_count.tester_id,
+                   sum(
+                           case
+                               when ((type = 1 and result = 'A') or (type = 2 and result = 'D'))
+                                   then result_count
+                               end
+                       ) as red_count,
+                   sum(
+                           case
+                               when ((type = 1 and result = 'B') or (type = 2 and result = 'C'))
+                                   then result_count
+                               end
+                       ) as blue_count,
+                   sum(
+                           case
+                               when ((type = 1 and result = 'C') or (type = 2 and result = 'B'))
+                                   then result_count
+                               end
+                       ) as yellow_count,
+                   sum(
+                           case
+                               when ((type = 1 and result = 'D') or (type = 2 and result = 'A'))
+                                   then result_count
+                               end
+                       ) as green_count
+            from (select ttr.tester_id, ttr.result, count(ttr.id) result_count, tcq.type
+                  from tbl_character_result ttr
+                           left join tbl_character_question tcq on ttr.question_id = tcq.question_id
+                  group by tcq.type, ttr.tester_id, ttr.result) temp_count
+            group by temp_count.tester_id) color_result
+    </select>
+</mapper>
+

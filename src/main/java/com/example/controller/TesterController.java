@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.entity.ReturnBean;
 import com.example.entity.Tester;
+import com.example.entity.TesterVo;
 import com.example.service.TesterService;
 import com.example.util.Constants;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +31,29 @@ public class TesterController extends BaseController {
     @Resource
     private TesterService testerService;
 
+
     /**
-     * 分页查询所有数据
+     * 查询所有测试人员的测试结果，包括分页、对应哪种颜色的性格
+     * update by hxh
+     * @param page 当前的页数
+     * @param limit 每页多少条数据
+     * @param tester 测试人信息
+     * @return 所有数据
+     */
+    @RequestMapping("selectAllColor")
+    public ReturnBean selectAllColor(Long page, Long limit, Tester tester) {
+        //优化代码，不分页的时候，默认第一页，一页显示10条
+        if (page == null) {
+            page = Constants.page;
+            limit = Constants.limit;
+        }
+        List<TesterVo> testerVos = testerService.selectAllColor(page, limit, tester);
+        return super.success(testerVos, testerService.getCount(tester));
+    }
+
+
+    /**
+     * 使用mybatisplus自动生成的代码实现分页查询所有数据
      * update by hxh
      * @param page 分页对象
      * @param tester 查询实体

@@ -104,13 +104,14 @@ layui.use(['table', 'form', 'element', 'jquery'], function () {
 
 
             form.on('submit(submit)', function (data) {
+                console.log("data: "+data)
                 let subData = data.field;
                 console.log(subData);
 
                 $.ajax({
                     url: "/result/addResults",
-                    // url: "/question/queryAllQuestion",
                     data: JSON.stringify(subData),
+                    // data: {subData:subData},
                     type: "post",
                     async: false,
                     contentType: 'application/json;charset=UTF-8',

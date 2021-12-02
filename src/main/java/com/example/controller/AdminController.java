@@ -20,7 +20,7 @@ public class AdminController extends BaseController {
     @Autowired
     private ManagerDao managerDao;
 
-    @RequestMapping("/toresult")
+    /*@RequestMapping("/toresult")
     @ResponseBody
     public ReturnBean toResult(@RequestBody Manager manager) {
         System.out.println("***********************************");
@@ -33,7 +33,6 @@ public class AdminController extends BaseController {
         }else{
             return fail(userList);
         }
-
-    }
+    }*/
 
 }

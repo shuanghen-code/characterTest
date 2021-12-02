@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.MenuDao">
+
+    <select id="findMenuByLoginUser" resultType="com.example.entity.Menu" parameterType="java.lang.String">
+        select *
+        from tbl_menu
+        where menu_id in (select menu_id
+                          from tbl_role_menu
+                          where role_id in (select ur.role_id
+                                            from tbl_user u
+                                                     INNER JOIN tbl_user_role ur on u.user_id = ur.user_id
+                                            where u.login_name = #{loginName}))
+    </select>
+
+</mapper>
+

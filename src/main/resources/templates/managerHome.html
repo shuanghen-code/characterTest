@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>性格测试后台管理系统</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
@@ -29,7 +29,31 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
+
+                <!--左侧动态导航栏-->
+                <div th:each="firstMenu:${firstMenus}">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;">
+                            <p th:text="${firstMenu.menuName}"/>
+                        </a>
+                        <div th:each="secondMenu:${secondMenus}">
+                            <div th:if="${secondMenu.parentId} eq ${firstMenu.menuId}">
+                                <dl class="layui-nav-child">
+                                    <dd>
+                                        <a th:href="${secondMenu.url}">
+                                            <p th:text="${secondMenu.menuName}"/>
+                                        </a>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                    </li>
+                </div>
+
+
+                <!--左侧静态导航栏-->
+                <!--<li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="#">
                         <i class="layui-icon layui-icon-user"></i>
                         <span>业务管理</span>
@@ -96,14 +120,16 @@
                             </a>
                         </dd>
                     </dl>
-                </li>
+                </li>-->
+
+
             </ul>
         </div>
     </div>
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <iframe id="iframeMain" src="/home/toIndex" class="layadmin-iframe" frameborder="0"
+        <iframe id="iframeMain" src="" class="layadmin-iframe" frameborder="0"
                 style="width: 100%;height: 100%"></iframe>
     </div>
 

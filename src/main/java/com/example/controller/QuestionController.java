@@ -53,7 +53,7 @@ public class QuestionController extends BaseController {
         if(ObjectUtil.isNotEmpty(question.getCreator())){
             questionQueryWrapper.like("creator",question.getCreator());
         }
-        Page<Question> questionPage = this.questionService.page(pageObj,questionQueryWrapper );
+        Page<Question> questionPage = this.questionService.page(pageObj, questionQueryWrapper);
         return super.success(questionPage.getRecords(),questionPage.getTotal());
     }
 

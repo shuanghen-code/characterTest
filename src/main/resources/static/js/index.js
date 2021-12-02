@@ -1,3 +1,4 @@
+
 $(function () {
     // 清空输入用户名点击事件
     $(".out").eq(0).on("click", function () {
@@ -25,13 +26,13 @@ $(function () {
             console.log("a");
         } else {
             $.ajax({
-                url: "toresult",
+                url: "/user/managerLogin",
                 type: "post",
-                data:JSON.stringify({mname:$("#musername").val(),mpassword:$("#mpassword").val()}),
+                data:JSON.stringify({loginName:$("#musername").val(),password:$("#mpassword").val()}),
                 contentType:"application/json;charset=UTF-8",
                 success:function (ret) {
                     if(ret.code==0){
-                        window.location.href="/toquestionManager"
+                        window.location.href="/toManagerHome"
                     }else {
                         // alert("账号密码错误")
                         $("#error-mes").text("用户名或密码错误").addClass("correct-name");
@@ -40,7 +41,7 @@ $(function () {
 
                     }
                 }
-            })
+            });
         }
         ;
     });

@@ -12,7 +12,5 @@ import java.util.List;
  * @since 2021-12-02 18:36:55
  */
 public interface UserService extends IService<User> {
-    List<User> findUserByLoginnameAndPassword(User user);
-
 }
 

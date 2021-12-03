@@ -1,10 +1,18 @@
 package com.example.controller;
 
+import com.example.entity.Menu;
+import com.example.entity.User;
+import com.example.service.MenuService;
+import com.example.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wang hao
@@ -13,7 +21,11 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class PageController {
 
+    @Resource
+    private UserService userService;
 
+    @Resource
+    private MenuService menuService;
 
     /**
      * @return testerLogin
@@ -52,8 +64,32 @@ public class PageController {
 
     // 去往管理后台首页
     @RequestMapping("toManagerHome")
-    public String toManagerHome(){
-        return "managerHome";
+    public ModelAndView toManagerHome(Integer userId, ModelAndView modelAndView) {
+        // 根据userId查询用户信息
+        User user = userService.getById(userId);
+        modelAndView.addObject("user", user);
+
+        //根据用户名查询所有的一级菜单
+        List<Menu> firstMenus = new ArrayList<>();
+        //根据用户名查询所有的二级菜单
+        List<Menu> secondMenus = new ArrayList<>();
+        //根据登录名查询出来所有的菜单，存入到session中
+        List<Menu> menus = menuService.findMenuByLoginUser(user.getLoginName());
+        // 开始菜单分类
+        for (Menu menu : menus) {
+            String menuType = menu.getMenuType();
+            if (menuType.equals("M")) {
+                firstMenus.add(menu);
+            } else if (menuType.equals("C")) {
+                secondMenus.add(menu);
+            }
+        }
+//        System.out.println(firstMenus + "===================----------");
+//        System.out.println(secondMenus + "===================----------");
+        modelAndView.addObject("firstMenus", firstMenus);
+        modelAndView.addObject("secondMenus", secondMenus);
+        modelAndView.setViewName("managerHome");
+        return modelAndView;
     }
 
     // 去往问题管理页面

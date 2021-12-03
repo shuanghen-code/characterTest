@@ -19,15 +19,5 @@ import java.util.Map;
  */
 @Service("userService")
 public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserService {
-    @Resource
-    private UserDao userDao;
-
-    @Override
-    public List<User> findUserByLoginnameAndPassword(User user) {
-        Map<String, Object> conditions = new HashMap<>();
-        conditions.put("login_name", user.getLoginName());
-        conditions.put("password", user.getPassword());
-        return userDao.selectByMap(conditions);
-    }
 }
 

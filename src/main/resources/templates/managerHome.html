@@ -31,25 +31,26 @@
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
 
                 <!--左侧动态导航栏-->
-                <div th:each="firstMenu:${firstMenus}">
+                <th:block th:each="firstMenu:${firstMenus}">
                     <li class="layui-nav-item layui-nav-itemed">
-                        <a class="" href="javascript:;">
-                            <p th:text="${firstMenu.menuName}"/>
+                        <a class="" href="#">
+                            <span th:text="${firstMenu.menuName}"/>
                         </a>
-                        <div th:each="secondMenu:${secondMenus}">
-                            <div th:if="${secondMenu.parentId} eq ${firstMenu.menuId}">
+                        <th:block th:each="secondMenu:${secondMenus}">
+                            <th:block th:if="${secondMenu.parentId} eq ${firstMenu.menuId}">
                                 <dl class="layui-nav-child">
                                     <dd>
+                                        <!-- 此处需要修改数据表中的url地址-->
                                         <a th:href="${secondMenu.url}">
-                                            <p th:text="${secondMenu.menuName}"/>
+                                            <span style="margin-left: 12px" th:text="${secondMenu.menuName}"/>
                                         </a>
                                     </dd>
                                 </dl>
-                            </div>
-                        </div>
+                            </th:block>
+                        </th:block>
 
                     </li>
-                </div>
+                </th:block>
 
 
                 <!--左侧静态导航栏-->
@@ -140,9 +141,11 @@
 </div>
 <script>
     //JavaScript代码区域
-    layui.use(['element', 'jquery'], function () {
-        let element = layui.element;
-        let $ = layui.jquery;
+    layui.use(['element', 'jquery', 'layer', 'util'], function () {
+        var element = layui.element
+            ,layer = layui.layer
+            ,util = layui.util
+            ,$ = layui.$
         $(function () {
             //页面加载之后执行的代码
             //点击a标签的时候，修改iframe的src属性
@@ -159,6 +162,11 @@
                 $("#iframeMain").attr("src", $(this).attr("href"));
             })
         })
+
+        //头部事件
+        util.event('lay-header-event', {
+
+        });
     });
 </script>
 </body>

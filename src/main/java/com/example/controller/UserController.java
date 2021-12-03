@@ -1,7 +1,6 @@
 package com.example.controller;
 
 
-
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.ApiController;
@@ -43,56 +42,45 @@ public class UserController extends BaseController {
 
     /**
      * 管理员登录验证
+     *
      * @return
      */
     @PostMapping("managerLogin")
-    public ReturnBean managerLogin(@RequestBody User user, ModelAndView modelAndView){
-        List<User> userList= userService.findUserByLoginnameAndPassword(user);
-        if (userList!= null && userList.size()>0){
-            User user1 = userList.get(0);
-//            session.setAttribute("user", user1);
-            modelAndView.addObject("user", user1);
-
-            //根据用户名查询所有的一级菜单
-            List<Menu> firstMenus= new ArrayList<>();
-            //根据用户名查询所有的二级菜单
-            List<Menu> secondMenus= new ArrayList<>();
-            //根据登录名查询出来所有的菜单，存入到session中
-            List<Menu> menus = menuService.findMenuByLoginUser(user1.getLoginName());
-            // 开始菜单分类
-            for (Menu menu: menus) {
-                String menuType = menu.getMenuType();
-                if (menuType.equals("M")){
-                    firstMenus.add(menu);
-                } else if (menuType.equals("C")) {
-                    secondMenus.add(menu);
-                }
-            }
-            System.out.println(firstMenus+"===================----------");
-            System.out.println(secondMenus+"===================----------");
-            modelAndView.addObject("firstMenus", firstMenus);
-            modelAndView.addObject("secondMenus", secondMenus);
-            modelAndView.setViewName("managerHome");
-            return success(modelAndView);
-        }else{
-            return fail(modelAndView);
+    public ReturnBean managerLogin(@RequestBody User user) {
+        List<User> userList = userService.findUserByLoginnameAndPassword(user);
+        if (userList != null && userList.size() > 0) {
+            return success(userList.get(0));
+        } else {
+            return fail(userList.get(0));
         }
     }
-/*    @PostMapping("managerLogin")
-    public ReturnBean managerLogin(@RequestBody User user, HttpSession session){
-        List<User> userList= userService.findUserByLoginnameAndPassword(user);
-        if (userList!= null && userList.size()>0){
-            User user1 = userList.get(0);
-//            session.setAttribute("user", user1);
 
-            //根据用户名查询出来所有的菜单，存入到session中
-            Map<String, Object> menuMap = menuService.findMenuByLoginUser(user1.getLoginName());
-            session.setAttribute("menuMap", menuMap);
-            return success(userList);
-        }else{
-            return fail(userList);
+    @RequestMapping("managerMenu")
+    public ModelAndView managerMenu(String loginName, ModelAndView modelAndView) {
+//        modelAndView.addObject("user", user);
+
+        //根据用户名查询所有的一级菜单
+        List<Menu> firstMenus = new ArrayList<>();
+        //根据用户名查询所有的二级菜单
+        List<Menu> secondMenus = new ArrayList<>();
+        //根据登录名查询出来所有的菜单，存入到session中
+        List<Menu> menus = menuService.findMenuByLoginUser(loginName);
+        // 开始菜单分类
+        for (Menu menu : menus) {
+            String menuType = menu.getMenuType();
+            if (menuType.equals("M")) {
+                firstMenus.add(menu);
+            } else if (menuType.equals("C")) {
+                secondMenus.add(menu);
+            }
         }
-    }*/
+        System.out.println(firstMenus + "===================----------");
+        System.out.println(secondMenus + "===================----------");
+        modelAndView.addObject("firstMenus", firstMenus);
+        modelAndView.addObject("secondMenus", secondMenus);
+        modelAndView.setViewName("managerHome");
+        return modelAndView;
+    }
 
     /**
      * 分页查询所有数据

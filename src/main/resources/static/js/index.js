@@ -32,7 +32,7 @@ $(function () {
                 contentType:"application/json;charset=UTF-8",
                 success:function (ret) {
                     if(ret.code==0){
-                        window.location.href="/toManagerHome"
+                        window.location.href="/user/managerMenu?loginName="+ret.data.loginName;
                     }else {
                         // alert("账号密码错误")
                         $("#error-mes").text("用户名或密码错误").addClass("correct-name");

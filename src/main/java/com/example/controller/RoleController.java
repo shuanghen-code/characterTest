@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.entity.Menu;
 import com.example.entity.ReturnBean;
 import com.example.entity.Role;
 import com.example.service.RoleService;
@@ -49,6 +50,18 @@ public class RoleController extends BaseController {
 
         return super.success(rolePage.getRecords(), rolePage.getTotal());
     }
+
+    /**
+     * 新增角色
+     * @param role
+     * @return
+     */
+    @RequestMapping("insertRole")
+    public ReturnBean insertRole(Role role){
+//        System.out.println(role.toString());
+        return null;
+    }
+
 
     /**
      * 通过主键查询单条数据

@@ -12,15 +12,15 @@
             <div class="layui-logo" style="font-size: x-large;margin-left: 1%;width: 260px">性格测试后台管理系统</div>
         </a>
         <ul class="layui-nav layui-layout-right">
-            <!--<li class="layui-nav-item">
+            <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="https://aaachenjian.oss-cn-beijing.aliyuncs.com/myFile/2021/06/19/1624092460466/PIC_20160217_235223_ED0.jpg" class="layui-nav-img">
-                    陈建
+                    <img th:src="${user.avatar} " class="layui-nav-img">
+                    <th:block th:text="${user.userName}"></th:block>
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="/home/toUserinfo">基本资料</a></dd>
+                    <dd><a href="">基本资料</a></dd>
                 </dl>
-            </li>-->
+            </li>
             <li class="layui-nav-item"><a href="/logout">注销</a></li>
         </ul>
     </div>
@@ -51,78 +51,6 @@
 
                     </li>
                 </th:block>
-
-
-                <!--左侧静态导航栏-->
-                <!--<li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="#">
-                        <i class="layui-icon layui-icon-user"></i>
-                        <span>业务管理</span>
-                    </a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="toquestionManager">
-                                <span style="margin-left: 12px">问题管理</span>
-                            </a>
-                        </dd>
-                    </dl>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="toTester">
-                                <span style="margin-left: 12px">测试结果</span>
-                            </a>
-                        </dd>
-                    </dl>
-
-                </li>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="#">
-                        <i class="layui-icon layui-icon-app"></i>
-                        <span>系统管理</span>
-                    </a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="/user/toUser">
-                                <span style="margin-left: 12px">用户管理</span>
-                            </a>
-                        </dd>
-                    </dl>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="toRoleManager">
-                                <span style="margin-left: 12px">角色管理</span>
-                            </a>
-                        </dd>
-                    </dl>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="/menu/toMenu">
-                                <span style="margin-left: 12px">菜单管理</span>
-                            </a>
-                        </dd>
-                    </dl>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="/dept/toDept">
-                                <span style="margin-left: 12px">部门管理</span>
-                            </a>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="#">
-                        <i class="layui-icon layui-icon-log"></i>
-                        <span>日志监控</span>
-                    </a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="/statistical/toLog">
-                                <span style="margin-left: 12px">操作日志</span>
-                            </a>
-                        </dd>
-                    </dl>
-                </li>-->
-
 
             </ul>
         </div>

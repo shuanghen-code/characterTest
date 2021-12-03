@@ -54,7 +54,7 @@
             <input type="checkbox" checked="" name="status" lay-skin="switch" lay-filter="switchTest" lay-text="正常|失效">
         </div>
     </div>
-    <input hidden name="createBy" value="陈建">
+    <input hidden name="createBy" value="">
     <div class="layui-form-item">
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
@@ -64,11 +64,11 @@
     </div>
     <!--树形菜单-->
     <div class="layui-form-item">
-        <label class="layui-form-label" style="float: left">菜单权限</label>
-        <div style="margin-left: 120px">
-            <div id="addRoleTree" class="demo-tree-more"></div>
-        </div>
+    <label class="layui-form-label" style="float: left">菜单权限</label>
+    <div style="margin-left: 120px">
+        <div id="addRoleTree" class="demo-tree-more"></div>
     </div>
+</div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
@@ -110,7 +110,7 @@
                    lay-text="正常|失效">
         </div>
     </div>
-    <input hidden name="updateBy" value="陈建">
+    <input hidden name="updateBy" value="">
     <div class="layui-form-item">
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
@@ -174,7 +174,7 @@
 
 
         //头工具栏事件
-        /*table.on('toolbar(roleTableFilter)', function (obj) {
+        table.on('toolbar(roleTableFilter)', function (obj) {
             let checkStatus = table.checkStatus(obj.config.id)
                 , data = checkStatus.data;
             switch (obj.event) {
@@ -191,7 +191,6 @@
                     break;
             }
         });
-*/
 
         //行工具栏事件
         /*table.on('tool(roleTableFilter)', function (obj) {
@@ -256,8 +255,9 @@
             }
         });
 */
+
         //获取选中的菜单id
-       /* function getChecked_list(data) {
+        function getChecked_list(data) {
             let id = '';
             $.each(data, function (index, item) {
                 if (id !== "") {
@@ -272,13 +272,14 @@
             })
             return id;
         }
-*/
         //addUserForm表单的提交
-       /* form.on('submit(addRoleFilter)', function (data) {
+        form.on('submit(addRoleFilter)', function (data) {
             $("#addRoleButton").attr("class","layui-btn layui-btn-disabled")
-            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            // console.log(data.field.data);
+            //当前容器的全部表单字段，名值对形式：{name: value}
             let checkData = tree.getChecked('addFormMenu');
-            let list = getChecked_list(checkData)
+            let list = getChecked_list(checkData);
+            console.log(list);
             data.field.menus = list;
             //将状态属性的on转换为0，1
             if (data.field.status === "on") {
@@ -286,6 +287,7 @@
             } else {
                 data.field.status = 1;
             }
+            // console.log(data.field+"++++++++++++++++++++++++++");
             //提交表单数据
             $.ajax({
                 url: "/role/insertRole",
@@ -307,12 +309,11 @@
                         layer.msg(ret.msg, {icon: 5});
                     }
                 }
-            })
+            });
             //将表单清空
             document.getElementById("addRoleForm").reset();
             return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
-*/
 
         //update表单的提交
         /*form.on('submit(updateRoleFilter)', function (data) {
@@ -351,11 +352,12 @@
         );*/
 
         //从后台查询菜单树格式后的数据，回显在表单中
-        /*$.ajax({
-            url: "/role/findAllMenu",
+        $.ajax({
+            url: "/menu/findAllMenu",
             type: "GET",
             dataType: "JSON",
             success: function (list) {
+                console.log(list);
                 //常规用法
                 tree.render({
                     elem: '#addRoleTree' //默认是点击节点可进行收缩
@@ -372,7 +374,6 @@
                 });
             }
         })
-*/
     });
 
 

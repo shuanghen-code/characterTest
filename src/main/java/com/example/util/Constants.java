@@ -14,4 +14,13 @@ public class Constants {
      * 默认的分页的pagesize，一页显示多少行
      */
     public static  final Long limit=10L;
+
+    //增删改成功
+    public static final int successCode=0;
+    //增删改失败
+    public static final int failCode=1;
+    //加密算法
+    public static final String algorithmName="MD5";
+    //加密次数
+    public static final   int hashIterations=1000;
 }

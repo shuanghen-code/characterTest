@@ -2,6 +2,7 @@ package com.example.controller;
 
 
 import com.example.entity.ReturnBean;
+import com.example.util.Constants;
 
 /**
  * @date ：Created in 2021/11/24 16:33
@@ -17,7 +18,7 @@ public class BaseController {
     public ReturnBean success(Object object, Long... count) {
 
         ReturnBean returnBean = new ReturnBean();
-        returnBean.setCode(0);
+        returnBean.setCode(Constants.successCode);
         returnBean.setMsg("操作成功");
         returnBean.setData(object);
         if (count != null && count.length > 0) {
@@ -31,7 +32,7 @@ public class BaseController {
      */
     public ReturnBean fail(Object object) {
         ReturnBean returnBean = new ReturnBean();
-        returnBean.setCode(1);
+        returnBean.setCode(Constants.failCode);
         returnBean.setMsg("操作失败");
         returnBean.setData(object);
         return returnBean;

@@ -40,8 +40,6 @@ public class UserController extends BaseController {
     /**
      * 服务对象
      */
-    @Resource
-    private MenuService menuService;
 
     /**
      * 管理员登录验证
@@ -67,6 +65,16 @@ public class UserController extends BaseController {
         Object principal = subject.getPrincipal();
         System.out.println(principal);
         return success(principal);
+    }
+
+    /**
+     *  注销
+     */
+    @RequestMapping("/logout")
+    public String logout(){
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "login";
     }
 
 }

@@ -1,14 +1,13 @@
 package com.example.entity;
 
-import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 
-import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 角色信息表(Role)表实体类
@@ -17,11 +16,9 @@ import java.io.Serializable;
  * @since 2021-12-02 14:58:24
  */
 @SuppressWarnings("serial")
-@TableName("tbl_role")
 @Data
-public class Role extends Model<Role> {
+public class RoleData extends Model<RoleData> {
     //角色ID
-    @TableId(value = "role_id" ,type = IdType.AUTO)
     private Integer roleId;
     //角色名称
     private String roleName;
@@ -43,6 +40,9 @@ public class Role extends Model<Role> {
     private Date updateTime;
     //备注
     private String remark;
+
+    // 前端接收的对应角色的menuId
+    private List<Integer> menus;
 
 }
 

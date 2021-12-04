@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.example.shiro.MyRealm;
@@ -67,6 +67,8 @@ public class ShiroConfig {
         Map<String, String> map = new LinkedHashMap<>();
         //放行login
         map.put("/managerLogin","anon");
+        map.put("/toTesterLogin", "anon");
+        map.put("/toExam", "anon");
         //添加页面需要有添加的权限才能到达
         map.put("/addUser","perms[/addUser]");
         map.put("/updateUser","perms[/updateUser]");

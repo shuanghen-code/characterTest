@@ -374,7 +374,7 @@
                                 layer.msg(ret.msg, {icon:5});
                             }
                         }
-                    })
+                    });
                     layer.close(index);
                     // 向服务器发送删除指令
                 });
@@ -383,7 +383,7 @@
 
         // 新增问题的操作
         form.on('submit(saveQuestion)', function (data) {
-            console.log(data.field)
+            console.log(data.field);
             //当前容器的全部表单字段，名值对形式：{name: value}
             // 提交表单数据
             $.ajax({

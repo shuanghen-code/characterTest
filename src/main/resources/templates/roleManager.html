@@ -147,8 +147,8 @@
         let layer = layui.layer;
         let $ = layui.jquery;
         let form = layui.form;
-        let tree = layui.tree
-        let util = layui.util
+        let tree = layui.tree;
+        let util = layui.util;
         //第一个实例
         let roleTable = table.render({
             elem: '#role'
@@ -192,12 +192,13 @@
             }
         });
 
+
         //行工具栏事件
-        /*table.on('tool(roleTableFilter)', function (obj) {
-            let data = obj.data
+        table.on('tool(roleTableFilter)', function (obj) {
+            let data = obj.data;
             switch (obj.event) {
                 case 'edit':
-                    console.log(data.status)
+                    // console.log(data.status);
                     if (data.status == 0) {
                         document.getElementById("updateStatus").checked = true
                     } else {
@@ -210,7 +211,7 @@
                         , roleSort: data.roleSort
                         , remark: data.remark
                     });
-                    tree.reload('updateFormMenu')
+                    tree.reload('updateFormMenu');
                     //树形菜单回显
                     $.ajax({
                         url: "/role/findSelectMenu",
@@ -218,10 +219,12 @@
                         dataType: "JSON",
                         data: {roleId: data.roleId},
                         success: function (ret) {
+                            console.log(ret);
+                            // ret，将要选中的节点的id列表
                             tree.setChecked('updateFormMenu', ret);
                         }
-                    })
-                    form.render()
+                    });
+                    form.render();
 
                     layer.open({
                         title: '修改角色',
@@ -248,13 +251,12 @@
                                 }
 
                             }
-                        })
+                        });
                         layer.close(index);
                     });
                     break;
             }
         });
-*/
 
         //获取选中的菜单id
         function getChecked_list(data) {
@@ -269,7 +271,7 @@
                 if (i !== "") {
                     id = id + "," + i;
                 }
-            })
+            });
             return id;
         }
         //addUserForm表单的提交
@@ -316,7 +318,7 @@
         });
 
         //update表单的提交
-        /*form.on('submit(updateRoleFilter)', function (data) {
+        form.on('submit(updateRoleFilter)', function (data) {
                 console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
                 let checkData = tree.getChecked('updateFormMenu');
                 let list = getChecked_list(checkData)
@@ -349,11 +351,11 @@
                 document.getElementById("updateRoleForm").reset();
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             }
-        );*/
+        );
 
         //从后台查询菜单树格式后的数据，回显在表单中
         $.ajax({
-            url: "/menu/findAllMenu",
+            url: "/role/findAllMenu",
             type: "GET",
             dataType: "JSON",
             success: function (list) {

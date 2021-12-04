@@ -31,50 +31,6 @@ public class ResultController extends BaseController {
     @Resource
     private ResultService resultService;
 
-    /**
-     * 分页查询所有数据
-     *
-     * @param page 分页对象
-     * @param result 查询实体
-     * @return 所有数据
-     */
-    @GetMapping
-    public ReturnBean selectAll(Page<Result> page, Result result) {
-        return success(this.resultService.page(page, new QueryWrapper<>(result)));
-    }
-
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-  /*  @GetMapping("{id}")
-    public ReturnBean selectOne(@PathVariable Serializable id) {
-        return success(this.resultService.getById(id));
-    }
-*/
-    /**
-     * 新增数据
-     *
-     * @param result 实体对象
-     * @return 新增结果
-     */
-    @PostMapping
-    public ReturnBean insert(@RequestBody Result result) {
-        return success(this.resultService.save(result));
-    }
-
-    /**
-     * 修改数据
-     *
-     * @param result 实体对象
-     * @return 修改结果
-     */
-    @PutMapping
-    public ReturnBean update(@RequestBody Result result) {
-        return success(this.resultService.updateById(result));
-    }
 
     /**
      * 删除数据
@@ -106,14 +62,8 @@ public class ResultController extends BaseController {
 
             resultList.add(result);
         }
-        for (Result result : resultList) {
-            System.out.println(result.toString());
-        }
-//        System.out.println(resultList);
         // 调用saveBatch方法批量插入
-       this.resultService.saveBatch(resultList);
-
-        // Result result = new Result();
+        this.resultService.saveBatch(resultList);
         return super.success(null);
     }
 }

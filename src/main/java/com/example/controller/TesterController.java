@@ -3,9 +3,11 @@ package com.example.controller;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.entity.Result;
 import com.example.entity.ReturnBean;
 import com.example.entity.Tester;
 import com.example.entity.TesterVo;
+import com.example.service.ResultService;
 import com.example.service.TesterService;
 import com.example.util.Constants;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +32,9 @@ public class TesterController extends BaseController {
      */
     @Resource
     private TesterService testerService;
+
+    @Resource
+    private ResultService resultService;
 
 
     /**
@@ -131,7 +136,7 @@ public class TesterController extends BaseController {
             tester.setTestTime(new Date());
             boolean save = this.testerService.save(tester);
             if(save){
-                System.out.println(tester.toString());
+//                System.out.println(tester.toString());
 //                Tester tester1 = this.testerService.query().eq("phonenum", tester.getPhonenum()).one();
                 session.setAttribute("tester", tester);
                 return super.success(tester);
@@ -139,7 +144,6 @@ public class TesterController extends BaseController {
                 return super.fail(tester);
             }
         }
-
     }
 
     /**
@@ -168,6 +172,12 @@ public class TesterController extends BaseController {
     public ReturnBean delete(@RequestParam(value = "idList[]", required = false) List<Long> idList) {
         boolean delete = this.testerService.removeByIds(idList);
         if (delete){
+            // 批量删除结果表中对应的测试记录
+            for (Long testerId : idList) {
+                QueryWrapper<Result> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("tester_id", testerId);
+                resultService.remove(queryWrapper);
+            }
             return super.success(null);
         } else {
             return super.fail(null);

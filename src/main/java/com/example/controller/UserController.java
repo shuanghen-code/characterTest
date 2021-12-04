@@ -47,7 +47,7 @@ public class UserController extends BaseController {
      * @return
      */
     @PostMapping("managerLogin")
-    public ReturnBean managerLogin(@RequestBody User user) {
+    public ReturnBean managerLogin(@RequestBody User user, HttpSession session) {
         // 获取shiro主体，subject
         Subject subject = SecurityUtils.getSubject();
         // 构建用户登陆的令牌
@@ -63,18 +63,9 @@ public class UserController extends BaseController {
 
         // 获取Myrealm里SimpleAuthenticationInfo存入的user对象
         Object principal = subject.getPrincipal();
-        System.out.println(principal);
+        session.setAttribute("user", principal);
+//        System.out.println(principal);
         return success(principal);
-    }
-
-    /**
-     *  注销
-     */
-    @RequestMapping("/logout")
-    public String logout(){
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
-        return "login";
     }
 
 }

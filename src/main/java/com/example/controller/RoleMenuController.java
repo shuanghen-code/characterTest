@@ -6,11 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.entity.LayUiTree;
-import com.example.entity.Menu;
-import com.example.entity.ReturnBean;
-import com.example.service.MenuService;
-import com.example.util.TreeUtils;
+import com.example.entity.RoleMenu;
+import com.example.service.RoleMenuService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,19 +15,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 菜单权限表(Menu)表控制层
+ * 角色和菜单关联表(RoleMenu)表控制层
  *
  * @author makejava
- * @since 2021-12-02 19:17:49
+ * @since 2021-12-04 12:30:11
  */
 @RestController
-@RequestMapping("menu")
-public class MenuController extends BaseController {
-    /**
-     * 服务对象
-     */
-    @Resource
-    private MenuService menuService;
+@RequestMapping("roleMenu")
+public class RoleMenuController extends ApiController {
 
 }
-

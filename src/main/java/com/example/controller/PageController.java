@@ -4,6 +4,8 @@ import com.example.entity.Menu;
 import com.example.entity.User;
 import com.example.service.MenuService;
 import com.example.service.UserService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -111,4 +113,23 @@ public class PageController {
     }
 
 
+    /**
+     *  注销
+     */
+    @RequestMapping("/logout")
+    public String logout(){
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "login";
+    }
+
+    /**
+     * 注销
+     * @return
+     */
+    @RequestMapping("/toUnau")
+    public String toUnau(){
+        System.out.println("没有权限！！！！");
+        return "unau";
+    }
 }

@@ -32,28 +32,36 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, Menu> implements MenuS
     public List<Menu>  findMenuByLoginUser(String loginName) {
         return menuDao.findMenuByLoginUser(loginName);
     }
-    /*@Override
-    public Map<String, Object> findMenuByLoginUser(String loginName) {
-        Map<String, Object> map = new HashMap<>();
-        //根据用户名查询所有的一级菜单
-        List<Map<String, Object>> firstMenus= new ArrayList<>();
-        //根据用户名查询所有的二级菜单
-        List<Map<String, Object>> secondMenus= new ArrayList<>();
-        //查询所有的菜单根据登录名
-        List<Map<String, Object>> menus = menuDao.findMenuByLoginUser(loginName);
 
-        // 开始菜单分类
-        for (Map<String, Object> menu: menus) {
-            String menuType = menu.get("menu_type").toString();
-            if (menuType.equals("M")){
-                firstMenus.add(menu);
-            } else if (menuType.equals("C")) {
-                secondMenus.add(menu);
-            }
-        }
-        map.put("firstMenus",  firstMenus);
-        map.put("secondMenus", secondMenus);
-        return map;
-    }*/
+
+    @Override
+    public List<Menu> selectAllMenu() {
+        return menuDao.selectAllMenu();
+    }
+
+    @Override
+    public boolean insertMenu(Menu menu) {
+        return menuDao.insertMenu(menu);
+    }
+
+    @Override
+    public Menu findParentNameId(int menuId) {
+        return menuDao.findParentNameId(menuId);
+    }
+
+    @Override
+    public Menu findMenuById(int menuId) {
+        return menuDao.findMenuById(menuId);
+    }
+
+    @Override
+    public boolean updateMenu(Menu menu) {
+        return menuDao.updateMenu(menu);
+    }
+
+    @Override
+    public boolean deleteMenu(int menuId) {
+        return menuDao.deleteMenu(menuId);
+    }
 }
 

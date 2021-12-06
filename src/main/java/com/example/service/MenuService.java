@@ -22,5 +22,12 @@ public interface MenuService extends IService<Menu> {
      */
     List<Menu> findMenuByLoginUser(String loginName);
 
+    List<Menu> selectAllMenu();
+    boolean insertMenu(Menu menu);
+    Menu findParentNameId(int menuId);
+    Menu findMenuById(int menuId);
+    boolean updateMenu(Menu menu);
+    boolean deleteMenu(int menuId);
+
 }
 

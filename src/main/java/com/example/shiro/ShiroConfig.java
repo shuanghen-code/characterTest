@@ -1,7 +1,6 @@
 package com.example.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-import com.example.shiro.MyRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -69,6 +68,7 @@ public class ShiroConfig {
         map.put("/managerLogin","anon");
         map.put("/toTesterLogin", "anon");
         map.put("/toExam", "anon");
+        map.put("/toMenu", "anon");
         //添加页面需要有添加的权限才能到达
         map.put("/addUser","perms[/addUser]");
         map.put("/updateUser","perms[/updateUser]");

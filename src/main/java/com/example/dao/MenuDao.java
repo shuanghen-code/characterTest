@@ -21,5 +21,12 @@ public interface MenuDao extends BaseMapper<Menu> {
      */
     List<Menu> findMenuByLoginUser(@Param("loginName") String loginName);
 
+    List<Menu> selectAllMenu();
+    boolean  insertMenu(@Param("menu") Menu menu);
+    Menu findParentNameId(int menuId);
+    Menu findMenuById(int menuId);
+    boolean updateMenu(Menu menu);
+    boolean deleteMenu(int menuId);
+
 }
 

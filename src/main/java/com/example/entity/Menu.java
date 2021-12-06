@@ -3,6 +3,7 @@ package com.example.entity;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -20,34 +21,29 @@ import java.io.Serializable;
 @TableName("tbl_menu")
 @Data
 public class Menu extends Model<Menu> {
-    //菜单ID
+
     @TableId(value = "menu_id" ,type = IdType.AUTO)
     private Integer menuId;
-    //菜单名称
+    @TableField(value = "menu_name")
     private String menuName;
-    //父菜单ID
+    @TableField(value = "parent_id")
     private Integer parentId;
-    //显示顺序
+    @TableField(value = "order_num")
     private Integer orderNum;
-    //请求地址
     private String url;
-    //菜单类型（M目录 C菜单 F按钮）
-    private String menuType;
-    //菜单状态（0显示 1隐藏）
-    private String visible;
-    //权限标识
+    @TableField(value = "menu_type")
+    private char menuType;
+    private char visible;
     private String perms;
-    //菜单图标
     private String icon;
-    //创建者
+    @TableField(value = "create_by")
     private String createBy;
-    //创建时间
-    private Date createTime;
-    //更新者
+    @TableField(value = "create_time")
+    private Date  createTime;
+    @TableField(value = "update_by")
     private String updateBy;
-    //更新时间
+    @TableField(value = "update_time")
     private Date updateTime;
-    //备注
     private String remark;
 
     /**
@@ -59,5 +55,5 @@ public class Menu extends Model<Menu> {
     protected Serializable pkVal() {
         return this.menuId;
     }
-    }
+}
 

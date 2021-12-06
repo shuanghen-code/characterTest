@@ -79,7 +79,7 @@ public class PageController {
         List<Menu> menus = menuService.findMenuByLoginUser(user.getLoginName());
         // 开始菜单分类
         for (Menu menu : menus) {
-            String menuType = menu.getMenuType();
+            String menuType = String.valueOf(menu.getMenuType());
             if (menuType.equals("M")) {
                 firstMenus.add(menu);
             } else if (menuType.equals("C")) {
@@ -110,6 +110,12 @@ public class PageController {
     @RequestMapping("toRoleManager")
     public String toRoleManager(){
         return "roleManager";
+    }
+
+    // 去菜单管理页面
+    @RequestMapping("/toMenu")
+    public String toMenu(){
+        return "treeTable";
     }
 
 

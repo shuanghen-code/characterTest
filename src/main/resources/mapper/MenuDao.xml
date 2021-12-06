@@ -13,5 +13,31 @@
                                             where u.login_name = #{loginName}))
     </select>
 
+
+
+    <insert id="insertMenu" parameterType="com.example.entity.Menu">
+        insert into tbl_menu(menu_name, parent_id,order_num,url,menu_type,perms,create_by,create_time,remark)
+        values
+            (#{menu.menuName},#{menu.parentId},#{menu.orderNum},#{menu.url},#{menu.menuType},#{menu.perms},
+             #{menu.createBy},#{menu.createTime},#{menu.remark})
+    </insert>
+    <update id="updateMenu" parameterType="com.example.entity.Menu">
+        update tbl_menu set menu_name=#{menuName},url=#{url},parent_id=#{parentId},order_num=#{orderNum},
+                            menu_type=#{menuType},perms=#{perms},update_by=#{updateBy},update_time=#{updateTime},remark=#{remark}
+        where menu_id = #{menuId}
+    </update>
+    <delete id="deleteMenu">
+        delete from  tbl_menu where menu_id=#{menuId}
+    </delete>
+    <select id="selectAllMenu" resultType="com.example.entity.Menu">
+        select * from tbl_menu;
+    </select>
+    <select id="findParentNameId" resultType="com.example.entity.Menu">
+        select * from  tbl_menu where  menu_id=(select parent_id from tbl_menu where menu_id=#{menuId})
+    </select>
+    <select id="findMenuById" resultType="com.example.entity.Menu">
+        select * from tbl_menu where menu_id=#{menuId}
+    </select>
+
 </mapper>
 

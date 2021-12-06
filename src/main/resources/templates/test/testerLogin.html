@@ -127,8 +127,7 @@
                 success: function (ret) {
                     if (ret.code == 0) {
                         // 操作成功，也是returnbean里的msg
-                        window.location.href = '/toExam';
-                        //layer.msg(ret.msg(JSON.stringify(data.field)));
+                        window.location.href = "/test/toExam";
                     } else {
                         alert("该手机号已经测试过啦，重复测试会影响准确性。");
                     }

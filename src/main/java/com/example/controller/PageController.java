@@ -8,7 +8,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -35,22 +34,22 @@ public class PageController {
      * @Data 2021/11/27 13:01
      * @Version 1.0
      */
-    @RequestMapping("toTesterLogin")
+    @RequestMapping("test/toTesterLogin")
     public String toPage() {
-        return "testerLogin";
+        return "test/testerLogin";
     }
 
     // 去往答题页面
-    @RequestMapping("toExam")
+    @RequestMapping("test/toExam")
     public String toExam(){
-        return "exam";
+        return "test/exam";
     }
 
     // 去往测试完成页面
-    @RequestMapping("tofinish")
+    @RequestMapping("test/tofinish")
     public String toFinish(HttpSession session) {
         session.removeAttribute("tester");
-        return "finish";
+        return "test/finish";
     }
 
     /**
@@ -65,7 +64,7 @@ public class PageController {
     }
 
     // 去往管理后台首页
-    @RequestMapping("toManagerHome")
+    @RequestMapping("manager/toManagerHome")
     public ModelAndView toManagerHome(Integer userId, ModelAndView modelAndView) {
         // 根据userId查询用户信息
         User user = userService.getById(userId);
@@ -86,44 +85,49 @@ public class PageController {
                 secondMenus.add(menu);
             }
         }
-//        System.out.println(firstMenus + "===================----------");
-//        System.out.println(secondMenus + "===================----------");
         modelAndView.addObject("firstMenus", firstMenus);
         modelAndView.addObject("secondMenus", secondMenus);
-        modelAndView.setViewName("managerHome");
+        modelAndView.setViewName("manager/managerHome");
         return modelAndView;
     }
 
     // 去往问题管理页面
-    @RequestMapping("toquestionManager")
+    @RequestMapping("manager/toquestionManager")
     public String toTest() {
-        return "questionManager";
+        return "manager/questionManager";
     }
 
     // 去往测试结果管理页面
-    @RequestMapping("toTester")
+    @RequestMapping("manager/toTester")
     public String toTester(){
-        return "testerManager";
+        return "manager/testerManager";
     }
 
     // 去往角色管理页面
-    @RequestMapping("toRoleManager")
+    @RequestMapping("manager/toRoleManager")
     public String toRoleManager(){
-        return "roleManager";
+        return "manager/roleManager";
     }
 
     // 去菜单管理页面
-    @RequestMapping("/toMenu")
+    @RequestMapping("manager/toMenu")
     public String toMenu(){
-        return "treeTable";
+        return "manager/treeTable";
+    }
+
+    //去往部门管理页面
+    @RequestMapping("manager/toDeptManager")
+    public String toDeptManager(){
+        return "manager/deptManager";
     }
 
 
     /**
      *  注销
      */
-    @RequestMapping("/logout")
-    public String logout(){
+    @RequestMapping("manager/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("user");
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return "login";

@@ -2,11 +2,13 @@ package com.example.controller;
 
 import com.example.entity.Menu;
 import com.example.entity.ReturnBean;
+import com.example.entity.User;
 import com.example.service.MenuService;
 import com.example.util.TreeUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +40,9 @@ public class MenuController extends BaseController {
     }
 
     @RequestMapping("/insertMenu")
-    public ReturnBean insertMenu(@RequestBody Menu menu) {
+    public ReturnBean insertMenu(@RequestBody Menu menu, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        menu.setCreateBy(user.getUserName());
         menu.setCreateTime(new Date());
         boolean insert = menuService.insertMenu(menu);
         if (insert) {
@@ -68,7 +72,9 @@ public class MenuController extends BaseController {
         }
     }
     @RequestMapping("/updateMenu")
-    public ReturnBean updateMenu(@RequestBody Menu menu){
+    public ReturnBean updateMenu(@RequestBody Menu menu, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        menu.setUpdateBy(user.getUserName());
         menu.setUpdateTime(new Date());
         boolean update = menuService.updateMenu(menu);
         if (update) {

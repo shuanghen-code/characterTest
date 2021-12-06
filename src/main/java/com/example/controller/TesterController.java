@@ -136,8 +136,6 @@ public class TesterController extends BaseController {
             tester.setTestTime(new Date());
             boolean save = this.testerService.save(tester);
             if(save){
-//                System.out.println(tester.toString());
-//                Tester tester1 = this.testerService.query().eq("phonenum", tester.getPhonenum()).one();
                 session.setAttribute("tester", tester);
                 return super.success(tester);
             }else {

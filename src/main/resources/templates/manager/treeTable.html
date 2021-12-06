@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -13,7 +13,7 @@
 
         <!--这里要修改-->
 
-        <input hidden name="createBy" value="陈建">
+<!--        <input hidden name="createBy" th:value="">-->
 
         <!-- -->
         <div class="layui-form-item">
@@ -106,7 +106,7 @@
 <!--    </div>-->
     <!--实现编辑菜单功能的form-->
     <form class="layui-form" action="" id="updateMenuForm" lay-filter="update_menu_form_filter" style="display: none">
-        <input hidden name="updateBy" value="陈建">
+<!--        <input hidden name="updateBy" value="">-->
         <div class="layui-form-item">
             <input type="hidden" name="parentId" id="updateParentId">
             <input type="hidden" name="menuId">

@@ -34,7 +34,7 @@ layui.use(['layer','jquery'], function() {
                     contentType: "application/json;charset=UTF-8",
                     success: function (ret) {
                         if (ret.code == 0) {
-                            window.location.href = "/toManagerHome?userId=" + ret.data.userId;
+                            window.location.href = "/manager/toManagerHome?userId=" + ret.data.userId;
                         } else {
                             layer.msg(ret.msg, {icon: 5});
                         }

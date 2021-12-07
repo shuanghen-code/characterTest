@@ -133,7 +133,7 @@ public class PageController {
     }
 
     /**
-     * 注销
+     * 去未授权页面
      * @return
      */
     @RequestMapping("/toUnau")

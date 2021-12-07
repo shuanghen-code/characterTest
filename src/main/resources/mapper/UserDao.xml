@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.UserDao">
+
+    <resultMap type="com.example.entity.User" id="UserMap">
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="deptId" column="dept_id" jdbcType="INTEGER"/>
+        <result property="loginName" column="login_name" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="phonenumber" column="phonenumber" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="salt" column="salt" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="flag" column="flag" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap type="com.example.entity.UserVo" id="UserVoMap">
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="deptId" column="dept_id" jdbcType="INTEGER"/>
+        <result property="loginName" column="login_name" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="phonenumber" column="phonenumber" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="salt" column="salt" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="flag" column="flag" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <association property="dept" column="dept_id" javaType="com.example.entity.Dept">
+            <result column="dept_name" property="deptName"></result>
+        </association>
+    </resultMap>
+    <update id="updatePassword" parameterType="com.example.entity.User">
+        update  tbl_user
+        set password=#{password},
+            salt=#{salt}
+        where user_id=#{userId}
+    </update>
+
+    <select id="selectAllUserVo"  resultMap="UserVoMap">
+        select
+        u.*,td.dept_name
+        from tbl_user u inner join tbl_dept td on u.dept_id = td.dept_id
+        <!--<where>
+            <if test="user.userId != null">
+                and user_id = #{user.userId}
+            </if>
+            <if test="user.deptId != null">
+                and u.dept_id = #{user.deptId}
+            </if>
+            <if test="user.loginName != null and user.loginName != ''">
+                and u.login_name like "%"#{user.loginName}"%"
+            </if>
+            <if test="user.userName != null and user.userName != ''">
+                and u.user_name like "%"#{user.userName}"%"
+            </if>
+            <if test="user.email != null and user.email != ''">
+                and u.email = #{user.email}
+            </if>
+            <if test="user.phonenumber != null and user.phonenumber != ''">
+                and u.phonenumber like "%"#{user.phonenumber}"%"
+            </if>
+            <if test="user.sex != null and user.sex != ''">
+                and u.sex = #{user.sex}
+            </if>
+            <if test="user.avatar != null and user.avatar != ''">
+                and u.avatar = #{user.avatar}
+            </if>
+            <if test="user.password != null and user.password != ''">
+                and u.password = #{user.password}
+            </if>
+            <if test="user.salt != null and user.salt != ''">
+                and salt = #{user.salt}
+            </if>
+            <if test="user.status != null and user.status != ''">
+                and status = #{user.status}
+            </if>
+            and u.flag =0
+            <if test="user.createBy != null and user.createBy != ''">
+                and create_by = "%"#{user.createBy}"%"
+            </if>
+            <if test="user.createTime != null">
+                and create_time = "%"#{user.createTime}"%"
+            </if>
+            <if test="user.updateBy != null and user.updateBy != ''">
+                and update_by = #{user.updateBy}
+            </if>
+            <if test="user.updateTime != null">
+                and update_time = #{user.updateTime}
+            </if>
+            <if test="user.remark != null and user.remark != ''">
+                and remark = #{user.remark}
+            </if>
+        </where>-->
+        <where>
+            <if test="user.loginName != null and user.loginName != ''">
+                and login_name like concat(concat('%',#{user.loginName}),'%')
+            </if>
+            and flag =0
+            <if test="user.createBy!=null and user.createBy!=''">
+                and u.create_by like concat(concat('%',#{user.createBy}),'%')
+            </if>
+            <if test="user.updateBy!=null and user.updateBy!=''">
+                and u.update_by like concat(concat('%',#{user.updateBy}),'%')
+            </if>
+        </where>
+        limit ${(page-1)*limit },#{limit}
+    </select>
+
+
+    <select id="getCount" parameterType="com.example.entity.User"  resultType="java.lang.Long">
+        select count(*) from tbl_user
+        <where>
+            <if test="user.userId != null">
+                and user_id = #{user.userId}
+            </if>
+            <if test="user.deptId != null">
+                and dept_id = #{user.deptId}
+            </if>
+            <if test="user.loginName != null and user.loginName != ''">
+                and login_name = #{user.loginName}
+            </if>
+            <if test="user.userName != null and user.userName != ''">
+                and user_name = #{user.userName}
+            </if>
+            <if test="user.email != null and user.email != ''">
+                and email = #{user.email}
+            </if>
+            <if test="user.phonenumber != null and user.phonenumber != ''">
+                and phonenumber = #{user.phonenumber}
+            </if>
+            <if test="user.sex != null and user.sex != ''">
+                and sex = #{user.sex}
+            </if>
+            <if test="user.avatar != null and user.avatar != ''">
+                and avatar = #{user.avatar}
+            </if>
+            <if test="user.password != null and user.password != ''">
+                and password = #{user.password}
+            </if>
+            <if test="user.salt != null and user.salt != ''">
+                and salt = #{user.salt}
+            </if>
+            <if test="user.status != null and user.status != ''">
+                and status = #{user.status}
+            </if>
+
+            and flag =0
+
+            <if test="user.createBy != null and user.createBy != ''">
+                and create_by = #{user.createBy}
+            </if>
+            <if test="user.createTime != null">
+                and create_time = #{user.createTime}
+            </if>
+            <if test="user.updateBy != null and user.updateBy != ''">
+                and update_by = #{user.updateBy}
+            </if>
+            <if test="user.updateTime != null">
+                and update_time = #{user.updateTime}
+            </if>
+            <if test="user.remark != null and user.remark != ''">
+                and remark = #{user.remark}
+            </if>
+        </where>
+    </select>
+</mapper>

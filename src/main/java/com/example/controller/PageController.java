@@ -108,7 +108,6 @@ public class PageController {
     public String toRoleManager(){
         return "manager/roleManager";
     }
-
     // 去菜单管理页面
     @RequestMapping("manager/toMenu")
     public String toMenu(){
@@ -121,6 +120,11 @@ public class PageController {
         return "manager/deptManager";
     }
 
+    //去往用户管理页面
+    @RequestMapping("manager/toUserManager")
+    public String toUserManager(){
+        return "manager/userManager";
+    }
 
     /**
      *  注销

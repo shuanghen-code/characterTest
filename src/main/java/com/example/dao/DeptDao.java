@@ -7,7 +7,7 @@ import com.example.entity.Dept;
  * 部门表(Dept)表数据库访问层
  *
  * @author makejava
- * @since 2021-12-06 16:46:31
+ * @since 2021-12-02 18:25:30
  */
 public interface DeptDao extends BaseMapper<Dept> {
 

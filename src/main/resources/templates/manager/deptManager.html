@@ -144,7 +144,7 @@
         //数据表格
         var dataTable = table.render({
             elem: '#demo'
-            , height: 532
+            , height: 540
             , url: '/dept/selectAll' //数据接口
             , page: true //开启分页查询
             , limit: 10 //每页显示数据条数
@@ -157,14 +157,13 @@
                     , {field: 'deptName', title: '部门名称', width: 120}
                     , {field: 'orderNum', title: '排序', width: 120}
                     , {
-                    field: 'status', title: '状态', width: 80, templet: function (d) {
+                    field: 'status', title: '状态', width: 80,
+                    templet: function (d) {
                         //得到当前行数据，并拼接成自定义模板
                         if (d.status == 0) {
-                            if (d.status == 0) {
-                                return '<a class="layui-btn  layui-btn-xs">正常</a>';
-                            } else {
-                                return "<a class=\"layui-btn  layui-btn-disabled  layui-btn-xs\">异常</a>";
-                            }
+                            return '<a class="layui-btn  layui-btn-xs">正常</a>';
+                        } else {
+                            return '<a class="layui-btn layui-btn-disabled  layui-btn-xs">失效</a>';
                         }
                     }
                 }
@@ -314,8 +313,10 @@
 
         //修改部门表单操作
         form.on('submit(updateDept)', function (data) {
-            console.log(data)
-            //当前容器的全部表单字段，名值对形式：{name: value}
+            console.log(data)//当前容器的全部表单字段，名值对形式：{name: value}
+
+            //将状态属性的on转换为0，1
+            data.field.status===true?0:1;
             // 提交表单数据
             $.ajax({
                 url:"/dept/update",

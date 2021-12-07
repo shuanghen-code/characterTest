@@ -65,8 +65,13 @@ public class ShiroConfig {
          */
         Map<String, String> map = new LinkedHashMap<>();
         //放行login
-        map.put("/managerLogin","anon");
+        map.put("/user/managerLogin","anon");
         map.put("/test/**", "anon");
+        map.put("/css/**","anon");
+        map.put("/image/**","anon");
+        map.put("/js/**","anon");
+        map.put("/layui/**","anon");
+        map.put("/video/**","anon");
         //添加页面需要有添加的权限才能到达
         map.put("/addUser","perms[/addUser]");
         map.put("/updateUser","perms[/updateUser]");

@@ -40,7 +40,7 @@ public class DeptController extends BaseController {
      * @param dept 查询实体
      * @return 所有数据
      */
-    @GetMapping("selectAll")
+    @GetMapping("/selectAll")
     public ReturnBean selectAll(Long page, Long limit, Dept dept) {
         //优化代码，不分页的时候，默认是第一页，一页显示10条
         if (page == null){
@@ -112,6 +112,10 @@ public class DeptController extends BaseController {
         User user = (User) session.getAttribute("user");
         dept.setUpdateTime(new Date());
         dept.setUpdateBy(user.getUserName());
+        //根据后台的状态修改数据库
+        if (dept.getStatus()==null || dept.getStatus() != 0){
+            dept.setStatus(1);
+        }
         boolean update = this.deptService.updateById(dept);
         if (update){
             return super.success(dept);

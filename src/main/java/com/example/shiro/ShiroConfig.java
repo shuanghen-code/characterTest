@@ -67,23 +67,21 @@ public class ShiroConfig {
         //放行login
         map.put("/user/managerLogin","anon");
         map.put("/test/**", "anon");
-        map.put("/css/**", "anon");
-        map.put("/image/**", "anon");
-        map.put("/js/**", "anon");
-        map.put("/layui/**", "anon");
-        map.put("/video/**", "anon");
-
+        map.put("/css/**","anon");
+        map.put("/image/**","anon");
+        map.put("/js/**","anon");
+        map.put("/layui/**","anon");
+        map.put("/video/**","anon");
         //添加页面需要有添加的权限才能到达
-//        map.put("/addUser","perms[/addUser]");
-//        map.put("/updateUser","perms[/updateUser]");
-
+        map.put("/addUser","perms[/addUser]");
+        map.put("/updateUser","perms[/updateUser]");
         //过滤所有的请求
         map.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         //修改登录页面
         shiroFilterFactoryBean.setLoginUrl("/toMlogin");
         //指定未授权页面
-        shiroFilterFactoryBean.setUnauthorizedUrl("/toUnau");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/unau");
         return shiroFilterFactoryBean;
     }
 

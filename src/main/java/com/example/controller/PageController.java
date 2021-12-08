@@ -1,11 +1,16 @@
 package com.example.controller;
 
 import com.example.entity.Menu;
+import com.example.entity.Tester;
+import com.example.entity.TesterVo;
 import com.example.entity.User;
 import com.example.service.MenuService;
+import com.example.service.TesterService;
 import com.example.service.UserService;
+import com.example.util.Constants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +33,9 @@ public class PageController {
     @Resource
     private MenuService menuService;
 
+
+    @Autowired
+    private TesterService testerService;
     /**
      * @return testerLogin
      * @description 页面跳转__去用户登录页面
@@ -146,4 +154,5 @@ public class PageController {
         System.out.println("没有权限！！！！");
         return "unau";
     }
+
 }

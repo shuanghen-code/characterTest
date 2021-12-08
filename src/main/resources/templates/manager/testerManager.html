@@ -58,37 +58,52 @@
     <div class="layui-inline">
         <div class="layui-input-inline">
             <button class="layui-btn" lay-submit lay-filter="selectFormfilter">查询</button>
-            <button type="reset" class="layui-btn layui-btn-primary"  id="myButton" >重置</button>
+            <button type="reset" class="layui-btn layui-btn-primary" id="myButton">重置</button>
         </div>
     </div>
 </form>
 
 
+<div class="layui-row" id="drawtu" style="display:none;">
+    <div id="main"
+         style="width: 600px;height:400px;position:absolute;top:50%;left: 50%;margin-top: -200px;margin-left: -300px;"></div>
+</div>
+
+
 <table id="demo" lay-filter="test"></table>
 
 <script type="text/html" id="hangbarDemo">
-<!--    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">修改</a>-->
+    <!-- <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">修改</a> -->
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="see">查看</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <!--        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe608;</i>新增</button>-->
-        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="remove"><i class="layui-icon">&#xe640;</i>删除</button>
+        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="remove"><i class="layui-icon">&#xe640;</i>删除
+        </button>
     </div>
 </script>
 
 </body>
-
 <script>
+
+    //自定义layui组件的目录
+    layui.config({
+        base: '/js/'
+    }).extend({echarts:"echarts"})
+
+
     // 使用模块
-    layui.use(['layer', 'table','form', 'jquery'], function () {
+    layui.use(['layer', 'table', 'form', 'jquery','echarts'], function () {
         var layer = layui.layer;
         var table = layui.table;
         var form = layui.form;
         var $ = layui.jquery;
-
+        var echarts=layui.echarts;
         //第一个实例
+        var myecharts=echarts.init(document.getElementById("main"))
         var myTable = table.render({
             elem: '#demo'
             , height: 500
@@ -108,7 +123,7 @@
                     , {field: 'blueCount', title: '蓝色性格', width: 100}
                     , {field: 'yellowCount', title: '黄色性格', width: 100}
                     , {field: 'greenCount', title: '绿色性格', width: 100}
-                    , {fixed: 'right', width: 100, align:'center', toolbar: '#hangbarDemo'}  //每行的操作按钮设置
+                    , {fixed: 'right', width: 300, align: 'center', toolbar: '#hangbarDemo'}  //每行的操作按钮设置
                 ]
             ]
         });
@@ -116,41 +131,41 @@
         //头部工具栏事件
         table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id)
-                ,data = checkStatus.data; //获取选中的数据
+                , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 // 新增
                 case 'add':
                     break;
                 // 删除
                 case 'remove':
-                    if(data.length === 0){
+                    if (data.length === 0) {
                         layer.msg('请选择一行');
                     } else {
                         // layer.msg('删除');
                         layer.confirm('真的要删除所选行嘛', function (index) {
                             console.log(data)
-                            var idList=[];
+                            var idList = [];
                             //把当前行的id放到list列表中，传到后端
-                            for (let i=0; i < data.length; i++) {
+                            for (let i = 0; i < data.length; i++) {
                                 idList[i] = data[i].testerId;
                             }
                             idList.push(data.idList)
                             $.ajax({
-                                url:"/tester/delete",
-                                type:"post",
+                                url: "/tester/delete",
+                                type: "post",
                                 dataType: "JSON",
-                                data:{idList:idList},
-                                success:function (ret) {
-                                    if (ret.code==0){
+                                data: {idList: idList},
+                                success: function (ret) {
+                                    if (ret.code == 0) {
                                         // 刷新表格数据
                                         myTable.reload({
-                                            page:{
+                                            page: {
                                                 curr: 1 //重新从第1页开始
                                             }
                                         });
-                                        layer.msg(ret.msg, {icon:6});
+                                        layer.msg(ret.msg, {icon: 6});
                                     } else {
-                                        layer.msg(ret.msg, {icon:5});
+                                        layer.msg(ret.msg, {icon: 5});
                                     }
                                 }
                             })
@@ -159,20 +174,21 @@
                         });
                     }
                     break;
-            };
+            }
+            ;
         });
 
         //监听行工具事件
-        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
-                ,layEvent = obj.event; //获得 lay-event 对应的值
-            if(layEvent === 'update'){
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'update') {
                 console.log(data)
                 form.val('updatefilter', {
-                    "testerId":data.testerId
-                    ,"phonenum": data.phonenum
-                    ,"testerName": data.testerName
-                    ,"testTime": data.testTime
+                    "testerId": data.testerId
+                    , "phonenum": data.phonenum
+                    , "testerName": data.testerName
+                    , "testTime": data.testTime
                 });
                 layer.open({
                     type: 1,
@@ -181,35 +197,101 @@
                     area: ['500px', '400px'],
                     content: $("#editTester")  //弹窗中的内容
                 });
-            } else if(layEvent === 'delete'){
+            } else if (layEvent === 'delete') {
                 // layer.msg("删除操作")
                 layer.confirm('真的要删除当前行嘛', function (index) {
                     // console.log(data)
-                    var idList=[];
+                    var idList = [];
                     //把当前行的id放到list列表中，传到后端
                     idList.push(data.testerId);
                     $.ajax({
-                        url:"/tester/delete",
-                        type:"post",
+                        url: "/tester/delete",
+                        type: "post",
                         dataType: "JSON",
-                        data:{idList:idList},
-                        success:function (ret) {
-                            if (ret.code==0){
+                        data: {idList: idList},
+                        success: function (ret) {
+                            if (ret.code == 0) {
                                 // 刷新表格数据
                                 myTable.reload({
-                                    page:{
+                                    page: {
                                         curr: 1 //重新从第1页开始
                                     }
                                 });
-                                layer.msg(ret.msg, {icon:6});
+                                layer.msg(ret.msg, {icon: 6});
                             } else {
-                                layer.msg(ret.msg, {icon:5});
+                                layer.msg(ret.msg, {icon: 5});
                             }
                         }
                     })
                     layer.close(index);
                     // 向服务器发送删除指令
                 });
+            } else if (layEvent === 'see') {
+                console.log(data)
+                var resultVo = {
+                    yellowCount: data.yellowCount,
+                    blueCount: data.blueCount, redCount: data.redCount,
+                    greenCount: data.greenCount
+                };
+
+                var option = {
+                    title: {
+                        text: '性格分析结果',
+                        subtext: '红黄蓝绿性格',
+                        x: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: ['红色性格', '黄色性格', '蓝色性格', '绿色性格']
+                    },
+                    series: [
+                        {
+                            name: '选项次数',
+                            type: 'pie',
+                            radius: '40%',
+                            center: ['50%', '50%'],
+                            data: [
+                                {value: data.redCount, name: '红色性格'},
+                                {value: data.yellowCount, name: '黄色性格'},
+                                {value: data.blueCount, name: '蓝色性格'},
+                                {value: data.greenCount, name: '绿色性格'},
+                            ],
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                },
+                                normal: {
+                                    color: function (params) {
+                                        //自定义颜色
+                                        var colorList = [
+                                            '#FF0000', '#FFFF00', '#00ffff','#00FF00',
+                                        ];
+                                        return colorList[params.dataIndex]
+                                    }
+                                }
+
+                            }
+
+                        }
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myecharts.setOption(option);
+                layer.open({
+                    type: 1,
+                    offset: '10px',
+                    title: "查看饼状图",
+                    area: ['1000px', '600px'],
+                    content: $("#drawtu")  //弹窗中的内容
+                });
+
             }
         });
 
@@ -251,27 +333,27 @@
             //当前容器的全部表单字段，名值对形式：{name: value}
             // 提交表单数据
             $.ajax({
-                url:"/tester/selectAll",
+                url: "/tester/selectAll",
                 type: "POST",
-                dataType:"JSON",
-                data:data.field,
+                dataType: "JSON",
+                data: data.field,
                 // contentType:"application/json;charset=UTF-8",
                 // data:JSON.stringify(data.field),
-                success:function (ret) {
-                    if(ret.code==0){
+                success: function (ret) {
+                    if (ret.code == 0) {
                         //刷新表格数据
                         myTable.reload({
                             where: { //设定异步数据接口的额外参数，任意设
                                 testerName: data.field.testerName
-                                ,phonenum: data.field.phonenum
+                                , phonenum: data.field.phonenum
                             },
                             page: {
                                 curr: 1
                                 //重新从第 1 页开始
                             }
                         });
-                    }else {
-                        layer.msg(ret.msg,{icon: 5});
+                    } else {
+                        layer.msg(ret.msg, {icon: 5});
                     }
                 }
             })
@@ -283,10 +365,10 @@
             myTable.reload({
                 where: { //设定异步数据接口的额外参数，任意设
                     question: ""
-                    ,creator: ""
+                    , creator: ""
                     //…
                 }
-                ,page: {
+                , page: {
                     curr: 1 //重新从第 1 页开始
                 }
             });

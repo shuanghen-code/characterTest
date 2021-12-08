@@ -3,14 +3,12 @@ package com.example.controller;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.entity.Result;
-import com.example.entity.ReturnBean;
-import com.example.entity.Tester;
-import com.example.entity.TesterVo;
+import com.example.entity.*;
 import com.example.service.ResultService;
 import com.example.service.TesterService;
 import com.example.util.Constants;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -53,6 +51,7 @@ public class TesterController extends BaseController {
             limit = Constants.limit;
         }
         List<TesterVo> testerVos = testerService.selectAllColor(page, limit, tester);
+        System.out.println(testerVos);
         return super.success(testerVos, testerService.getCount(tester));
     }
 
@@ -180,6 +179,12 @@ public class TesterController extends BaseController {
         } else {
             return super.fail(null);
         }
+    }
+
+    @RequestMapping("todraw")
+    public String toDraw(ResultVo resultVo){
+        System.out.println();
+        return null;
     }
 }
 

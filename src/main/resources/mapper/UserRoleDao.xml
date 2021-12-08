@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.UserRoleDao">
+
+    <resultMap type="com.example.entity.UserRole" id="UserRoleMap">
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserRoleMap">
+        select user_id,
+               role_id
+        from tbl_user_role
+        where user_id = #{userId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserRoleMap">
+        select user_id,
+               role_id
+        from tbl_user_role
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserRoleMap">
+        select
+        user_id, role_id
+        from tbl_user_role
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="roleId != null">
+                and role_id = #{roleId}
+            </if>
+        </where>
+    </select>
+    <!-- m.menu_type='F' 必须为三级菜单，否则layuitree无法半选    -->
+    <select id="findMenuIdsByRoleId" parameterType="integer" resultType="java.lang.Integer">
+        select rm.menu_id from tbl_role_menu rm inner join tbl_menu m on rm.menu_id=m.menu_id
+        where rm.role_id=#{roleId} and m.menu_type='F'
+    </select>
+
+    <!--根据userid查询所有的userrole-->
+    <select id="queryByUserId" resultType="com.example.entity.UserRole">
+        select * from tbl_user_role where user_id=#{userId};
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="com.example.entity.UserRole">
+        insert into tbl_user_role()
+        values (#{userId},#{roleId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="userId" useGeneratedKeys="true">
+        insert into tbl_user_role()
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            ()
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="userId" useGeneratedKeys="true">
+        insert into tbl_user_role()
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            ()
+        </foreach>
+        on duplicate key update
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update tbl_user_role
+        <set>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from tbl_user_role
+        where user_id = #{userId}
+    </delete>
+    <!--通过roleId删除-->
+    <delete id="deleteByRoleId" parameterType="int">
+        delete
+        from tbl_user_role
+        where role_id = #{roleId}
+    </delete>
+
+</mapper>

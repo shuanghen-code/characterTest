@@ -1,32 +1,30 @@
 package com.example.controller;
 
 
+import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.dao.UserDao;
-import com.example.entity.Menu;
-import com.example.entity.ReturnBean;
-import com.example.entity.User;
-import com.example.service.MenuService;
-import com.example.service.UserService;
+import com.example.entity.*;
+import com.example.service.*;
+import com.example.util.Constants;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 用户信息表(User)表控制层
@@ -36,10 +34,22 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("user")
+@Slf4j
 public class UserController extends BaseController {
     /**
      * 服务对象
      */
+    @Resource
+    private UserService userService;
+    @Resource
+    private MenuService menuService;
+    @Autowired
+    DeptService deptService;
+    @Autowired
+    RoleService roleService;
+    @Autowired
+    UserRoleService userRoleService;
+
 
     /**
      * 管理员登录验证
@@ -66,6 +76,259 @@ public class UserController extends BaseController {
         session.setAttribute("user", principal);
 //        System.out.println(principal);
         return success(principal);
+    }
+
+    /**
+     * 分页查询所有数据
+     * update by hxh
+     *
+     * @return 所有数据
+     */
+    @GetMapping("findAll")
+    public ReturnBean<List<User>> selectAll(Long page, Long limit, User user) {
+        log.info("================找到user====================");
+        /*if (page == null) {
+            page = Constants.page;
+            limit = Constants.limit;
+        }
+        Page<User> pageObj;
+        pageObj = new Page<>(page, limit);
+        //登录名查询对象
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        if (ObjectUtil.isNotEmpty(user.getLoginName())) {
+            userQueryWrapper.like("login_name", user.getLoginName());
+        }
+        if (ObjectUtil.isNotEmpty(user.getCreateBy())) {
+            userQueryWrapper.like("create_by", user.getCreateBy());
+        }
+        if (ObjectUtil.isNotEmpty(user.getUpdateBy())) {
+            userQueryWrapper.like("update_by", user.getUpdateBy());
+        }
+        //List<TesterVo> UserVo = testerService.selectAllColor(page, limit, tester);
+        Page<User> userPage = this.userService.page(pageObj, userQueryWrapper);
+        return super.success(userPage.getRecords(), userPage.getTotal());*/
+
+        //优化代码，不分页的时候，默认第一页，一页显示10条
+        if (page == null) {
+            page = Constants.page;
+            limit = Constants.limit;
+        }
+
+//        Page<User> pageObj;
+//        pageObj = new Page<>(page, limit);
+        //登录名查询对象
+
+        List<UserVo> userVos = userService.selectAllUserVo(page, limit, user);
+        return super.success(userVos, userService.getCount(user));
+
+
+    }
+
+
+    /**
+     * 填充部门下拉框，查询部门信息
+     * update by hxh
+     *
+     * @param
+     * @param
+     * @return 部门信息列表
+     */
+    @GetMapping("findAllDept")
+    public List<Dept> selectAll() {
+        //查询所有的部门信息，填充到页面下拉框中
+        log.info("===========查询部门信息============");
+
+        List<Dept> deptList = deptService.queryAll(null);
+
+        return deptList;
+
+    }
+
+    /**
+     * 填充部门下拉框，查询部门信息
+     * update by hxh
+     *
+     * @param
+     * @param
+     * @return 部门信息列表
+     */
+    @GetMapping("findAllRole")
+    public List<Role> selectAllRole() {
+        //查询所有的部门信息，填充到页面下拉框中
+        log.info("===========查询角色信息============");
+
+        List<Role> roleList = roleService.list(null);
+
+        return roleList;
+
+    }
+
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    @GetMapping("{id}")
+    public ReturnBean selectOne(@PathVariable Serializable id) {
+        return success(this.userService.getById(id));
+    }
+
+
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param userId
+     * @return 单条数据
+     */
+    @GetMapping("/findSelectRole")
+    public ReturnBean finSelectRole(Integer userId) {
+       /* List<Role> roleUserList = roleService.selectListByUserId(userId);
+        List<Role> roleList = roleService.list(null);
+        Map map = new HashMap();
+        for (Role role : roleList) {
+            //判断集合包含对象，必须重写equals和hashcode方法
+            if(roleUserList.contains(role)){
+                map.put(role.getRoleKey(), true);
+            }else {
+                map.put(role.getRoleKey(), false);
+            }
+        }
+        return success(map);*/
+
+        List<UserRole> userRole = userRoleService.queryByUserId(userId);
+        return success(userRole);
+    }
+
+    /**
+     * 新增数据
+     *
+     * @param user 实体对象
+     * @return 新增结果
+     */
+    @RequestMapping("/insertUser")
+    public ReturnBean insert(@RequestBody User user) {
+        log.info("====================新增用户======================");
+        user = setCreate(user);
+        user.setFlag("0");
+        boolean insert = userService.saveUserAndSalt(user);
+        if (insert) {
+            return success(null);
+        }
+        return fail(null);
+    }
+
+    /**
+     * 删除数据(逻辑删除)
+     *
+     * @return 删除结果
+     */
+    @RequestMapping("/deleteById")
+    public ReturnBean delete(@RequestBody User user) {
+        log.info("==============进入行删除==============");
+        //修改人，修改时间
+        user = setUpdate(user);
+        boolean update = userService.updateById(user);
+        if (update) {
+            boolean delete = userService.removeById(user.getUserId());
+            if(delete){
+                return success(null);
+            }
+            return fail(null);
+        }
+        return fail(null);
+
+    }
+
+
+    /**
+     * 批量删除数据(逻辑删除)
+     *
+     * @return 删除结果
+     */
+    @RequestMapping("/delSelected")
+    public ReturnBean deleteByBatch(@RequestBody List<User> userList) {
+        log.info("==============进入行删除==============");
+        List<Integer> userIdList = new ArrayList<>();
+        //修改人，修改时间
+        for (User user : userList) {
+            user = setUpdate(user);
+            userIdList.add(user.getUserId());
+        }
+        boolean update = userService.saveOrUpdateBatch(userList);
+        if (update) {
+            boolean delete = userService.removeByIds(userIdList);
+            if(delete){
+                return success(null);
+            }else {
+                return fail(null);
+            }
+        }
+        return fail(null);
+
+    }
+
+
+    /**
+     * 修改数据
+     *
+     * @param user 实体对象
+     * @return 修改结果
+     */
+    @PostMapping("/updateUser")
+    public ReturnBean update(@RequestBody User user) {
+        log.info("===========修改==========");
+        user = setUpdate(user);
+        //boolean update = userService.updateById(user);
+        boolean update = userService.updateUserAndSalt(user);
+        if (update) {
+            //boolean updateRoleUser = userService.updateRoleUser(user);
+            return success(null);
+        }
+        return fail(null);
+    }
+
+    /**
+     * 重置密码
+     */
+    @RequestMapping("updatePassword")
+    public ReturnBean updatePassword(User user) {
+        user = setUpdate(user);
+        boolean update = userService.resetPassword(user);
+        if (update) {
+            return success(null);
+        }
+        return fail(null);
+
+    }
+
+
+    /**
+     * @return
+     * @create by: hxh
+     * @description: 统一处理创建人，创建时间
+     */
+    public <T> T setCreate(T t) {
+        //shiro框架获取登录用户信息
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        //hutool工具调用方法
+        ReflectUtil.invoke(t, "setCreateBy", user.getUserName());
+        ReflectUtil.invoke(t, "setCreateTime", new Date());
+        return t;
+    }
+
+    /**
+     * @return
+     * @create by: hxh
+     * @description: 统一处理修改人，修改时间
+     */
+    public <T> T setUpdate(T t) {
+        //shiro框架获取登录用户信息
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        //hutool工具调用方法
+        ReflectUtil.invoke(t, "setUpdateBy", user.getUserName());
+        ReflectUtil.invoke(t, "setUpdateTime", new Date());
+        return t;
     }
 
 }

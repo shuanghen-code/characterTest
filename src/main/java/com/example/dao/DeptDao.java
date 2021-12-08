@@ -3,6 +3,8 @@ package com.example.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.Dept;
 
+import java.util.List;
+
 /**
  * 部门表(Dept)表数据库访问层
  *
@@ -10,6 +12,8 @@ import com.example.entity.Dept;
  * @since 2021-12-02 18:25:30
  */
 public interface DeptDao extends BaseMapper<Dept> {
+
+    List<Dept> queryAll(Dept dept);
 
 }
 

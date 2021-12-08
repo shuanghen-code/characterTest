@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.example.entity.Menu;
 import com.example.entity.Tester;
 import com.example.entity.TesterVo;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.crypto.interfaces.PBEKey;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +51,11 @@ public class PageController {
 
     // 去往答题页面
     @RequestMapping("test/toExam")
-    public String toExam(){
+    public String toExam(HttpSession session){
+        //若未登录，跳转到登录页面
+        if (ObjectUtil.isNull(session.getAttribute("tester"))){
+            return "redirect:/test/toTesterLogin";
+        }
         return "test/exam";
     }
 
@@ -109,6 +115,12 @@ public class PageController {
     @RequestMapping("manager/toTester")
     public String toTester(){
         return "manager/testerManager";
+    }
+
+    //去往用户管理页面
+    @RequestMapping("manager/toUser")
+    public String toUserManager(){
+        return "manager/userManager";
     }
 
     // 去往角色管理页面

@@ -3,14 +3,18 @@ html,body{
     height: 100%;
 }
 .layui-form{
+    margin-left: 5px;
+    margin-right: 5px;
     height: 100%;
 }
 .layui-tab{
-    margin: 0px;
+    /*margin: 0px;*/
     padding-top: 10px;
     height: calc(100% - 100px);
 }
 .layui-tab-content{
+    margin-left: 5px;
+    margin-right: 5px;
     height: calc(100% - 58px);
 }
 .layui-tab-item{
@@ -41,12 +45,13 @@ html,body{
     border-radius: 0px;
 }
 .layui-btn-container{
+    margin-left: 5px;
+    margin-right: 5px;
     display: flex;
     justify-content: space-between;
-    margin: 10px;
 }
 .layui-btn-container{
-    width: 800px;
+    /*width: 800px;*/
     margin: 0 auto;
     margin-top: 10px;
 }
@@ -101,6 +106,6 @@ html,body{
 }
 .layui-tab-title .result-li{
     padding: 0px 15px;
-    min-width: 65px;
+    /*min-width: 65px;*/
 }
 

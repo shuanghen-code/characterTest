@@ -23,4 +23,14 @@ public class Constants {
     public static final String algorithmName="MD5";
     //加密次数
     public static final   int hashIterations=1000;
+
+    /**
+     * 默认ajxa请求头类型
+     */
+    public  static  final String HEADER_TYPE="X-Requested-With";
+    /**
+     * 默认ajxa请求头内容
+     */
+    public  static  final String HEADER_CONTENT="XMLHttpRequest";
+
 }

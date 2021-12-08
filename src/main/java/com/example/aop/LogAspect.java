@@ -17,6 +17,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.Date;
@@ -40,6 +42,9 @@ public class LogAspect {
     @Pointcut("execution(* com.example.controller.*.*(..))")
     public void pointCut(){}
 
+    @Pointcut("@annotation(com.example.aop.LogAnn)")
+    public void q(){}
+
     @Around("pointCut()")
     public Object myEnhance(ProceedingJoinPoint joinPoint){
         Object[] args = joinPoint.getArgs();
@@ -58,7 +63,8 @@ public class LogAspect {
         log.setUserName(user.getUserName());
         //获取请求的IP地址
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        String ip = requestAttributes.getRequest().getRemoteAddr();
+        HttpServletRequest request = requestAttributes.getRequest();
+        String ip = request.getRemoteAddr();
         log.setIp(ip);
         //获取类名
 //        String className = joinPoint.getTarget().getClass().getName();

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 菜单权限表(Menu)表服务接口
@@ -21,6 +22,13 @@ public interface MenuService extends IService<Menu> {
      * @return
      */
     List<Menu> findMenuByLoginUser(String loginName);
+
+    /**
+     * 查询当前用户对应的菜单管理权限
+     * @param loginName
+     * @return
+     */
+    Set<String>queryAllPermsByloginName(String loginName);
 
     List<Menu> selectAllMenu();
     boolean insertMenu(Menu menu);

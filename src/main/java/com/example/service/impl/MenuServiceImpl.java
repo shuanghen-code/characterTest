@@ -7,10 +7,7 @@ import com.example.service.MenuService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 菜单权限表(Menu)表服务实现类
@@ -31,6 +28,24 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, Menu> implements MenuS
     @Override
     public List<Menu>  findMenuByLoginUser(String loginName) {
         return menuDao.findMenuByLoginUser(loginName);
+    }
+
+    /**
+     * 查询当前用户对应的菜单管理权限
+     * @param loginName
+     * @return
+     */
+    @Override
+    public Set<String> queryAllPermsByloginName(String loginName) {
+        List<Menu> menuList = menuDao.findMenuByLoginUser(loginName);
+        Set<String> perms = new HashSet<>();
+        for (Menu menu : menuList) {
+            String perm =menu.getPerms();
+            if (perm != null && perm.length()>0) {
+                perms.add(perm);
+            }
+        }
+        return perms;
     }
 
 

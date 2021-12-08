@@ -2,14 +2,19 @@ package com.example.shiro;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.User;
+import com.example.service.MenuService;
 import com.example.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 
 import javax.annotation.Resource;
+import java.util.Set;
 
 /**
  * @author wang hao
@@ -18,6 +23,8 @@ import javax.annotation.Resource;
 public class MyRealm extends AuthorizingRealm {
     @Resource
     private UserService userService;
+    @Resource
+    private MenuService menuService;
 
 
     /**
@@ -29,7 +36,14 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        return null;
+        System.out.println("授权代码开始执行！！！");
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        // 连接数据库获取perms字段
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+        Set<String> perms = menuService.queryAllPermsByloginName(user.getLoginName());
+        simpleAuthorizationInfo.addStringPermissions(perms);
+        return simpleAuthorizationInfo;
     }
 
 

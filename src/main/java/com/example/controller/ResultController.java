@@ -1,9 +1,5 @@
 package com.example.controller;
 
-
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.entity.Result;
 import com.example.entity.ReturnBean;
 import com.example.entity.Tester;

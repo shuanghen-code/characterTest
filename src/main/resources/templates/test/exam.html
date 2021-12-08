@@ -12,46 +12,22 @@
     <link rel="stylesheet" href="/layui/css/exam.css">
 
     <style>
-        .list {
-            width: 100%;
-            display: none;
-            margin: 20px 0 0 0;
-        }
-        .container{
-            width: 420px;
-            height: 320px;
-            min-height: 320px;
-            max-height: 320px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            margin: auto;
-            padding: 20px;
-            z-index: 130;
-            border-radius: 8px;
-            background-color: #fff;
-            box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
-            font-size: 16px;
+        @media screen and (max-width: 750px) {
+            html {
+                font-size: 75px !important;
+            }
         }
 
-        #id_1 {
-            display: block;
+        @media screen and (min-width: 1920px) {
+            html {
+                font-size: 192px !important;
+            }
         }
 
         label {
             font-weight: bold;
         }
 
-         .layui-layer {
-             width: 600px;
-             margin: 0 auto;
-         }
-
-        .layui-form{
-            margin-left: -80px;
-        }
 
     </style>
 </head>

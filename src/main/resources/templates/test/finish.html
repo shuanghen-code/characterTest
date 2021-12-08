@@ -9,7 +9,48 @@
 <body style="background: url('/image/TesterLoginBackground.png')">
 <div class="layui-container" style="text-align: center">
     <p style="color: #00F7DE;font-size: 50px;font-weight: bold;margin-top: 30%">恭喜您完成答题！</p>
+    <form class="layui-form" action="" id="login" method="post">
+        <div class="container">
+            <div class="layui-form-item">
+                <label class="layui-form-label">请输入邮箱，我们稍后会将结果发送至您的邮箱~</label><br>
+                <div class="layui-input-block">
+                    <input type="text" name="testerMail" required lay-verify="required" placeholder="请输入邮箱"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="sendFilter">send</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
 </div>
 
 </body>
+<script>
+    layui.use(['form', 'layer', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , $ = layui.jquery;
+
+        form.on('submit(sendFilter)',function (data) {
+            console.log(data.field);
+            $.ajax({
+                url:'/mail/sendMail'
+                ,type:'POST'
+                ,dataType: "JSON"
+                ,data: data.field
+                ,success:function (ret) {
+                    if (ret.code==0){
+                        alert("发送成功~请注意接收~");
+                        console.log(ret.data);
+                    }
+                }
+            })
+        })
+    })
+</script>
 </html>

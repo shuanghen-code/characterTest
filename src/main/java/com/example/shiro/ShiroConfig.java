@@ -7,7 +7,6 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -66,35 +65,33 @@ public class ShiroConfig {
          */
         Map<String, String> map = new LinkedHashMap<>();
 
-        Map<String, Filter> filterMap= new LinkedHashMap<>();
-        filterMap.put("perms",new ShiroPermsFilter());
-
         //放行login
         map.put("/user/managerLogin","anon");
+        //放行测试者相关
+        map.put("/tester/**", "anon");
         map.put("/test/**", "anon");
+        map.put("/question/**", "anon");
+        map.put("/result/**", "anon");
+        map.put("/mail/**", "anon");
+
+        //放行静态资源
         map.put("/css/**","anon");
         map.put("/image/**","anon");
         map.put("/js/**","anon");
         map.put("/layui/**","anon");
         map.put("/video/**","anon");
+
         //添加页面需要有添加的权限才能到达
-
-        //添加问题页面需要有添加的权限才能到达
-        map.put("/question/insert","perms[character:question:add]");
-
-        // 去菜单管理页面需要相应的权限才能到达
-        map.put("/manager/toMenu","perms[system:menu:view]");
+        // map.put("/addUser","perms[/addUser]");
+        // map.put("/updateUser","perms[/updateUser]");
 
         //过滤所有的请求
         map.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
-
-        shiroFilterFactoryBean.setFilters(filterMap);
-
         //修改登录页面
         shiroFilterFactoryBean.setLoginUrl("/toMlogin");
         //指定未授权页面
-        shiroFilterFactoryBean.setUnauthorizedUrl("/toUnau");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/unau");
         return shiroFilterFactoryBean;
     }
 

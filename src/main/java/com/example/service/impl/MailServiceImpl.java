@@ -14,7 +14,7 @@ import java.util.Date;
  * @date 2021/12/8 15:06
  * @description 邮件服务实现类
  */
-@Service
+@Service("mailService")
 public class MailServiceImpl implements MailService {
 
     @Resource
@@ -24,7 +24,7 @@ public class MailServiceImpl implements MailService {
     private String from;   //发送者
 
     @Override
-    public void send(String to, String subject, String text) {
+    public void send(String testerMail, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         //设置发送者
         message.setFrom(from);
@@ -35,7 +35,7 @@ public class MailServiceImpl implements MailService {
         //设置邮件内容
         message.setText(text);
         //设置收件人
-        message.setTo(to);
+        message.setTo(testerMail);
         //发送
         mailSender.send(message);
     }

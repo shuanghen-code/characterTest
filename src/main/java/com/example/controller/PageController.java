@@ -62,7 +62,6 @@ public class PageController {
     // 去往测试完成页面
     @RequestMapping("test/tofinish")
     public String toFinish(HttpSession session) {
-        session.removeAttribute("tester");
         return "test/finish";
     }
 

@@ -8,13 +8,13 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <a id="logo" href="/home/toIndex">
+        <a id="logo" href="/manager/toIndex">
             <div class="layui-logo" style="font-size: x-large;width: 21%">性格测试后台管理系统</div>
         </a>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img th:src="${user.avatar} " class="layui-nav-img">
+<!--                    <img th:src="${user.avatar} " class="layui-nav-img">-->
                     <th:block th:text="${user.userName}"></th:block>
                 </a>
                 <dl class="layui-nav-child">
@@ -58,22 +58,19 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <iframe id="iframeMain" src="" class="layadmin-iframe" frameborder="0"
+        <iframe id="iframeMain" src="/manager/toIndex" class="layadmin-iframe" frameborder="0"
                 style="width: 100%;height: 100%"></iframe>
     </div>
 
-    <!--<div class="layui-footer">
-        &lt;!&ndash; 底部固定区域 &ndash;&gt;
-        © 86521760@qq.com
-    </div>-->
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        ©1836091586@qq.com
+    </div>
 </div>
 <script>
     //JavaScript代码区域
     layui.use(['element', 'jquery', 'layer', 'util'], function () {
-        var element = layui.element
-            ,layer = layui.layer
-            ,util = layui.util
-            ,$ = layui.$
+        var $ = layui.jquery;
         $(function () {
             //页面加载之后执行的代码
             //点击a标签的时候，修改iframe的src属性
@@ -91,10 +88,6 @@
             })
         })
 
-        //头部事件
-        util.event('lay-header-event', {
-
-        });
     });
 </script>
 </body>

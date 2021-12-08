@@ -104,6 +104,12 @@ public class PageController {
         return modelAndView;
     }
 
+    @RequestMapping("manager/toIndex")
+    public String toIndex(){
+
+        return "manager/index";
+    }
+
     // 去往问题管理页面
     @RequestMapping("manager/toquestionManager")
     public String toTest() {

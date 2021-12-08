@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/echarts.min.js"></script>
+</head>
+<body>
+<div id="main"
+     style="width: 600px;height:400px;position:absolute;top:50%;left: 50%;margin-top: -200px;margin-left: -300px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化 echarts 实例
+    var myChart = echarts.init(document.getElementById('main'));
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '性格分析页面',
+            subtext: '红绿蓝黄',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['Spark SQL实战', 'Hadoop基础', 'Storm实战', 'Spark Streaming实战', '理论']
+        },
+        series: [
+            {
+                name: '访问次数',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data: [
+                    {value: 3350, name: 'Spark SQL实战'},
+                    {value: 3100, name: 'Hadoop基础'},
+                    {value: 2340, name: 'Storm实战'},
+                    {value: 1350, name: 'Spark Streaming实战'},
+                    {value: 15480, name: '理论'}
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+</body>
+</html>

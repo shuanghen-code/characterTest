@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>日志管理</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/layui/layui.js"></script>
+</head>
+<body>
+<table id="demo" lay-filter="test"></table>
+</body>
+<script>
+    //使用模块
+    layui.use(['table'],function () {
+        var table = layui.table;
+
+        //数据表格
+        var dataTable = table.render({
+            elem:'#demo'
+            ,height:472
+            ,url:'/log/selectAll'
+            ,page:true
+            , limit: 10
+            , limits: [5, 10, 15, 20, 30, 50, 100]
+            , cols: [
+                [
+                     {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left'}  //表头
+                    , {field: 'loginName', title: '登录名', width: 100}
+                    , {field: 'userName', title: '用户名', width: 100}
+                    , {field: 'ip', title: 'IP地址', width: 130}
+                    , {field: 'className', title: '类名', width: 180}
+                    , {field: 'methodName', title: '方法名', width: 180}
+                    , {field: 'params', title: '参数', width: 180}
+                    , {field: 'createTime', title: '创建时间', width: 180}
+                ]
+            ]
+        })
+    })
+</script>
+</html>

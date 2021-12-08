@@ -104,28 +104,28 @@ public class PageController {
     }
 
     // 去往角色管理页面
-    @RequestMapping("manager/toRoleManager")
+    @RequestMapping("manager/toRole")
     public String toRoleManager(){
         return "manager/roleManager";
     }
+
+    //去往部门管理页面
+    @RequestMapping("manager/toDept")
+    public String toDeptManager(){
+        return "manager/deptManager";
+    }
+
     // 去菜单管理页面
     @RequestMapping("manager/toMenu")
     public String toMenu(){
         return "manager/treeTable";
     }
 
-    //去往部门管理页面
-    @RequestMapping("manager/toDeptManager")
-    public String toDeptManager(){
-        return "manager/deptManager";
+    //去日志管理页面
+    @RequestMapping("manager/toLog")
+    public String toLog(){
+        return "manager/logManager";
     }
-
-    //去往用户管理页面
-    @RequestMapping("manager/toUserManager")
-    public String toUserManager(){
-        return "manager/userManager";
-    }
-
     /**
      *  注销
      */

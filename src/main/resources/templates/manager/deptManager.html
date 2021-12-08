@@ -42,7 +42,7 @@
         <button class="layui-btn layui-btn-sm" lay-event="add">
             <i class="layui-icon layui-icon-addition"></i>新增
         </button>
-        <button class="layui-btn layui-btn-danger layui-btn-sm">
+        <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="remove">
             <i class="layui-icon layui-icon-delete"></i>删除
         </button>
     </div>
@@ -144,7 +144,7 @@
         //数据表格
         var dataTable = table.render({
             elem: '#demo'
-            , height: 540
+            , height: 523
             , url: '/dept/selectAll' //数据接口
             , page: true //开启分页查询
             , limit: 10 //每页显示数据条数

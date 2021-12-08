@@ -454,7 +454,6 @@
 
         //=============addUserForm表单的提交================================
         form.on('submit(addUserFilter)', function (data) {
-            $("#addUserButton").attr("class", "layui-btn layui-btn-disabled")
 
             var checkeds = selectCheckeds("role");
             //盐值在添加的时候没有用处，所以将角色信息放入到盐值中传入后端

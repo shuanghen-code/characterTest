@@ -81,5 +81,41 @@
                   group by tcq.type, ttr.tester_id, ttr.result) temp_count
             group by temp_count.tester_id) color_result
     </select>
+
+    <select id="selectAllCharacter" resultType="com.example.entity.TesterVo">
+        select
+            sum(
+                    case
+                        when ((type = 1 and result = 'A') or (type = 2 and result = 'D'))
+                            then result_count
+                        end
+                ) as red_count,
+            sum(
+                    case
+                        when ((type = 1 and result = 'B') or (type = 2 and result = 'C'))
+                            then result_count
+                        end
+                ) as blue_count,
+            sum(
+                    case
+                        when ((type = 1 and result = 'C') or (type = 2 and result = 'B'))
+                            then result_count
+                        end
+                ) as yellow_count,
+            sum(
+                    case
+                        when ((type = 1 and result = 'D') or (type = 2 and result = 'A'))
+                            then result_count
+                        end
+                ) as green_count
+        from (select ttr.tester_id, ttr.result, count(ttr.id) result_count, tcq.type
+              from tbl_character_result ttr
+                       left join tbl_character_question tcq on ttr.question_id = tcq.question_id
+              group by tcq.type, ttr.tester_id, ttr.result) temp_count;
+    </select>
+
+    <select id="selectNumByMonth" resultType="com.example.entity.MonthCount">
+        select count(*) num, date_format(test_time,'%Y-%m') mydate from tbl_character_tester group by date_format(test_time,'%Y-%m')
+    </select>
 </mapper>
 

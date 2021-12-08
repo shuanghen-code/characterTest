@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.dao.TesterDao;
+import com.example.entity.MonthCount;
 import com.example.entity.Tester;
 import com.example.entity.TesterVo;
 import com.example.service.TesterService;
@@ -24,6 +25,16 @@ public class TesterServiceImpl extends ServiceImpl<TesterDao, Tester> implements
     @Override
     public List<TesterVo> selectAllColor(Long page, Long limit, Tester tester) {
         return testerDao.selectAllColor(page, limit, tester);
+    }
+
+    @Override
+    public TesterVo selectAllCharacter() {
+        return testerDao.selectAllCharacter();
+    }
+
+    @Override
+    public List<MonthCount> selectNumByMonth() {
+        return testerDao.selectNumByMonth();
     }
 
     @Override

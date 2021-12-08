@@ -42,8 +42,8 @@ public class LogAspect {
     @Pointcut("execution(* com.example.controller.*.*(..))")
     public void pointCut(){}
 
-    @Pointcut("@annotation(com.example.aop.LogAnn)")
-    public void q(){}
+//    @Pointcut("@annotation(com.example.aop.LogAnn)")
+//    public void q(){}
 
     @Around("pointCut()")
     public Object myEnhance(ProceedingJoinPoint joinPoint){

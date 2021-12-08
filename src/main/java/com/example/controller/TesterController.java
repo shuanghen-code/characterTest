@@ -55,6 +55,28 @@ public class TesterController extends BaseController {
         return super.success(testerVos, testerService.getCount(tester));
     }
 
+    /**
+     * 查询四种性格各自的总数
+     * @return
+     */
+    @RequestMapping("selectAllCharacter")
+    public ReturnBean selectAllCharacter() {
+        TesterVo testerVo = testerService.selectAllCharacter();
+        System.out.println(testerVo.toString()+"==========================");
+        return super.success(testerVo);
+    }
+
+    /**
+     * 统计每月参加测试的人数
+     * @return
+     */
+    @RequestMapping("selectNumByMonth")
+    public ReturnBean selectNumByMonth() {
+        List<MonthCount> monthCounts = testerService.selectNumByMonth();
+//        System.out.println(monthCounts+"==========================");
+        return super.success(monthCounts);
+    }
+
 
     /**
      * 使用mybatisplus自动生成的代码实现分页查询所有数据

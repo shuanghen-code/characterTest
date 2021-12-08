@@ -72,6 +72,10 @@ public class ShiroConfig {
         //放行login
         map.put("/user/managerLogin","anon");
         map.put("/test/**", "anon");
+        map.put("/tester/**", "anon");
+        map.put("/question/**", "anon");
+        map.put("/result/**", "anon");
+
         map.put("/css/**","anon");
         map.put("/image/**","anon");
         map.put("/js/**","anon");

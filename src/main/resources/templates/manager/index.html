@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <script src="/layui/layui.js"></script>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script type="text/javascript" src="/js/rem.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>性格测试数据比对信息</title>
+</head>
+
+<body style="visibility: hidden;">
+<div class="container-flex" tabindex="0" hidefocus="true">
+    <div class="box-center">
+        <div class="center-top">
+            <h1>性格测试结果分析</h1>
+        </div>
+        <div class="center-center">
+            <div class="weather-box">
+                <div class="data">
+                    <p class="time" id="time">00:00:00</p>
+                    <p id="date"></p>
+                </div>
+                <div class="weather">
+                    <img id="weatherImg" src="/images/weather/weather_img01.png" alt="">
+                    <div id="weather">
+                        <p class="active">多云</p>
+                        <p>16-22℃</p>
+                        <!--                            <p>天津市和平区</p>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="center-bottom">
+            <div class="chart-box" >
+                <div class="title-box">
+                    <h6>四种颜色性格占比</h6>
+                </div>
+                <div class="chart-box pie-chart" style="">
+                    <div id="pie_fanzui" style="width:100%;"></div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="box-right">
+        <div class="right-top">
+            <div class="title-box">
+                <h6 id="barTitle">四种色彩性格人数分布</h6>
+            </div>
+            <!--                <p class="unit">单位：岁</p>-->
+            <div class="chart-box">
+                <div id="pie_age" hidden style="width:100%;height:100%;"></div>
+
+                <div id="qufenbu_data"style="width:90%;height:120px;margin-left:10px;"></div>
+            </div>
+
+        </div>
+
+        <div class="right-bottom">
+            <div class="title-box">
+                <p id="switchBtn"><span class="active" data-dataType="income">测试时间段统计</span></p>
+
+            </div>
+            <div id="line_time" style="width:90%;height:160px;margin-left:10px;"></div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/js/layer/layer.min.js"></script>
+<script type="text/javascript" src="/js/layer/laydate/laydate.js"></script>
+<script type="text/javascript" src="/js/echarts.min.js"></script>
+<script type="text/javascript" src="/js/infographic.js"></script>
+<script type="text/javascript" src="/js/macarons.js"></script>
+<script type="text/javascript" src="/js/shine.js"></script>
+<script type="text/javascript" src="/js/base.js"></script>
+
+<script type="text/javascript">
+    $('document').ready(function () {
+        $("body").css('visibility', 'visible');
+
+    })
+</script>
+
+
+
+</html>

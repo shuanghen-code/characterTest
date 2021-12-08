@@ -1,6 +1,7 @@
 package com.example.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.entity.MonthCount;
 import com.example.entity.Tester;
 import com.example.entity.TesterVo;
 import org.apache.ibatis.annotations.Param;
@@ -23,6 +24,14 @@ public interface TesterDao extends BaseMapper<Tester> {
      * @return
      */
     List<TesterVo> selectAllColor(@Param("page") Long page  , @Param("limit") Long limit, @Param("tester") Tester tester);
+
+
+    // 统计每种颜色性格的总数
+    TesterVo selectAllCharacter();
+
+    // 统计每月参加测试的人数
+    List<MonthCount> selectNumByMonth();
+
 
     /**
      * 获取参加测试人员的数量

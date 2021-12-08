@@ -121,6 +121,11 @@ public class PageController {
         return "manager/treeTable";
     }
 
+    //去日志管理页面
+    @RequestMapping("manager/toLog")
+    public String toLog(){
+        return "manager/logManager";
+    }
     /**
      *  注销
      */

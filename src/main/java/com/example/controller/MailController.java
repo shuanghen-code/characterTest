@@ -1,8 +1,10 @@
 package com.example.controller;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.example.entity.ReturnBean;
 import com.example.entity.TesterVo;
 import com.example.service.MailService;
+import com.example.util.MailText;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,42 +16,34 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("mail")
-public class MailController extends BaseController{
+public class MailController extends BaseController {
 
     @Resource
     private MailService mailService;
 
     @RequestMapping("/sendMail")
-    public ReturnBean sendMail(TesterVo testerVo){
-        int[] arr = {testerVo.getBlueCount(),testerVo.getRedCount(),testerVo.getGreenCount(),testerVo.getYellowCount()};
-        int max = arr[0];
+    public ReturnBean sendMail(TesterVo testerVo) {
+        int blue = testerVo.getBlueCount();
+        int red = testerVo.getRedCount();
+        int green = testerVo.getGreenCount();
+        int yellow = testerVo.getYellowCount();
+
+        int[] arr = {blue, red, green, yellow};
+        int max = ArrayUtil.max(arr);
+
         String text = "性格测试结果的内容分析";
-        for (int i = 0;i<arr.length;i++){
-            if (max < arr[i]){
-                max = arr[i];
-            }
-        }
-        for (int i = 0;i<arr.length;i++){
-            if (max == arr[i]){
-                switch (i){
-                    case 0:
-                        text = "您的性格为蓝色";
-                        break;
-                    case 1:
-                        text = "您的性格为红色";
-                        break;
-                    case 2:
-                        text = "您的性格为绿色";
-                        break;
-                    case 3:
-                        text = "您的性格为黄色";
-                        break;
-                }
-            }
+        if (max == blue) {
+            text = MailText.blueText;
+        } else if (max == red) {
+            text = MailText.redText;
+        } else if (max == green) {
+            text = MailText.greenText;
+        } else if (max == yellow) {
+            text = MailText.yellowText;
         }
         String testerMail = testerVo.getPhonenum() + "@139.com";
 
-        mailService.send(testerMail,"性格测试结果",text);
+        mailService.send(testerMail, "性格测试结果", text);
         return super.success(testerVo);
     }
 }

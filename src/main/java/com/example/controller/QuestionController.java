@@ -37,7 +37,7 @@ public class QuestionController extends BaseController {
      * @return 所有数据
      */
 
-    @RequestMapping("selectAllQuestion")
+    @RequestMapping("/selectAllQuestion")
     public ReturnBean<List<Question>> selectAll(Long page, Long limit, Question question) {
         //重新构建分页对象
         if(page==null){

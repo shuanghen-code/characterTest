@@ -114,7 +114,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">登录名</label>
         <div class="layui-input-block">
-            <input type="text" name="loginName" placeholder="请输入登录名" readonly required lay-verify="required"
+            <input type="text" name="loginName" placeholder="请输入登录名" readonly disabled required lay-verify="required"
                    autocomplete="off"
                    class="layui-input">
         </div>
@@ -698,12 +698,24 @@
 
         //==================鼠标失焦判断用户名是否存在======================
         $("#loginName").blur(function () {
+            var node = this;
             let loginName = this.value;
             let loginInput = document.getElementById("loginName");
-            $.get('/user/checkLoginName', {loginName: loginName}, function (data) {
-                if (data === 'false') {
-                    loginInput.style = "border-color: red";
-                    layer.msg('[' + loginName + ']登录名已经被占用', {icon: 5});//!,ok,wrong,question,lock,cry,smile
+            console.log(loginName);
+            $.ajax({
+                type: "POST",
+                url: "/user/checkLoginName",
+                async: false, //改为同步请求
+                data: {loginName: loginName},
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.code == 0) {
+                    } else {
+                        node.focus();
+                        loginInput.style = "border-color: red";
+                        layer.msg('[' + loginName + ']'+data.msg, {icon: 5});
+                    }
                 }
             });
         });

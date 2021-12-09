@@ -2,6 +2,7 @@ package com.example.controller;
 
 
 import cn.hutool.core.util.ReflectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.*;
 import com.example.service.*;
 import com.example.util.Constants;
@@ -273,6 +274,26 @@ public class UserController extends BaseController {
         ReflectUtil.invoke(t, "setUpdateBy", user.getUserName());
         ReflectUtil.invoke(t, "setUpdateTime", new Date());
         return t;
+    }
+
+    /**
+     * description: 判断登录名是否存在，存在的话返回false，不存在返回true
+     *
+     * @Param: loginName
+     * @return boolean
+     */
+    @PostMapping("/checkLoginName")
+    public ReturnBean checkLoginName(@RequestBody String loginName){
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        loginName = loginName.substring(10);
+        wrapper.eq("login_name",loginName);
+        List<User> list = this.userService.list(wrapper);
+        if(list.size()>0){
+            return super.fail(loginName,"用户名已经存在");
+        }else {
+            return super.success(loginName);
+        }
+
     }
 
 }

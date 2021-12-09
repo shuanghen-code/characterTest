@@ -41,6 +41,9 @@ public class MenuController extends BaseController {
 
     @RequestMapping("/insertMenu")
     public ReturnBean insertMenu(@RequestBody Menu menu, HttpSession session) {
+        if (menu.getParentId() == null) {
+            menu.setParentId(0);
+        }
         User user = (User) session.getAttribute("user");
         menu.setCreateBy(user.getUserName());
         menu.setCreateTime(new Date());

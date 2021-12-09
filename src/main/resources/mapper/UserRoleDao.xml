@@ -40,7 +40,7 @@
     <!-- m.menu_type='F' 必须为三级菜单，否则layuitree无法半选    -->
     <select id="findMenuIdsByRoleId" parameterType="integer" resultType="java.lang.Integer">
         select rm.menu_id from tbl_role_menu rm inner join tbl_menu m on rm.menu_id=m.menu_id
-        where rm.role_id=#{roleId} and m.menu_type='F'
+        where rm.role_id=#{roleId}
     </select>
 
     <!--根据userid查询所有的userrole-->

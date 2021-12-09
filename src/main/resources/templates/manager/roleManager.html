@@ -11,7 +11,8 @@
 <!--信息表-->
 <table id="role" lay-filter="roleTableFilter">
 </table>
-</body>
+
+
 <!--头部工具栏按钮-->
 <script type="text/html" id="roleToolbar">
     <div class="layui-btn-container">
@@ -143,6 +144,7 @@
     <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="state">失效</button>
     {{# }}}
 </script>
+
 <script>
     // 校验角色名是否存在
     function checkUserName() {
@@ -151,15 +153,19 @@
             $.post("/role/checkRoleName", {"roleName": roleName}, function (ret) {
                 console.log("ret:"+ret);
                 if (ret.code == 0) {
+                    // 恢复按钮状态
                     $('#addRoleButton').removeClass("layui-btn-disabled").attr("disabled",false);
                 } else {
                     layer.msg(ret.msg, {icon: 5});
+                    // 禁用按钮状态
                     $('#addRoleButton').addClass("layui-btn-disabled").attr("disabled",true);
                 }
             });
         }
     }
+</script>
 
+<script>
     layui.use(['table', 'layer', 'jquery', 'form', 'tree', 'util'], function () {
         let table = layui.table;
         let layer = layui.layer;
@@ -204,8 +210,13 @@
                         title: '添加角色',
                         type: 1,
                         area: ['500px', '500px'],
-                        content: $("#addRoleForm")//这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                        content: $("#addRoleForm"),//这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                        end:function () {
+                            //关闭时的回调函数
+                            $("#addRoleForm").hide()
+                        }
                     });
+
                     break;
             }
         });
@@ -248,6 +259,10 @@
                         type: 1,
                         area: ['500px', '500px'],
                         content: $("#updateRoleForm"),//这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                        end:function () {
+                            //关闭时的回调函数
+                            $("#updateRoleForm").hide();
+                        }
                     });
                     break;
                 //删除该行
@@ -364,7 +379,7 @@
                             layer.msg(ret.msg, {icon: 5});
                         }
                     }
-                })
+                });
                 //将表单清空
                 document.getElementById("updateRoleForm").reset();
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
@@ -398,4 +413,6 @@
 
 
 </script>
+
+</body>
 </html>

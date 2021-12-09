@@ -10,6 +10,7 @@ import com.example.service.RoleMenuService;
 import com.example.service.RoleService;
 import com.example.util.Constants;
 import com.example.util.TreeUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -133,22 +134,33 @@ public class RoleController extends BaseController {
      */
     @RequestMapping("findSelectMenu")
     public List<Integer> findSelectMenu(Integer roleId){
-        // 根据roleId查询所有的对应的roleMenu对象
-        QueryWrapper<RoleMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("role_id", roleId);
-        List<RoleMenu> roleMenus = roleMenuService.list(queryWrapper);
-
-        // 根据roleMenu对象获取menuId列表
-        List<Integer> menuIds = new ArrayList<>();
-        for (RoleMenu roleMenu : roleMenus) {
-            menuIds.add(roleMenu.getMenuId());
-        }
-
+        // 1，查询当前角色对应的所有菜单id
+        List<Integer> Ids = roleService.findMenuIdsByRoleId(roleId);
+        // 2，如果一个菜单存在子菜单，必须把当前id从list中去掉，否则无法三级菜单无法半选
+        List<Menu> menuList = menuService.listByIds(Ids);
+        List<LayUiTree> menuTree = TreeUtils.getChildPerms(menuList, 0);
+        List<Integer> menuIds = check(menuTree, new ArrayList<>());
         if (menuIds.size()>0){
             return menuIds;
         } else {
             return null;
         }
+    }
+
+    /**
+     * 查找所有菜单，如果其不存在子菜单，将其添加到list中
+     * @param menuTree
+     * @return
+     */
+    private List<Integer> check(List<LayUiTree> menuTree, List<Integer> menuIdList){
+        for (LayUiTree tree : menuTree) {
+            if (tree.getChildren().isEmpty()) {
+                menuIdList.add(tree.getId());
+            } else {
+                check(tree.getChildren(), menuIdList);
+            }
+        }
+        return menuIdList;
     }
 
 
@@ -207,7 +219,6 @@ public class RoleController extends BaseController {
     public ReturnBean deleteById(Integer roleId) {
         boolean delete = roleService.removeById(roleId);
         if (delete) {
-            // 逻辑删除，是否需要删除tbl_role_menu表中对应的记录？
             return success(null);
         } else {
             return fail(null);

@@ -49,6 +49,8 @@ public interface UserRoleDao extends BaseMapper<UserRole> {
 
     List<UserRole> queryByUserId(Integer userId);
 
+    // 根据roleId查询对应的菜单，必须为三级菜单，否则layuitree无法半选
+    List<Integer> findMenuIdsByRoleId(Integer roleId);
 
 }
 

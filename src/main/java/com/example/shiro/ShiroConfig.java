@@ -32,6 +32,7 @@ public class ShiroConfig {
         hashedCredentialsMatcher.setHashIterations(1000);
         return hashedCredentialsMatcher;
     }
+
     @Bean
     public MyRealm myRealm(){
         MyRealm myRealm= new MyRealm();
@@ -70,13 +71,18 @@ public class ShiroConfig {
         filterMap.put("perms",new ShiroPermsFilter());
 
         //放行login
-        map.put("/user/managerLogin","anon");
-        map.put("/test/**", "anon");
-        map.put("/css/**","anon");
-        map.put("/image/**","anon");
-        map.put("/js/**","anon");
-        map.put("/layui/**","anon");
-        map.put("/video/**","anon");
+        map.put("/user/managerLogin", "anon");
+        map.put("/test/*", "anon");
+        map.put("/tester/**","anon");
+        map.put("/question/**","anon");
+        map.put("/result/**","anon");
+
+        map.put("/css/**", "anon");
+        map.put("/image/**", "anon");
+        map.put("/js/**", "anon");
+        map.put("/layui/**", "anon");
+        map.put("/video/**", "anon");
+
         //添加页面需要有添加的权限才能到达
 
         //添加问题页面需要有添加的权限才能到达

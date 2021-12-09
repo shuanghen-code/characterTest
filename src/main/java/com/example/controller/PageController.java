@@ -19,8 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.crypto.interfaces.PBEKey;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author wang hao
@@ -59,11 +58,52 @@ public class PageController {
         return "test/exam";
     }
 
+//    // 去往测试完成页面
+//    @RequestMapping("test/tofinish")
+//    public String toFinish(HttpSession session) {
+//        //若未登录，跳转到登录页面
+//        if (ObjectUtil.isNull(session.getAttribute("tester"))){
+//            return "redirect:/test/toTesterLogin";
+//        }
+//        return "test/finish";
+//    }
     // 去往测试完成页面
     @RequestMapping("test/tofinish")
-    public String toFinish(HttpSession session) {
-        return "test/finish";
+    public ModelAndView toFinish(HttpSession session,ModelAndView modelAndView) {
+
+        List<TesterVo> testerVos = testerService.selectAllColor(Constants.page,
+                Constants.limit, new Tester());
+        Tester tester=(Tester)session.getAttribute("tester");
+        for (TesterVo t:testerVos) {
+            if (t.getTesterId().equals(tester.getTesterId())){
+                modelAndView.addObject("testerVO",t);
+                if (t.getBlueCount()==null){
+                    t.setBlueCount(0);
+                }
+                if (t.getGreenCount()==null){
+                    t.setGreenCount(0);
+                }
+                if (t.getRedCount()==null){
+                    t.setRedCount(0);
+                }
+                if (t.getYellowCount()==null){
+                    t.setYellowCount(0);
+                }
+                Map countMap=new HashMap();
+                countMap.put("redCount",t.getRedCount());
+                countMap.put("blueCount",t.getBlueCount());
+                countMap.put("yellowCount",t.getYellowCount());
+                countMap.put("greenCount",t.getGreenCount());
+                String maxKey = getMapMinOrMaxValueKey(countMap, "max");
+                System.out.println(maxKey);
+                modelAndView.addObject("maxCount",maxKey);
+                session.removeAttribute("tester");
+            }
+        }
+        modelAndView.setViewName("test/finish");
+        return modelAndView;
     }
+
 
     /**
      * @return login
@@ -171,5 +211,15 @@ public class PageController {
         System.out.println("没有权限！！！！");
         return "unau";
     }
-
+    public static String getMapMinOrMaxValueKey(Map<String, Double> map, String choose) {
+        List<Map.Entry<String,Integer>> list = new ArrayList(map.entrySet());
+        Collections.sort(list, (o1, o2) -> (o1.getValue().intValue() - o2.getValue().intValue()));
+        String key = "";
+        if (choose.equals("min")) {
+            key = list.get(0).getKey();
+        } else if (choose.equals("max")) {
+            key = list.get(list.size() - 1).getKey();
+        }
+        return key;
+    }
 }

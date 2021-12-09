@@ -75,6 +75,9 @@
     <div class="layui-btn-container">
         <button id="downloadBtn" class="layui-btn" onclick="downloadPdf()">下载为PDF文件</button>
     </div>
+    <div class="layui-btn-container">
+        <button id="send" class="layui-btn" >发送至邮箱</button>
+    </div>
 
 </div>
 
@@ -303,13 +306,33 @@
                     success:function () {
                         //弹出层打开后的回调函数
                         $("#downloadBtn").show()
+                        $("#send").show()
+                        // $("#send").click(function (data) {
+                        //
+                        //     console.log(data)
+                        // })
                     },
                     end:function () {
                         //关闭时的回调函数
                         $("#drawtu").hide()
                         $("#downloadBtn").hide()
+                        $("#send").hide()
                     }
                 });
+                // //发送邮箱
+                $("#send").click(function () {
+                    console.log(data)
+                    $.ajax({
+                        url:'/mail/sendMail'
+                        ,contentType:"application/json;charset=UTF-8"
+                        ,data:JSON.stringify(data)
+                        ,data:{testerId: data.testerId,phonenum:data.phonenum,testerName:data.testerName,redCount:data.redCount,blueCount: data.blueCount,yellowCount: data.yellowCount,greenCount: data.greenCount}
+                        // ,data:data.field
+                        ,success:function (ret) {
+                            alert('邮件发送成功~')
+                        }
+                    })
+                })
 
             }
         });
@@ -347,6 +370,8 @@
             return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
 
+
+
         //重置条件查询表单，刷新table数据
         $("#myButton").click(function () {
             myTable.reload({
@@ -379,5 +404,6 @@
         pdf.save('性格测试.pdf')
     })
     }
+
 </script>
 </html>

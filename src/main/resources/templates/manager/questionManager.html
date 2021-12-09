@@ -204,9 +204,9 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>新增</button>
-<!--        <button shiro:hasPermission="character:question:add" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>新增</button>-->
-        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="remove"><i class="layui-icon layui-icon-delete"></i>删除</button>
+<!--        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>新增</button>-->
+        <button shiro:hasPermission="add" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>新增</button>
+        <button shiro:hasPermission="delete" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="remove"><i class="layui-icon layui-icon-delete"></i>删除</button>
     </div>
 </script>
 

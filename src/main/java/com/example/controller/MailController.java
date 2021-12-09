@@ -28,10 +28,41 @@ public class MailController extends BaseController{
     private TesterService testerService;
 
     @RequestMapping("/sendMail")
-    public ReturnBean sendMail(String testerMail, HttpSession session){
-        Tester tester = (Tester) session.getAttribute("tester");
-        List<TesterVo> testerVoList = testerService.selectAllColor(Constants.page, Constants.limit, tester);
-        mailService.send(testerMail,"性格测试结果","性格测试结果的内容分析");
-        return super.success(testerVoList);
+    public ReturnBean sendMail(TesterVo testerVo){
+        System.out.println(testerVo);
+        int[] arr = {testerVo.getBlueCount(),testerVo.getRedCount(),testerVo.getGreenCount(),testerVo.getYellowCount()};
+        int max = arr[0];
+        String text = "性格测试结果的内容分析";
+        for (int i = 0;i<arr.length;i++){
+            if (max < arr[i]){
+                max = arr[i];
+            }
+        }
+        for (int i = 0;i<arr.length;i++){
+            if (max == arr[i]){
+                switch (i){
+                    case 0:
+                        text = "您的性格为蓝色";
+                        break;
+                    case 1:
+                        text = "您的性格为红色";
+                        break;
+                    case 2:
+                        text = "您的性格为绿色";
+                        break;
+                    case 3:
+                        text = "您的性格为黄色";
+                        break;
+                }
+            }
+        }
+        String testerMail = testerVo.getPhonenum() + "@139.com";
+//        List<TesterVo> testerVoList = testerService.selectAllColor(Constants.page, Constants.limit, tester);
+//        for (TesterVo testerVo : testerVoList){
+//            System.out.println(testerVo);
+//        }
+
+        mailService.send(testerMail,"性格测试结果",text);
+        return super.success(testerVo);
     }
 }

@@ -2,12 +2,6 @@ package com.example.controller;
 
 
 import cn.hutool.core.util.ReflectUtil;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.api.ApiController;
-import com.baomidou.mybatisplus.extension.api.R;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.dao.UserDao;
 import com.example.entity.*;
 import com.example.service.*;
 import com.example.util.Constants;
@@ -19,11 +13,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -74,7 +66,6 @@ public class UserController extends BaseController {
         // 获取Myrealm里SimpleAuthenticationInfo存入的user对象
         Object principal = subject.getPrincipal();
         session.setAttribute("user", principal);
-//        System.out.println(principal);
         return success(principal);
     }
 
@@ -87,26 +78,6 @@ public class UserController extends BaseController {
     @GetMapping("findAll")
     public ReturnBean<List<User>> selectAll(Long page, Long limit, User user) {
         log.info("================找到user====================");
-        /*if (page == null) {
-            page = Constants.page;
-            limit = Constants.limit;
-        }
-        Page<User> pageObj;
-        pageObj = new Page<>(page, limit);
-        //登录名查询对象
-        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        if (ObjectUtil.isNotEmpty(user.getLoginName())) {
-            userQueryWrapper.like("login_name", user.getLoginName());
-        }
-        if (ObjectUtil.isNotEmpty(user.getCreateBy())) {
-            userQueryWrapper.like("create_by", user.getCreateBy());
-        }
-        if (ObjectUtil.isNotEmpty(user.getUpdateBy())) {
-            userQueryWrapper.like("update_by", user.getUpdateBy());
-        }
-        //List<TesterVo> UserVo = testerService.selectAllColor(page, limit, tester);
-        Page<User> userPage = this.userService.page(pageObj, userQueryWrapper);
-        return super.success(userPage.getRecords(), userPage.getTotal());*/
 
         //优化代码，不分页的时候，默认第一页，一页显示10条
         if (page == null) {
@@ -114,10 +85,7 @@ public class UserController extends BaseController {
             limit = Constants.limit;
         }
 
-//        Page<User> pageObj;
-//        pageObj = new Page<>(page, limit);
         //登录名查询对象
-
         List<UserVo> userVos = userService.selectAllUserVo(page, limit, user);
         return super.success(userVos, userService.getCount(user));
 
@@ -163,39 +131,15 @@ public class UserController extends BaseController {
 
     }
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("{id}")
-    public ReturnBean selectOne(@PathVariable Serializable id) {
-        return success(this.userService.getById(id));
-    }
-
 
     /**
-     * 通过主键查询单条数据
+     * 通过userId 查询角色信息
      *
      * @param userId
-     * @return 单条数据
+     * @return 角色list
      */
     @GetMapping("/findSelectRole")
     public ReturnBean finSelectRole(Integer userId) {
-       /* List<Role> roleUserList = roleService.selectListByUserId(userId);
-        List<Role> roleList = roleService.list(null);
-        Map map = new HashMap();
-        for (Role role : roleList) {
-            //判断集合包含对象，必须重写equals和hashcode方法
-            if(roleUserList.contains(role)){
-                map.put(role.getRoleKey(), true);
-            }else {
-                map.put(role.getRoleKey(), false);
-            }
-        }
-        return success(map);*/
-
         List<UserRole> userRole = userRoleService.queryByUserId(userId);
         return success(userRole);
     }

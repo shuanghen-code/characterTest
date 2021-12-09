@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -13,6 +15,7 @@ import java.io.Serializable;
  * @since 2021-11-26 17:27:32
  */
 @SuppressWarnings("serial")
+@Data
 @TableName("tbl_character_result")
 public class Result extends Model<Result> {
     //主键，自增
@@ -33,38 +36,6 @@ public class Result extends Model<Result> {
                 ", questionId=" + questionId +
                 ", result='" + result + '\'' +
                 '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getTesterId() {
-        return testerId;
-    }
-
-    public void setTesterId(Integer testerId) {
-        this.testerId = testerId;
-    }
-
-    public Integer getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(Integer questionId) {
-        this.questionId = questionId;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
     }
 
     /**

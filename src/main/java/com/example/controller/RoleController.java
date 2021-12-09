@@ -66,9 +66,6 @@ public class RoleController extends BaseController {
     public List<LayUiTree> findAllMenu(){
         List<Menu> menus = menuService.list();
         List<LayUiTree> treeList = TreeUtils.getChildPerms(menus, 0);
-//        for (LayUiTree tree : treeList) {
-//            System.out.println(tree.toString()+"============----------");
-//        }
         if (treeList.size()>0){
             return treeList;
         } else {
@@ -83,12 +80,6 @@ public class RoleController extends BaseController {
      */
     @RequestMapping("insertRole")
     public ReturnBean insertRole(RoleData roleData, HttpSession session){
-        /**
-         * RoleData(roleId=null, roleName=测试, roleKey=test, roleSort=3, status=0, flag=null, createBy=,
-         * createTime=null, updateBy=null, updateTime=null, remark=测试用的,
-         * menus=[1, 109, 111, 1026, 5, 1025])
-         */
-//        System.out.println(roleData.toString());
         // 获取创建人信息
         User user = (User) session.getAttribute("user");
 
@@ -152,7 +143,6 @@ public class RoleController extends BaseController {
     @PutMapping("updateRole")
     public ReturnBean updateRole(RoleData roleData, HttpSession session) {
 
-        System.out.println(roleData.toString());
         // 获取创建人信息
         User user = (User) session.getAttribute("user");
 
@@ -200,9 +190,6 @@ public class RoleController extends BaseController {
         boolean delete = roleService.removeById(roleId);
         if (delete) {
             // 逻辑删除，是否需要删除tbl_role_menu表中对应的记录？
-            /*QueryWrapper<RoleMenu> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("role_id", roleId);
-            roleMenuService.remove(queryWrapper);*/
             return success(null);
         } else {
             return fail(null);

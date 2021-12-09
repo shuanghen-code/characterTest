@@ -198,7 +198,6 @@
             let data = obj.data;
             switch (obj.event) {
                 case 'edit':
-                    // console.log(data.status);
                     if (data.status == 0) {
                         document.getElementById("updateStatus").checked = true
                     } else {
@@ -277,7 +276,6 @@
         //addUserForm表单的提交
         form.on('submit(addRoleFilter)', function (data) {
             $("#addRoleButton").attr("class","layui-btn layui-btn-disabled")
-            // console.log(data.field.data);
             //当前容器的全部表单字段，名值对形式：{name: value}
             let checkData = tree.getChecked('addFormMenu');
             let list = getChecked_list(checkData);

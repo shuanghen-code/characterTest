@@ -355,8 +355,6 @@
                 type: "GET",
                 dataType:"JSON",
                 data:data.field,
-                // contentType:"application/json;charset=UTF-8",
-                // data:JSON.stringify(data.field),
                 success:function (ret) {
                     if(ret.code==0){
                         //刷新表格数据
@@ -371,7 +369,6 @@
                                 //重新从第 1 页开始
                             }
                         });
-                        // layer.msg(ret.data.question+ret.msg,{icon: 6});
                     }else {
                         layer.msg(ret.msg,{icon: 5});
                     }

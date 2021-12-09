@@ -61,23 +61,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         return updateRoleUser(user,roleIds);
     }
 
-   /* @Override
-    public boolean updateUserAndSalt(User user) {
-        String roleIds = user.getSalt();
-        //将用户保存到数据库
-        user.setSalt(null);
-        Integer update = userDao.update(user);
-        //如果插入成功，并且页面传入的角色id不为空
-        if(update>0){
-            boolean b = updateRoleUser(user, roleIds);
-            if(b){
-                return true;
-            }
-        }
-
-        return false;
-    }*/
-
     @Override
     public boolean resetPassword(User user) {
         //生成随机码作为salt
@@ -107,7 +90,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         Integer update = userDao.updateById(user);
         //如果插入成功，并且页面传入的角色id不为空
         if(update>0){
-            //boolean b = updateRoleUser(user, roleIds);
             boolean b = updateRoleUser(user,roleIds);
             if(b){
                 return true;
@@ -123,7 +105,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
      * @create time:
      */
     public boolean updateRoleUser(User user, String roleIds) {
-        //String roleIds = user.getSalt();
         if ( roleIds != null) {
             //删除此用户原有的角色
             userRoleDao.deleteById(user.getUserId());

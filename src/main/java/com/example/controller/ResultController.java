@@ -43,11 +43,9 @@ public class ResultController extends BaseController {
      * 根据前台传过来的map，批量插入到tbl_character_result表中
      *
      */
-//    @RequestMapping(value = "score", method = RequestMethod.POST)
     @PostMapping("addResults")
     public ReturnBean addResults(@RequestBody Map<Integer, String> map, HttpSession session){
         Tester tester = (Tester) session.getAttribute("tester");
-        System.out.println(tester.toString());
         // 设置resultList
         List<Result> resultList = new ArrayList<>();
         for (Integer key:map.keySet()) {
@@ -55,7 +53,6 @@ public class ResultController extends BaseController {
             result.setTesterId(tester.getTesterId());
             result.setQuestionId(key);
             result.setResult(map.get(key));
-
             resultList.add(result);
         }
         // 调用saveBatch方法批量插入

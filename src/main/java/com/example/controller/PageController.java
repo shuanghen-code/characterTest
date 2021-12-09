@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.crypto.interfaces.PBEKey;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -58,17 +57,8 @@ public class PageController {
         return "test/exam";
     }
 
-//    // 去往测试完成页面
-//    @RequestMapping("test/tofinish")
-//    public String toFinish(HttpSession session) {
-//        //若未登录，跳转到登录页面
-//        if (ObjectUtil.isNull(session.getAttribute("tester"))){
-//            return "redirect:/test/toTesterLogin";
-//        }
-//        return "test/finish";
-//    }
     // 去往测试完成页面
-    @RequestMapping("test/tofinish")
+    @RequestMapping("test/toFinish")
     public ModelAndView toFinish(HttpSession session,ModelAndView modelAndView) {
 
         List<TesterVo> testerVos = testerService.selectAllColor(Constants.page,
@@ -95,7 +85,6 @@ public class PageController {
                 countMap.put("yellowCount",t.getYellowCount());
                 countMap.put("greenCount",t.getGreenCount());
                 String maxKey = getMapMinOrMaxValueKey(countMap, "max");
-                System.out.println(maxKey);
                 modelAndView.addObject("maxCount",maxKey);
                 session.removeAttribute("tester");
             }
@@ -208,7 +197,6 @@ public class PageController {
      */
     @RequestMapping("/toUnau")
     public String toUnau(){
-        System.out.println("没有权限！！！！");
         return "unau";
     }
     public static String getMapMinOrMaxValueKey(Map<String, Double> map, String choose) {

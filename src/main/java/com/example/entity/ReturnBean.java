@@ -26,45 +26,4 @@ public class ReturnBean<T>{
     public ReturnBean() {
     }
 
-    @Override
-    public String toString() {
-        return "ReturnBean{" +
-                "code=" + code +
-                ", msg='" + msg + '\'' +
-                ", count=" + count +
-                ", data=" + data +
-                '}';
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Long getCount() {
-        return count;
-    }
-
-    public void setCount(Long count) {
-        this.count = count;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
 }

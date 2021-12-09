@@ -13,16 +13,12 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * @author wanglongfei
@@ -46,7 +42,6 @@ public class LogAspect {
     public Object myEnhance(ProceedingJoinPoint joinPoint){
         Object[] args = joinPoint.getArgs();
         Signature signature = joinPoint.getSignature();
-        System.out.println(signature + "日志开始打印啦");
 
         //保存日志信息到数据库中
         Log log = new Log();

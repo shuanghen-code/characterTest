@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * shiro安全框架配置类
+ *
  * @author wang hao
  * @date 2021/12/3 18:08
  */
@@ -20,13 +21,13 @@ import java.util.Map;
 public class ShiroConfig {
 
     /**
+     * @return
      * @create by: Teacher陈（86521760@qq.com）
      * @description: 密码比较器
      * @create time: 2021/12/3 15:09
-     * @return
      */
     @Bean
-    public HashedCredentialsMatcher hashedCredentialsMacther(){
+    public HashedCredentialsMatcher hashedCredentialsMacther() {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         hashedCredentialsMatcher.setHashAlgorithmName("MD5");
         hashedCredentialsMatcher.setHashIterations(1000);
@@ -34,8 +35,8 @@ public class ShiroConfig {
     }
 
     @Bean
-    public MyRealm myRealm(){
-        MyRealm myRealm= new MyRealm();
+    public MyRealm myRealm() {
+        MyRealm myRealm = new MyRealm();
         myRealm.setCredentialsMatcher(hashedCredentialsMacther());
         return myRealm;
     }
@@ -44,8 +45,8 @@ public class ShiroConfig {
      * securityManager
      */
     @Bean
-    public DefaultWebSecurityManager defaultWebSecurityManager(){
-        DefaultWebSecurityManager defaultWebSecurityManager= new DefaultWebSecurityManager();
+    public DefaultWebSecurityManager defaultWebSecurityManager() {
+        DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(myRealm());
         return defaultWebSecurityManager;
     }
@@ -54,7 +55,7 @@ public class ShiroConfig {
      * shiroFilterFactorybean
      */
     @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(){
+    public ShiroFilterFactoryBean shiroFilterFactoryBean() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager());
         /**
@@ -67,8 +68,9 @@ public class ShiroConfig {
          */
         Map<String, String> map = new LinkedHashMap<>();
 
-        Map<String, Filter> filterMap= new LinkedHashMap<>();
-        filterMap.put("perms",new ShiroPermsFilter());
+        Map<String, Filter> filterMap = new LinkedHashMap<>();
+        filterMap.put("perms", new ShiroPermsFilter());
+
 
         //放行login
         map.put("/user/managerLogin", "anon");
@@ -86,13 +88,14 @@ public class ShiroConfig {
         //添加页面需要有添加的权限才能到达
 
         //添加问题页面需要有添加的权限才能到达
-        map.put("/question/insert","perms[character:question:add]");
+        map.put("/question/insert", "perms[character:question:add]");
 
         // 去菜单管理页面需要相应的权限才能到达
-        map.put("/manager/toMenu","perms[system:menu:view]");
+        map.put("/manager/toMenu", "perms[system:menu:view]");
 
         //过滤所有的请求
-        map.put("/**","authc");
+        map.put("/**", "authc");
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 
         shiroFilterFactoryBean.setFilters(filterMap);
@@ -106,10 +109,11 @@ public class ShiroConfig {
 
     /**
      * 设置shiro的方言
+     *
      * @return
      */
     @Bean
-    public ShiroDialect shiroDialect(){
+    public ShiroDialect shiroDialect() {
         return new ShiroDialect();
     }
 }

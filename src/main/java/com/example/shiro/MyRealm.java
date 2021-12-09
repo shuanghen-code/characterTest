@@ -36,7 +36,6 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        System.out.println("授权代码开始执行！！！");
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         // 连接数据库获取perms字段
         Subject subject = SecurityUtils.getSubject();
@@ -55,7 +54,6 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("认证代码开始执行");
         // 获取令牌对象
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
 

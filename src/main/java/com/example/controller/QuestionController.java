@@ -106,7 +106,6 @@ public class QuestionController extends BaseController {
     @PostMapping("update")
     public ReturnBean update(@RequestBody Question question) {
         question.setUpdateTime(new Date());
-        System.out.println("question.getStatus(): "+question.getStatus());
         // 根据后台的状态修改数据库
         if (question.getStatus()==null || question.getStatus() != 0){
             question.setStatus(1);

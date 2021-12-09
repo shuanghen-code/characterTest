@@ -36,11 +36,10 @@ public class LogController extends BaseController {
      * 分页查询所有数据
      *
      * @param page 分页对象
-     * @param log 查询实体
      * @return 所有数据
      */
     @GetMapping("selectAll")
-    public ReturnBean selectAll(Long page, Long limit, Log  log) {
+    public ReturnBean selectAll(Long page, Long limit) {
         //优化代码，不分页的时候，默认是第一页，一页显示10条
         if (page == null){
             page = Constants.page;
@@ -52,39 +51,6 @@ public class LogController extends BaseController {
         QueryWrapper<Log> queryWrapper = new QueryWrapper<>();
         Page<Log> logPage = this.logService.page(pageObj, queryWrapper);
         return success(logPage.getRecords(),logPage.getTotal());
-    }
-
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("{id}")
-    public ReturnBean selectOne(@PathVariable Serializable id) {
-        return success(this.logService.getById(id));
-    }
-
-    /**
-     * 新增数据
-     *
-     * @param log 实体对象
-     * @return 新增结果
-     */
-    @PostMapping("insert")
-    public ReturnBean insert(@RequestBody Log log) {
-        return success(this.logService.save(log));
-    }
-
-    /**
-     * 修改数据
-     *
-     * @param log 实体对象
-     * @return 修改结果
-     */
-    @PutMapping("update")
-    public ReturnBean update(@RequestBody Log log) {
-        return success(this.logService.updateById(log));
     }
 
     /**

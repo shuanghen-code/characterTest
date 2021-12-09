@@ -44,19 +44,6 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole> impl
         return this.userRoleDao.queryByUserId(userId);
     }
 
-
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit  查询条数
-     * @return 对象列表
-     */
-    @Override
-    public List<UserRole> queryAllByLimit(int offset, int limit) {
-        return this.userRoleDao.queryAllByLimit(offset, limit);
-    }
-
     /**
      * 新增数据
      *
@@ -79,17 +66,6 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole> impl
     public UserRole update(UserRole userRole) {
         this.userRoleDao.update(userRole);
         return this.queryById(userRole.getUserId());
-    }
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param userId 主键
-     * @return 是否成功
-     */
-    @Override
-    public boolean deleteById(Integer userId) {
-        return this.userRoleDao.deleteById(userId) > 0;
     }
 
 

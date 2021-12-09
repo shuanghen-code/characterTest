@@ -51,7 +51,6 @@ public class TesterController extends BaseController {
             limit = Constants.limit;
         }
         List<TesterVo> testerVos = testerService.selectAllColor(page, limit, tester);
-        System.out.println(testerVos);
         return super.success(testerVos, testerService.getCount(tester));
     }
 
@@ -62,7 +61,6 @@ public class TesterController extends BaseController {
     @RequestMapping("selectAllCharacter")
     public ReturnBean selectAllCharacter() {
         TesterVo testerVo = testerService.selectAllCharacter();
-        System.out.println(testerVo.toString()+"==========================");
         return super.success(testerVo);
     }
 
@@ -73,7 +71,6 @@ public class TesterController extends BaseController {
     @RequestMapping("selectNumByMonth")
     public ReturnBean selectNumByMonth() {
         List<MonthCount> monthCounts = testerService.selectNumByMonth();
-//        System.out.println(monthCounts+"==========================");
         return super.success(monthCounts);
     }
 
@@ -105,39 +102,6 @@ public class TesterController extends BaseController {
 
         return super.success(testerPage.getRecords(), testerPage.getTotal());
     }
-
-    /**
-     * 通过主键查询单条数据
-     * update by hxh
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping()
-    public ReturnBean selectOne(@PathVariable Serializable id) {
-        Tester tester = this.testerService.getById(id);
-        return success(tester);
-    }
-
-    /**
-     * 通过手机号查询单条数据
-     * update by hxh
-     * @param
-     * @return
-     */
-    @RequestMapping("/IfNumber")
-    @ResponseBody
-    public boolean selectByNumber(@RequestBody Tester tester){
-        //Tester tester = this.testerService.getByPhonenum(phonenum);
-        String phonenum = tester.getPhonenum();
-        //根据用户名查询管理员（包括status为0的，以防恢复引起bug）
-        //Tester tester1 = testerService.query(phonenum);
-        if (tester == null){
-            return true;//为true 则为没有该手机号
-        }else {
-            return false;
-        }
-    }
-
 
     /**
      * 新增数据
@@ -203,10 +167,5 @@ public class TesterController extends BaseController {
         }
     }
 
-    @RequestMapping("todraw")
-    public String toDraw(ResultVo resultVo){
-        System.out.println();
-        return null;
-    }
 }
 

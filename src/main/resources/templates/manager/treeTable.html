@@ -84,26 +84,6 @@
             <div id="menuTreeChoose" class="demo-tree-more"></div>
         </div>
     </div>
-<!--    <div class="xm-d1">-->
-<!--        <p class="xm-d1-p">权限管理</p>-->
-<!--    </div>-->
-
-<!--    <div class="xm-d2">-->
-<!--        <div class="xm-d2-hang1">-->
-<!--            <div class="pzright" style="width:101%;display: flex;justify-content: flex-start;float:right;">-->
-<!--                <p class="xm-d1-p2">-->
-<!--                    <button id="add" onclick="addPermission()" class="layui-btn layui-btn-radius btnys"><i-->
-<!--                            class="layui-icon">&#xe608;</i>添加-->
-<!--                    </button>-->
-<!--                    <button class="layui-btn" id="btn-expand">全部展开</button>-->
-<!--                    <button class="layui-btn" id="btn-fold">全部折叠</button>-->
-<!--                    <button class="layui-btn" id="btn-refresh">刷新表格</button>-->
-<!--                </p>-->
-<!--            </div>-->
-<!--            <div class="clear"></div>-->
-<!--        </div>-->
-<!--       -->
-<!--    </div>-->
     <!--实现编辑菜单功能的form-->
     <form class="layui-form" action="" id="updateMenuForm" lay-filter="update_menu_form_filter" style="display: none">
 <!--        <input hidden name="updateBy" value="">-->
@@ -217,19 +197,6 @@
             , url: '/menu/selectAllMenu'
             , toolbar: '#menuToolbar'
             , title: 'menuTable'
-            // , treeSpid: 0
-            // , treeColIndex: 3
-            // , treeIdName: 'menuId'// treetable新增参数
-            // , treePidName: 'parentId'     // treetable新增参数
-            // , treeDefaultClose: true   // treetable新增参数
-            // , treeLinkage: true        // treetable新增参数
-            // , tree: {
-            //     isPidData: true,
-            //     idName: 'menuId',
-            //     pidName: 'parentId',
-            //     treeColIndex: 3,          // 树形图标显示在第几列
-            //     treeSpid: 0,             // 最上级的父级id
-            // }
             , tree: {
                 iconIndex: 2,
                 isPidData: true,

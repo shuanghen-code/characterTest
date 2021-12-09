@@ -204,7 +204,6 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-<!--        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>新增</button>-->
         <button shiro:hasPermission="add" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>新增</button>
         <button shiro:hasPermission="delete" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="remove"><i class="layui-icon layui-icon-delete"></i>删除</button>
     </div>
@@ -339,8 +338,6 @@
                     ,"optionD": data.optionD
                     ,"type": data.type
                     ,"status": data.status==0?true:false
-                    // ,"createTime": data.createTime
-                    // ,"creator": data.creator
                     ,"updater": data.updater
                 });
                 layer.open({
@@ -456,8 +453,6 @@
                 type: "POST",
                 dataType:"JSON",
                 data:data.field,
-                // contentType:"application/json;charset=UTF-8",
-                // data:JSON.stringify(data.field),
                 success:function (ret) {
                     if(ret.code==0){
                         //刷新表格数据

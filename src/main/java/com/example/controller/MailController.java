@@ -7,6 +7,7 @@ import com.example.service.MailService;
 import com.example.service.TesterService;
 import com.example.util.Constants;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -24,12 +25,8 @@ public class MailController extends BaseController{
     @Resource
     private MailService mailService;
 
-    @Resource
-    private TesterService testerService;
-
     @RequestMapping("/sendMail")
     public ReturnBean sendMail(TesterVo testerVo){
-        System.out.println(testerVo);
         int[] arr = {testerVo.getBlueCount(),testerVo.getRedCount(),testerVo.getGreenCount(),testerVo.getYellowCount()};
         int max = arr[0];
         String text = "性格测试结果的内容分析";
@@ -57,10 +54,6 @@ public class MailController extends BaseController{
             }
         }
         String testerMail = testerVo.getPhonenum() + "@139.com";
-//        List<TesterVo> testerVoList = testerService.selectAllColor(Constants.page, Constants.limit, tester);
-//        for (TesterVo testerVo : testerVoList){
-//            System.out.println(testerVo);
-//        }
 
         mailService.send(testerMail,"性格测试结果",text);
         return super.success(testerVo);

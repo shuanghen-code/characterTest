@@ -73,6 +73,24 @@ public class RoleController extends BaseController {
         }
     }
 
+
+    /**
+     * 新增角色之前，校验角色名称是否已存在
+     * @return
+     */
+    @RequestMapping("checkRoleName")
+    public ReturnBean checkRoleName(String roleName){
+        // 校验角色名是否重复
+        QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role_name", roleName);
+        List<Role> roles = roleService.list(queryWrapper);
+        if (roles != null && roles.size()>0) {
+            return fail(null, "角色名重复！");
+        } else {
+            return success(null);
+        }
+    }
+
     /**
      * 新增角色
      * @param roleData

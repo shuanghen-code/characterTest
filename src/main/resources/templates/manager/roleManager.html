@@ -5,6 +5,7 @@
     <title>角色管理</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
     <script src="/layui/layui.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 <!--信息表-->
@@ -30,8 +31,9 @@
     <div class="layui-form-item">
         <label class="layui-form-label">角色名称</label>
         <div class="layui-input-block">
-            <input type="text" name="roleName" placeholder="请输入角色名称" required lay-verify="required" autocomplete="off"
+            <input type="text" name="roleName" id="roleName" placeholder="请输入角色名称" onblur="checkUserName()" required lay-verify="required" autocomplete="off"
                    class="layui-input">
+<!--            <span id="namemsg">用户名1-10个字，只能是中文或英文</span>-->
         </div>
     </div>
     <div class="layui-form-item">
@@ -64,11 +66,11 @@
     </div>
     <!--树形菜单-->
     <div class="layui-form-item">
-    <label class="layui-form-label" style="float: left">菜单权限</label>
-    <div style="margin-left: 120px">
-        <div id="addRoleTree" class="demo-tree-more"></div>
+        <label class="layui-form-label" style="float: left">菜单权限</label>
+        <div style="margin-left: 120px">
+            <div id="addRoleTree" class="demo-tree-more"></div>
+        </div>
     </div>
-</div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
@@ -142,6 +144,22 @@
     {{# }}}
 </script>
 <script>
+    // 校验角色名是否存在
+    function checkUserName() {
+        roleName = $("#roleName").val();
+        if (roleName != "") {
+            $.post("/role/checkRoleName", {"roleName": roleName}, function (ret) {
+                console.log("ret:"+ret);
+                if (ret.code == 0) {
+                    $('#addRoleButton').removeClass("layui-btn-disabled").attr("disabled",false);
+                } else {
+                    layer.msg(ret.msg, {icon: 5});
+                    $('#addRoleButton').addClass("layui-btn-disabled").attr("disabled",true);
+                }
+            });
+        }
+    }
+
     layui.use(['table', 'layer', 'jquery', 'form', 'tree', 'util'], function () {
         let table = layui.table;
         let layer = layui.layer;
@@ -273,6 +291,8 @@
             });
             return id;
         }
+
+
         //addUserForm表单的提交
         form.on('submit(addRoleFilter)', function (data) {
             $("#addRoleButton").attr("class","layui-btn layui-btn-disabled")

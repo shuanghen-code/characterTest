@@ -314,7 +314,7 @@
                         $("#send").hide()
                     }
                 });
-                // //发送邮箱
+                // 发送邮箱
                 $("#send").click(function () {
                     console.log(data)
                     $.ajax({
@@ -324,8 +324,9 @@
                         ,data:{testerId: data.testerId,phonenum:data.phonenum,testerName:data.testerName,redCount:data.redCount,blueCount: data.blueCount,yellowCount: data.yellowCount,greenCount: data.greenCount}
                         // ,data:data.field
                         ,success:function (ret) {
-                            alert('邮件发送成功~')
+                            layer.msg(ret.msg, {icon:6});
                         }
+
                     })
                 })
 

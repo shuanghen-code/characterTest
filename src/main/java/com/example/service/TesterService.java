@@ -37,6 +37,7 @@ public interface TesterService extends IService<Tester> {
      * @return
      */
     Long getCount(@Param("tester")Tester tester);
-
+    //定时删除无效测试者
+    void deleteNoResult();
 }
 

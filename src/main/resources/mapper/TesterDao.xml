@@ -117,5 +117,13 @@
     <select id="selectNumByMonth" resultType="com.example.entity.MonthCount">
         select count(*) num, date_format(test_time,'%Y-%m') mydate from tbl_character_tester group by date_format(test_time,'%Y-%m')
     </select>
+
+    <delete id="deleteNoResult">
+        delete from tbl_character_tester where
+            tester_id not in
+                (select tester_id from tbl_character_result)
+            and
+            TIME_TO_SEC(timediff(now(), test_time))>3600
+    </delete>
 </mapper>
 

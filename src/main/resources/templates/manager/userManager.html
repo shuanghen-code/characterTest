@@ -5,6 +5,7 @@
     <title>用户管理</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
     <script src="/layui/layui.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 
@@ -31,13 +32,14 @@
 <!-- ---------------------信息表-------------------------- -->
 <table id="user" lay-filter="userTableFilter">
 </table>
+
 </body>
 <!-- --------------------添加弹窗表格---------------------- -->
 <form class="layui-form" action="" id="addUserForm" style="display: none;margin-right: 40px;margin-top: 20px">
     <div class="layui-form-item">
         <label class="layui-form-label">登录名</label>
         <div class="layui-input-block">
-            <input type="text" name="loginName" id="loginName" placeholder="请输入登录名" required lay-verify="required"
+            <input type="text" name="loginName"  onblur="checkUserName()" id="loginName" placeholder="请输入登录名" required lay-verify="required"
                    autocomplete="off"
                    class="layui-input">
         </div>
@@ -222,7 +224,29 @@
     <button class="layui-btn layui-btn-xs" lay-event="edit">修改</button>
     <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</button>
 </script>
+<!--检验用户名重复-->
+<script>
+    // 校验角色名是否存在
+    function checkUserName() {
+        loginName = $("#loginName").val();
+        if (loginName != "") {
+            $.post("/user/checkLoginName", {"loginName": loginName}, function (ret) {
+                console.log("ret:"+ret);
+                if (ret.code == 0) {
+                    //关闭对话框
+                    // layer.closeAll();
+                    // 恢复按钮状态
+                    $('#addUserButton').removeClass("layui-btn-disabled").attr("disabled",false);
+                } else {
+                    layer.msg(ret.msg, {icon: 5});
+                    // 禁用按钮状态
+                    $('#addUserButton').addClass("layui-btn-disabled").attr("disabled",true);
+                }
+            });
 
+        }
+    }
+</script>
 
 <!-- ---------------------状态按钮----------------------- -->
 <script type="text/html" id="userState">
@@ -310,8 +334,6 @@
                 $roleCheckBox.html(inputs)
             }
         })
-
-
         //========查找==========================
         form.on('submit(selectConditionFilter)', function (data) {
             console.log(data.field)
@@ -415,7 +437,11 @@
                         title: '添加用户',
                         type: 1,
                         area: ['500px', '600px'],
-                        content: $("#addUserForm")//这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                        content: $("#addUserForm"),//这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                        end:function () {
+                            //关闭时的回调函数
+                            $("#addUserForm").hide()
+                        }
                     });
                     break;
                 //=================删除选择的数据================================
@@ -471,9 +497,7 @@
                 url: "/user/insertUser",
                 type: "POST",
                 dataType: "json",
-                //data: data.field,
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(data.field),
+                data: data.field,
                 success: function (ret) {
                     console.log(ret);
                     if (ret.code == 0) {
@@ -492,6 +516,8 @@
                 }
             })
             // }
+            //将表单清空
+            document.getElementById("addUserForm").reset();
             return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
 
@@ -572,6 +598,10 @@
                         type: 1,
                         area: ['500px', '550px'],
                         content: $("#updateUserForm"),//这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                        end:function () {
+                            //关闭时的回调函数
+                            $("#updateUserForm").hide()
+                        }
                     });
                     break;
                 //=============行工具栏的删除========================
@@ -697,29 +727,30 @@
         });
 
         //==================鼠标失焦判断用户名是否存在======================
-        $("#loginName").blur(function () {
-            var node = this;
-            let loginName = this.value;
-            let loginInput = document.getElementById("loginName");
-            console.log(loginName);
-            $.ajax({
-                type: "POST",
-                url: "/user/checkLoginName",
-                async: false, //改为同步请求
-                data: {loginName: loginName},
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    if (data.code == 0) {
-                    } else {
-                        node.focus();
-                        loginInput.style = "border-color: red";
-                        layer.msg('[' + loginName + ']'+data.msg, {icon: 5});
-                    }
-                }
-            });
-        });
+        // $("#loginName").blur(function () {
+        //     var node = this;
+        //     let loginName = this.value;
+        //     let loginInput = document.getElementById("loginName");
+        //     console.log(loginName);
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/user/checkLoginName",
+        //         async: false, //改为同步请求
+        //         data: {loginName: loginName},
+        //         dataType: 'json',
+        //         success: function (data) {
+        //             console.log(data);
+        //             if (data.code == 0) {
+        //             } else {
+        //                 node.focus();
+        //                 loginInput.style = "border-color: red";
+        //                 layer.msg('[' + loginName + ']'+data.msg, {icon: 5});
+        //             }
+        //         }
+        //     });
+        // });
     })
     ;
 </script>
+
 </html>

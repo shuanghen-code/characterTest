@@ -41,5 +41,10 @@ public class TesterServiceImpl extends ServiceImpl<TesterDao, Tester> implements
     public Long getCount(Tester tester) {
         return testerDao.getCount(tester);
     }
+
+    @Override
+    public void deleteNoResult() {
+        testerDao.deleteNoResult();
+    }
 }
 

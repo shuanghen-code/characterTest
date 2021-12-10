@@ -282,13 +282,13 @@ public class UserController extends BaseController {
      * @Param: loginName
      * @return boolean
      */
-    @PostMapping("/checkLoginName")
-    public ReturnBean checkLoginName(@RequestBody String loginName){
+    @RequestMapping("/checkLoginName")
+    public ReturnBean checkLoginName(String loginName){
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        loginName = loginName.substring(10);
+//        loginName = loginName.substring(10);
         wrapper.eq("login_name",loginName);
         List<User> list = this.userService.list(wrapper);
-        if(list.size()>0){
+        if(list!=null && list.size()>0){
             return super.fail(loginName,"用户名已经存在");
         }else {
             return super.success(loginName);

@@ -5,10 +5,13 @@ import com.example.entity.ReturnBean;
 import com.example.entity.TesterVo;
 import com.example.service.MailService;
 import com.example.util.MailText;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @Author：WangLongFei
@@ -42,8 +45,10 @@ public class MailController extends BaseController {
             text = MailText.yellowText;
         }
         String testerMail = testerVo.getPhonenum() + "@139.com";
-
-        mailService.send(testerMail, "性格测试结果", text);
+        String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+        text = text + "\n测试时间：\n" +sdf.format(testerVo.getTestTime());
+        mailService.send(testerMail, "【"+ testerVo.getTesterName()+ "】的"+"性格测试结果", text);
         return super.success(testerVo);
     }
 }

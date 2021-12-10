@@ -40,5 +40,8 @@ public interface TesterDao extends BaseMapper<Tester> {
      */
     Long getCount(@Param("tester")Tester tester);
 
+    //定时删除无效测试者
+    void deleteNoResult();
+
 }
 

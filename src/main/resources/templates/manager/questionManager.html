@@ -199,7 +199,7 @@
 
 <script type="text/html" id="hangbarDemo">
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">修改</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+    <a shiro:hasPermission="delete" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
 
 <script type="text/html" id="toolbarDemo">
@@ -442,7 +442,6 @@
             })
             return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
-
         // 模糊查询
         form.on('submit(selectFormfilter)', function (data) {
             console.log(data.field)

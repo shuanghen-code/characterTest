@@ -28,5 +28,4 @@ public class CharacterTest1Application {
         return interceptor;
     }
 
-
 }

@@ -88,7 +88,7 @@ public class ShiroConfig {
         //添加页面需要有添加的权限才能到达
 
         //添加问题页面需要有添加的权限才能到达
-        map.put("/question/insert", "perms[character:question:add]");
+//        map.put("/question/insert", "perms[system:question:add]");
 
         // 去菜单管理页面需要相应的权限才能到达
         map.put("/manager/toMenu", "perms[system:menu:view]");
